@@ -1,0 +1,9 @@
+<div [formGroup]="form" >
+    <div class="form-group">
+        <label>
+            <span class="help"> {{field.label}}</span><strong class="text-danger" *ngIf="field.require">*</strong>
+        </label>
+        <input type="text" class="form-control" [id]="field.name" [name]="field.name" [formControlName]="field.name">
+        </div>
+</div>
+

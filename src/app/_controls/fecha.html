@@ -1,0 +1,15 @@
+<div [formGroup]="form">
+
+<div class="form-group">
+    <label>
+        <span class="help"> {{field.label}}</span><strong class="text-danger" *ngIf="field.require">*</strong>
+    </label>
+<div class="input-group">
+        <input class="form-control" placeholder="yyyy-mm-dd" class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6"
+        name="dp"  [formControlName]="field.name"  ngbDatepicker #d="ngbDatepicker">
+<div class="input-group-append">
+        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+      </div>
+    </div>
+  </div>
+</div>

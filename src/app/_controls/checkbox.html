@@ -1,0 +1,10 @@
+<div [formGroup]="form">
+    <div class="form-group row p-t-20">
+        <div class="col-sm-4">
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" [formControlName]="field.name" class="custom-control-input" [id]="field.name" value="option1">
+                <label class="custom-control-label" [for]="field.name">{{field.label}}</label>
+            </div>
+        </div>
+    </div>
+</div>

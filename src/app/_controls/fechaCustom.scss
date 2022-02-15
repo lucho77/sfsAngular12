@@ -1,0 +1,54 @@
+.custom-day {
+    text-align: center;
+    padding: 0.185rem 0.25rem;
+    border-radius: 0.25rem;
+    display: inline-block;
+    width: 2rem;
+}
+
+.custom-day:hover,
+.custom-day.focused {
+    background-color: #e6e6e6;
+}
+
+.weekend {
+    background-color: #f0ad4e;
+    border-radius: 1rem;
+    color: white;
+}
+
+.hidden {
+    display: none;
+}
+
+.Libre {
+    background-color: rgba(86, 241, 86, 0.5)!important;
+}
+
+.Asignado {
+    background-color: #FE9A2E!important;
+}
+
+.Cancelado {
+    background-color: #FF7676 !important;
+}
+
+.Reservado {
+    background-color: #8c8cb3 !important;
+}
+
+.Ausente {
+    background-color: #FF7783 !important;
+}
+
+.SalaEspera {
+    background-color: #FFFF00 !important;
+}
+
+.Atendido {
+    background-color: #FF7676 !important;
+}
+
+.Usado {
+    background-color: #FF4980 !important;
+}

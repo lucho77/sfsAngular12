@@ -1,0 +1,151 @@
+<p-toast position="top-center"></p-toast>
+
+<div class="row">
+    <div class="col-md-12">
+        <!--- Complete Table -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-0"><span class="lstick"></span>{{tituloReporte}}</h4>
+                
+                <p-toolbar>
+                    <div class="p-toolbar-group-left">
+                
+                            <p-button icon="pi pi-plus" styleClass="p-button-sm" class="mr-2" *ngIf="tabularABM===true && tabular.permisoDTO.nueva" type="button" label="Nuevo"  (click)="nuevoAbm()"></p-button>
+                            
+                        <i class="p-toolbar-separator pi pi-bars mr-2" style="vertical-align: middle"></i>
+                        <div *ngFor="let field of tabular.botones">
+                            <p-button  label="{{field.buttomDTO.metodoDTO.labelButtom}}" styleClass="p-button-help p-button-sm mr-2"   (click)="processActions(field)"></p-button>
+                        </div>
+    
+                        
+                    </div>
+                    
+                    <div class="p-toolbar-group-right">
+                        <p-button type="button" icon="pi pi-file-pdf" title="exportar PDF" styleClass="p-button-danger p-button-sm" (click)="exportPDF($event)"></p-button>
+                        <p-button type="button" icon="pi pi-file-excel" title="exportar Excel" styleClass="p-button-success p-button-sm" (click)="exportExcel($event)"></p-button>
+                        <p-button *ngIf="menu===false" icon="pi pi-filter" type="button" title="ver los filtros del Tabular" styleClass="p-button-warning p-button-sm" (click)="verFiltros(content1)"> </p-button>
+                        <p-button type="button" icon="pi pi-refresh" title="refrescar" styleClass="p-button-help p-button-sm" (click)="refrescar($event)"> </p-button>
+                        <p-button *ngIf="menu===false" icon="pi pi-arrow-left" type="button" title="volver pantalla anterior" (click)="backHistorico()" styleClass="p-button-danger p-button-sm"></p-button>
+                    </div>
+                </p-toolbar>
+
+                <div class="row">
+
+
+            <table [ngClass]="tabular.tabularDescriptivo == true ? 'table table-striped table-hover table-responsive border mt-4 col-xl-7 col-lg-7 col-md-7 col-sm-7 col-xs-12' : 'table table-striped table-hover table-responsive border mt-4'">
+                <thead>
+                    <tr>
+                        <th scope="col" *ngIf="tabular.seleccionMultiple">
+                            <input type="checkbox" [checked]="estaActivo" name="chbTodo" id="chbTodo" (click)="chequeaTodo(estaActivo)" [ngStyle]="{'cursor':'pointer'}">
+                        </th>
+
+                        <th>Action</th>
+                        <th [ngStyle]="col.visible == false ? {'display':'none'}:{'display':'','cursor':'pointer','left':'io.px','position':'relative'}"scope="col" sortable="col.title"  *ngFor="let col of header; let io = index" (sort)="onSort($event)">
+                            {{col.title}}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let fil of pagination.listaPaginacion">
+                        <td *ngIf="tabular.seleccionMultiple">
+                            <input type="checkbox" name="chbTodo" id="chbTodo" (click)=chequeaFila(fil,false) [checked]="fil.chequeado" [ngStyle]="{'cursor':'pointer'}">
+                        </td>
+                        <td>
+                            <i *ngIf="this.tabularABM && this.tabular.permisoDTO.edit" class="ti-pencil text-info m-r-10 pointer"  (click)="onEdit(fil)"></i>
+                             <i *ngIf="this.tabularABM && this.tabular.permisoDTO.delete" (click)="onDelete(fil)" class="ti-trash text-danger pointer"></i> 
+                         </td> 
+                        <td [ngStyle]="col.visible == false ? {'display':'none'}:{'display':''}" [ngClass]="col.link || col.linkDina  == true ? 'btn-outline-primary cursor: pointer' : ''" (click)="clickLinkTabular($event,col,fil)"
+                            *ngFor="let col of header; index as i">
+                                        <b *ngIf="col.download==true && fil[col.name]">                                                                                                            
+                                            <i class="fa fa-download" style="text-align: center;cursor: pointer;" title="download archivo" alt="download archivo" aria-hidden="true" (click) = "downloadFile(col, fil)"></i>
+                                                        </b>
+                                            <b *ngIf="col.download == false && !col.fontAwesoneIcono && !col.linkOtherTab">{{fil[col.name]}}</b>
+                                            <b *ngIf="col.download==false && col.fontAwesoneIcono && col.link==true ">
+                                                                <i class="tm-f-150 {{col.fontAwesoneIcono}}"></i>
+                                        </b>
+
+                                        <b *ngIf="col.linkOtherTab==true">
+                                              <div *ngIf='fil[col.name]'>
+                                                                    
+                                                <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl" (click)="abreelModal(fil[col.name])">
+                                                      <i class="tm-f-150 {{col.fontAwesoneIcono}}" aria-hidden="true"></i>
+                                                </button>
+                                                                 
+                                                </div>
+                                              </b>
+
+                        </td>
+
+                    </tr>
+                </tbody>
+                <tfoot id="idTF1 " *ngIf="tabular.footer ">
+                    <tr>
+                        <td>
+                            Totales:
+                        </td>
+
+                        <td *ngFor="let coluu of header; " [ngStyle]="coluu.visible==false ? { 'display': 'none'}:{ 'display': '', 'cursor': 'pointer'} ">
+                            {{coluu.total}}
+                        </td>
+
+                    </tr>
+                </tfoot>
+    </table>
+    <div id="cuadro-con-der" class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-xs-12 pt-4" *ngIf="tabular.tabularDescriptivo">
+        <div class="card" >
+            <div class="card-header ">
+                <b>Por favor seleccione un registro para ver más detalles</b>
+            </div>
+            <div class="card-body " #dataContainer [ngStyle]="{ 'height': 'auto', 'overflow': 'auto', 'white-space': 'pre-line'} "></div>
+        </div>
+    </div>
+</div>
+
+            <div class="d-flex justify-content-between p-2">    
+                <ngb-pagination [(page)]="pagination.page" *ngIf=pagination.activa
+                [pageSize]="pagination.cantidadRegistrosxPagina" [boundaryLinks]="true" [maxSize]="pagination.maxBotones"(pageChange)="loadPage($event)"
+                [collectionSize]="tabular.data.length"></ngb-pagination>
+                <select name="noRegistroMostrar" id="noRegistroMostrar" class="custom-select" style="width: auto" (click)="muestraCantidadPorPaginayPagina(pagination.page,$event)" >
+                    <option value="10 ">10</option> 
+                    <option value="20 ">20</option> 
+                    <option value="25 ">25</option> 
+                    <option value="50 ">50</option> 
+                </select>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+    <ng-template #content1 let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Filtros</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-striped border mt-4">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Parametro</th>
+                        <th scope="col">Valor</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let param of listRequest ; let i = index" [attr.data-index]="i">
+                        <td>{{ i +1 }}</td>
+                        <td>{{param.name}}</td>
+                        <td>{{param.valueNew}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+        </div>
+    </ng-template>

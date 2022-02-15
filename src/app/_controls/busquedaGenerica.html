@@ -1,0 +1,22 @@
+
+<div [formGroup]="form">
+    <p-progressSpinner *ngIf="spinner"></p-progressSpinner>
+
+<div class="form-group">
+    <label>{{field.label}} <strong class="text-danger" *ngIf="field.require">*</strong></label>
+    <div class="input-group">
+            <input type="text" class="form-control" [id]="field.name " [name]="field.name " [formControlName]="field.name " (keydown.enter)="buscar($event)" aria-label="" aria-describedby="basic-addon1">
+            <button class="btn btn-info" type="button" (click)="buscar($event)">
+                <i class="fa fa-search "></i> 
+            </button>   
+                <div class="input-group-append">
+                <button class="btn btn-danger" type="button" (click)="borrar($event)">
+                    <i class="fa fa-eraser "></i> 
+                </button>
+            </div>
+            <input  type="text " class="form-control" id="field.nameRes" [formControlName]="field.nameRes">
+
+        </div>
+</div>
+</div>
+

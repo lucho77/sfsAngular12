@@ -1,0 +1,23 @@
+<!--<div class="form-group" [formGroup]="form">-->
+<div>
+    <app-textbox *ngIf="(!field.parametroNoVisible) && (field.text ||field.entero ||field.decimal)" [field]="field"  [form]="form"></app-textbox>
+    <app-busquedagenerica *ngIf="!field.autocomplete &&  !field.parametroNoVisible && field.busquedaGenerica && !field.combo && (!field.global ||field.value === null || field.superVisible ) && !field.soloLecturaGlobal   && !field.disable" (spinner)="processSpinner($event)"
+        [dataForm]="dataForm" [field]="field"  [form]="form" ></app-busquedagenerica>
+    <app-busquedagenericatext *ngIf="!field.parametroNoVisible && (!field.autocomplete &&   field.busquedaGenerica && (field.global || field.soloLecturaGlobal || field.disable)  && (field.value || field.soloLecturaGlobal  ) && !field.superVisible) " [field]="field"
+         [form]="form" ></app-busquedagenericatext>
+    <app-textarea *ngIf="field.textArea && !field.parametroNoVisible" [field]="field" [form]="form" ></app-textarea>
+    <app-combo *ngIf="field.combo && !field.parametroNoVisible" [dataForm]="dataForm" [field]="field"  [form]="form"></app-combo>
+    <app-fecha *ngIf="field.fecha && !field.fechaCustom && !field.parametroNoVisible" [field]="field"  [form]="form"></app-fecha>
+    <app-fechacustom *ngIf="field.fechaCustom && !field.parametroNoVisible" [field]="field"  (acciones)="processActions($event)" [form]="form"></app-fechacustom>
+    <app-fechaHora *ngIf="field.fechaHora && !field.parametroNoVisible" [field]="field"  [form]="form" ></app-fechaHora>
+    <app-checkbox *ngIf="field.check && !field.parametroNoVisible" [field]="field"  [form]="form"></app-checkbox>
+    <app-cards *ngIf="field.cards && !field.parametroNoVisible" [field]="field"  [form]="form"></app-cards>
+    <app-label *ngIf="field.labelComponent && !field.parametroNoVisible" [field]="field"  [form]="form"></app-label>
+    <app-autocomplete *ngIf="field.autocomplete && !field.parametroNoVisible" [dataForm]="dataForm" [field]="field"  [form]="form" ></app-autocomplete>
+    <app-radio *ngIf="field.radio && !field.parametroNoVisible" [field]="field"  [form]="form"></app-radio>
+    <app-file-uploader *ngIf="(field.upload || field.uploadImpresion) && !field.parametroNoVisible" [field]="field"  [form]="form"></app-file-uploader>
+    <app-clock *ngIf="field.clock && !field.parametroNoVisible" [field]="field" [form]="form"></app-clock>
+    <app-link *ngIf="(!field.parametroNoVisible) && (field.link)" [field]="field"  [form]="form"></app-link>
+    <app-editor *ngIf="field.ckEditor && !field.parametroNoVisible" [field]="field"  [form]="form"></app-editor>
+
+</div>

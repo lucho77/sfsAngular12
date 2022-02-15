@@ -1,0 +1,22 @@
+<nav class="sidebar-nav">
+    <ul id="sidebarnav" #someUl >
+        <!-- User Profile-->
+        <li>
+            <div class="user-profile d-flex no-block m-t-20">
+                <div class="user-pic">
+                    <img src="assets/images/users/1.jpg" alt="users" class="rounded-circle" width="40" />
+                </div>
+                <div class="dropdown user-content hide-menu m-l-10" ngbDropdown placement="bottom-right">
+                    <a ngbDropdownToggle href="javascript:void(0)" class="dropdown-toggle" id="Userdd" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <h5 class="m-b-0 user-name font-medium">{{dataUser.name}}
+                        </h5>
+                        <span class="op-5 user-email">{{dataUser.mail}}</span>
+                    </a>
+                </div>
+            </div>
+        </li>
+        <!-- First level menu -->
+</ul>
+<p-panelMenu [model]="items"></p-panelMenu>
+</nav>

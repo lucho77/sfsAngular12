@@ -1,0 +1,118 @@
+<p-messages [(value)]="mensajeErrorPadre">
+
+</p-messages>
+<p-toast position="top-center"></p-toast>
+
+<p-toolbar>
+    <div class="p-toolbar-group-left">
+
+        <div *ngFor="let field of data.list">
+            <p-button  styleClass="p-button-sm" class="mr-2" *ngIf="field.buttom && field.buttomDTO.saveUpdate" label="{{field.buttomDTO.metodoDTO.labelButtom}}" icon="pi pi-plus"  (click)="processActions(field,false)"></p-button>
+            <p-button  styleClass="p-button-danger p-button-sm" *ngIf="field.buttomDTO.bottonVolver" label="{{field.buttomDTO.metodoDTO.labelButtom}}"  (click)="backHistorico()"></p-button>
+        </div>
+            
+        <i class="p-toolbar-separator pi pi-bars mr-2" style="vertical-align: middle"></i>
+        <div *ngFor="let field of data.list">
+            <p-button  label={{field.buttomDTO.metodoDTO.labelButtom}} styleClass="p-button-help p-button-sm mr-2" *ngIf="field.buttom && !field.buttomDTO.bottonVolver && !field.buttomDTO.saveUpdate"  (click)="processActions(field,false)"></p-button>
+        </div>
+        
+    </div>
+    
+    <div class="p-toolbar-group-right">
+        <p-button icon="pi pi-filter" *ngIf="menu===false" type="button" title="ver los filtros del Formulario" class="p-button-warning" (click)="verFiltros(content1)"></p-button>
+        <p-button icon="pi pi-arrow-left" *ngIf="menu===false" type="button" title="volver pantalla anterior" (click)="backHistorico()" class="p-button-danger"></p-button>
+    </div>
+</p-toolbar>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">{{labelForm}}</h4>
+    
+            <form class="m-t-30" [formGroup]="form">
+                    <div class="form-group">
+                        <div *ngFor="let field of data.list; let i = index">
+                            <app-field-builder *ngIf="!field.buttom" [dataForm]="data.list" [field]="field"  [form]="form"></app-field-builder>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="tieneHijos.es && !tieneHijos.alta && tieneHijos.tabular">
+           
+                <p-toolbar>
+                    <div class="p-toolbar-group-left">                
+                        <p-button *ngIf="dataHijos.permisoDTO.nueva" icon="pi pi-plus" styleClass="p-button-sm" class="mr-2"  type="button" label="Nuevo"  (click)="editarABMHijos(true)"></p-button>
+                    </div>
+
+                </p-toolbar>
+                <h4 class="card-title mb-0"><span class="lstick"></span>{{reporteHijos}}</h4>
+
+                <table class="table table-striped table-hover table-responsive">
+                    <thead>
+                        <tr>   
+                            <th>Action</th>
+                            <th [ngStyle]="col.visible == false ? {'display':'none'}:{'display':'','cursor':'pointer','left':'io.px','position':'relative'}"scope="col" sortable="col.title"  *ngFor="let col of dataHijos.columns; let io = index">
+                                {{col.title}}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let fil of dataTabular">
+                            <td>
+                                <i  class="ti-pencil text-info m-r-10 pointer"  (click)="onEdit(fil)"></i>
+                                 <i  (click)="onDelete(fil)" class="ti-trash text-danger pointer"></i> 
+                             </td> 
+                            <td   
+                                *ngFor="let col of dataHijos.columns; index as i">{{fil[col.name]}}  
+                            </td>
+    
+                        </tr>
+                    </tbody>
+        </table>
+    
+</div>
+
+<p-messages [(value)]="mensajeErrorHijo"></p-messages>
+
+<div class="row" *ngIf="tieneHijos.es && !tieneHijos.alta && !tieneHijos.tabular">
+    <p-toolbar>
+        <div class="p-toolbar-group-left">
+            <div *ngFor="let fieldHijo of formRepordefHijos.list">
+                <p-button  styleClass="p-button-sm" class="mr-2" *ngIf="fieldHijo.buttom && field.buttomDTO.saveUpdate" label="{{fieldHijo.buttomDTO.metodoDTO.labelButtom}}" icon="pi pi-plus"  (click)="processActions(fieldHijo,true)"></p-button>
+                <p-button  styleClass="p-button-danger p-button-sm" *ngIf="fieldHijo.buttomDTO.bottonVolver" label="{{fieldHijo.buttomDTO.metodoDTO.labelButtom}}"  (click)="processActions($event, true)"></p-button>
+            </div>            
+            
+        </div>    
+    </p-toolbar>
+    
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">{{reporteHijos}}</h4>
+        
+                <form class="m-t-30" [formGroup]="formHijo">
+                        <div class="form-group">
+                            <div *ngFor="let fieldHijo of formRepordefHijos.list">
+                                <app-field-builder *ngIf="!fieldHijo.buttom" [dataForm]="formRepordefHijos.list" [esambula]='0' [field]="fieldHijo" [form]="formHijo"></app-field-builder>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+</div> 
+    
+    
+    
+
+
+
+
+
+
+

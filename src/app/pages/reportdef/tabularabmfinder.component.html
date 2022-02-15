@@ -1,0 +1,7 @@
+<div class="d-md-flex align-items-center border-top bg-white p-3">
+        <input type="text"  #idTextBusqueda   class="form-control rounded-pill" [(ngModel)]="finderTabular.busqueda" name="busqueda" placeholder="Texto a buscar">
+            <select class="form-control" id="campoFinder" [(ngModel)]="finderTabular.campoBusqueda">
+                    <option *ngFor="let campo of campos"  [ngValue]="campo">{{campo.label}}</option> 
+            </select>
+            <button type="submit" class="btn btn-outline-info" (click)="buscar()">Buscar</button>
+</div>

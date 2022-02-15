@@ -1,0 +1,43 @@
+<div *ngIf="notifi.show" widget class="card border-0 box-shadow">
+    <div class="card-header transparent border-0 text-muted">
+        <div class="badge badge-secondary text-wrap">
+            <h6 class="mb-0"><i aria-hidden="true" class="fa fa-info "></i>Notificaciones</h6>
+        </div>
+
+        <div class="widget-controls">
+            <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+            <a data-widgster="collapse" href="#" class="transition"><i class="fa fa-chevron-up"></i></a>
+        </div>
+
+    </div>
+    <div class="card-body widget-body">
+
+        <div *ngIf="notifi.deploying" class="col-lg-4 col-md-6 mb-4">
+            <div class="card card-warning card-inverse">
+                <div class="card-header">
+                    {{notifi.notificationTitle}}
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{notifi.notification}}</p>
+                </div>
+                <div class="card-footer">
+                    {{notifi.notificationFooter}}
+                    <button type="submit" (click)="salir()" class="btn btn-primary" style="margin-left:15px!important">reiniciar</button>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="!notifi.deploying" class="col-xl-10 col-md-10 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Notificaciones</h5>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li *ngFor="let item of notifi.notificaciones" class="list-group-item justify-content-between">
+                        <a class="card-link text-primary" (click)="mostrarNotifica(item)">{{item.hora}} {{item.mensaje}} : {{item.avance}} </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

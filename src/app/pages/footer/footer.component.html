@@ -1,0 +1,39 @@
+<footer class="footer text-center">
+    Copyright © SFS --Version: {{version}}
+    <button type="button" (click)="open1(content1)" class="btn btn-rounded btn-outline-secondary float-right">consulta en línea</button>
+
+<ng-template #content1 let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Consulta en Linea</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <form [formGroup]="consultaForm">
+                    <div class="form-group">
+                        <label>Por favor, describa brevemente su consulta: *</label>
+
+                        <textarea name="consulta" formControlName="consulta" id="cons" #cons rows="7" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.consulta.errors }"></textarea>
+                        <div *ngIf="submitted && f.consulta.errors" class="alert alert-danger">no puede dejar este campo vacio</div>
+                        <label>Prioridad</label>
+                        <select class="custom-select col-12" id="prioridad" name="prioridad" formControlName="prioridad"> 
+                                <option  value="baja">baja</option>
+                                <option  value="media">media</option>
+                                <option  value="alta">alta</option>
+                         </select>
+
+                    </div>
+                </form>
+
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-dark" (click)="mandarMensaje()" >Save</button>
+        <button type="button" class="btn btn-outline-danger" (click)="modal.close('Save click')">cancel</button>
+    </div>
+</ng-template>
+</footer>

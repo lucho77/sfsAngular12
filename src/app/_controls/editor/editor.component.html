@@ -1,0 +1,5 @@
+<div [formGroup]="form">
+    <h6>{{field.label}}</h6> <strong class="text-danger" *ngIf="field.require">*</strong>
+    <p-editor  [formControlName]="field.name" [style]="{'height':'320px'}"></p-editor>
+</div>
+

@@ -1,0 +1,45 @@
+<div [formGroup]="form">
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="col-xs-2 col-sm-3 col-md-3 col-lg-2 col-xl-1 tm-f-bugt">
+                        <label class="pl-0">{{field.label}}: 
+                        <strong class="text-danger" *ngIf="field.require">*</strong>
+                    </label>
+                    </div>
+                    <p-calendar [inline]="true" [formControlName]="field.name" [disabledDates]="invalidDates" [locale]="en" (onMonthChange)="changeMonth($event)" (onSelect)="select($event)"></p-calendar>
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div [ngClass]="filaCel!=null? 'card card-outline-success':'card card-outline-danger'">
+                            <div class="card-body text-center">
+                                <p *ngIf="!filaCel" class="card-text"><code class="text-danger">No ha seleccionado ningun turno</code></p>
+                                <p *ngIf="filaCel" class="card-text"><code class="text-success">{{turnoSeleccionado}}</code></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <p>Seleccione un turno de la grilla </p>
+
+                        <p-table [columns]="this.field.fechaCustomDTO.dataTableDTO.columns" [value]="this.data" selectionMode="single" (onRowSelect)="onRowSelect($event)">
+                            <ng-template pTemplate="header" let-columns>
+                                <tr>
+                                    <th [ngStyle]="col.visible == false ? {'display':'none'}:{'display':''}" *ngFor=" let col of columns ">
+                                        {{col.name}}
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                                <tr [pSelectableRow]="rowData" [ngClass]="rowData.Estado">
+                                    <td [ngStyle]="col.visible == false ? {'display':'none'}:{'display':''}" *ngFor="let col of columns">
+                                        <span *ngIf="(col.link || col.linkDina) && col.visible"><a style="color:blue;" (click) = "clickTabular(col,i)" >{{rowData[col.name]}}</a></span>
+                                        <span *ngIf="!col.link && !col.linkDina && col.visible">{{rowData[col.name]}}</span>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

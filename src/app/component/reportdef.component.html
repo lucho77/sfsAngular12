@@ -1,0 +1,25 @@
+<p-toast position="top-center"></p-toast>
+
+<app-infonotification [notifi]="notifi">
+</app-infonotification>
+<app-infoarea *ngIf="dataReportdefAux.mostrarInfoArea"></app-infoarea>
+<p-progressSpinner *ngIf="spinner"></p-progressSpinner>
+<p-accordion *ngIf="dataReportdefAux.tabularAbm && cargadoABM && showABMFilter">
+    <p-accordionTab header="Buscar">
+        <app-tabularfinder  [busquedaAlmacenada]=busquedaAlmacenada [campos]=campos (find)="processFind($event)"></app-tabularfinder>
+    </p-accordionTab>
+</p-accordion>
+
+<app-tabular *ngIf="dataReportdefAux.tabularAbm" [pagination]="pagination" [listRequest]=listRequest [menu]=dataReportdefAux.menu [tabular]=tabular [tabularABM]=true (editaABM)="editarABM($event)" (refresh)="processRefreshTabular($event)" (generarExcel)="generarExcel($event)"
+    [data]=dataTabular [reporte]=reporte [vista]=vista [header]=header (backHistory)="backHistory($event)" (acciones)="processActions($event)"></app-tabular>
+<app-formulario *ngIf="dataReportdefAux.form && dataReportdefAux.cargando === false" (backHistory)="backHistory($event)" [labelForm]="labelReporte" [data]=formRepordef [reporte]=reporte [menu]=dataReportdefAux.menu (acciones)="processActions($event) "
+    [tipoReporte]="dataReportdefAux" (accionesDina)="processActionsDina($event) "></app-formulario>
+<app-tabular *ngIf=" dataReportdefAux.tabular " [header]=header [pagination]="pagination " [listRequest]=listRequest [menu]=dataReportdefAux.menu [tabular]=tabular [tabularABM]=false [data]=dataTabular [reporte]=reporte [vista]=vista (backHistory)="backHistory($event) "
+    (acciones)="processActions($event) " (refresh)="processRefreshTabular($event) "></app-tabular>
+<app-formulario *ngIf="dataReportdefAux.formAbmNew && !dataReportdefAux.formHijo " [labelForm]="labelReporte " (backHistory)="backHistory($event) " [data]=formRepordef [reporte]=labelReporte (accionesDina)="processActionsDina($event) " (acciones)="processActions($event) "
+    [tipoReporte]="dataReportdefAux "></app-formulario>
+<app-formulario *ngIf="dataReportdefAux.formAbmEdit && !dataReportdefAux.formHijo " [labelForm]="labelReporte " (backHistory)="backHistory($event) " [data]=formRepordef [reporte]=reporte (acciones)="processActions($event)
+    " [tipoReporte]="dataReportdefAux "></app-formulario>
+<app-formulario *ngIf="dataReportdefAux.formHijo " (backHistory)="backHistory($event) " [abmParams]="abmParams " [labelForm]="labelReporte " [dataTabular]="dataTabular " [dataHijos]="dataHijos " [data]=formRepordef [reporte]=reporte (acciones)="processActions($event) "
+    [settings]="settings " [tipoReporte]="dataReportdefAux "></app-formulario>
+<app-cargando *ngIf="dataReportdefAux.cargando "></app-cargando>

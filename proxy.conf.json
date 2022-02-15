@@ -1,0 +1,39 @@
+{
+    "/api/*": {
+        "target": "http://localhost:8080/",
+        "secure": false,
+        "changeOrigin": true,
+        "pathRewrite": {
+            "^/api": "/SFSFrameworkRest/api/"
+        }
+    },
+
+    "/externalAcces/*": {
+        "target": "http://localhost:8080/",
+        "secure": false,
+        "changeOrigin": true,
+        "pathRewrite": {
+            "^/externalAcces": "/SFSFrameworkRest/externalAcces/"
+        }
+    },
+    "/shared/*": {
+        "target": "http://localhost:8080/",
+        "secure": false,
+        "changeOrigin": true,
+        "pathRewrite": {
+            "^/shared": "/SFSFrameworkRest/shared/"
+        }
+    },
+
+    "/SFS2FwWsServerWEB/*": {
+        "target": "http://localhost:8080/",
+        "secure": false,
+        "changeOrigin": true
+    },
+    "/maps/*": {
+        "target": "http://localhost:8080/",
+        "secure": false,
+        "changeOrigin": true
+    }
+
+}
