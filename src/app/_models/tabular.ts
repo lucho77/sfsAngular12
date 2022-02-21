@@ -17,6 +17,7 @@ fromRow: number;
 pageRows: number;
 columns: HeaderDTO[];
 data: RowsTabla[];
+dataMobile: RowsTabla[];
 vista: string;
 accionesColumna: AccionColumna[];
 botones: FormdataReportdef[];

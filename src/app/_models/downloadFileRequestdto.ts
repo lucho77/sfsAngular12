@@ -9,4 +9,5 @@ export interface DownloadFileRequestDTO {
     reporte: string;
     vista: string;
     tabularABM: boolean;
+    data64: string;
 }

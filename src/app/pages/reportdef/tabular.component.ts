@@ -33,6 +33,8 @@ import { FinderParamsDTO } from 'src/app/_models/finderParamsDTO';
 import { inicializarFinder, listaRangoPaginados } from '../genericFinder/utilFinder';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MessageService } from 'primeng/api';
+import { DeviceDetectorService } from 'ngx-device-detector';
+
 export type SortDirection = 'asc' | 'desc' | '';
 const rotate: { [key: string]: SortDirection } = { 'asc': 'desc', 'desc': '', '': 'asc' };
 export const compare = (v1:number, v2:number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
@@ -108,15 +110,21 @@ export class TabularComponent  implements OnInit, OnChanges {
   menovillan: any;
   descripcion = false;
  mensaje = '';
+ mobile: boolean;
   constructor(private confirmationDialogService: ConfirmationDialogService,
     private abmservice: AbmService, private router: Router
     , private genericFinderService: GenericFinderService,
     private reportdefService: ReportdefService, private nameService: NameGlobalService,
     private descriptionService: DescriptionService, private messageService: MessageService, 
-    private nameAvisoSeteo: AvisaSeteoService, private sanitizer: DomSanitizer,private modalService: NgbModal) {
+    private nameAvisoSeteo: AvisaSeteoService, private sanitizer: DomSanitizer,private modalService: NgbModal,
+    private deviceService: DeviceDetectorService) {
       // this.safeSrc =  this.sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/c9F5kMUfFKk");
       // this.safeSrc =  this.sanitizer.bypassSecurityTrustResourceUrl(this.laurl);
-   }
+      this.mobile = false;
+      this.mobile = this.deviceService.isMobile();
+
+   
+    }
 
    limpiaUrl(laurles) {
     return this.sanitizer.bypassSecurityTrustResourceUrl(laurles);
@@ -743,22 +751,35 @@ downloadFile(col: any, fila: any) {
   this.reportdefService.downloadFile(user, downloadFileRequestDTO).subscribe(
     result => {
       let name = '';
+      /*
       if (!result.fmt) {
         window.open('/SFS2FwWsServerWEB/FwWsFileServlet?P_FILE_NAME=' + result.nameArch + '&P_FILE_CTYPE=jpg');
         return;
       } else {
         name = downloadFileRequestDTO.reporte + '--ID-- ' + downloadFileRequestDTO.idReporte + '.fmt';
       }
-      const b = this.convertDataURItoFile(result.bytes,
-        name, result.fmt);
-       saveAs(b, name);
-    }, (err: HttpErrorResponse) => {
+      */
+
+//      const file = new Blob([result.bytes]);
+  
+const byteString = window.atob(result.data64);
+   const arrayBuffer = new ArrayBuffer(byteString.length);
+   const int8Array = new Uint8Array(arrayBuffer);
+   for (let i = 0; i < byteString.length; i++) {
+     int8Array[i] = byteString.charCodeAt(i);
+   }
+   const blob = new Blob([int8Array]);    
+
+  saveAs(blob, result.nameArch);
+  // result.nameArch, result.fmt);
+
+}, (err: HttpErrorResponse) => {
      this.checkError(err);
 });
 }
 
 b64_to_utf8( str ) {
-  return decodeURIComponent(escape(window.atob( str )));
+  return atob( str );
 }
 
  bin2String(array) {
@@ -785,6 +806,9 @@ private  convertDataURItoFile(data: string, fileName: string, fmt: boolean) {
   let blob = null;
   if (fmt) {
       blob = new Blob([vitstr], {type : 'text/html;charset=IBM850'});
+  }else{
+    blob = new Blob([vitstr],{type : 'image/png'});
+
   }
   return blob;
 }

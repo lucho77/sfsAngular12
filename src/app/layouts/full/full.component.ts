@@ -82,7 +82,12 @@ export class FullComponent implements OnInit {
     switch (this.options.sidebartype) {
       case 'full':
       case 'iconbar':
-        this.options.sidebartype = 'mini-sidebar';
+        if (this.innerWidth < 767) {
+          this.options.sidebartype = 'overlay';
+        } else {
+          this.options.sidebartype = 'mini-sidebar';
+        }
+
         break;
 
       case 'overlay':
@@ -103,5 +108,10 @@ export class FullComponent implements OnInit {
 
   handleClick(event: boolean) {
     this.showMobileMenu = event;
+    if (this.innerWidth < 767) {
+      this.options.sidebartype = 'overlay';
+    }    
+
+
   }
 }

@@ -30,6 +30,7 @@ export class VerticalSidebarComponent implements OnInit {
     const url = '/home/reportdef';
     localStorage.setItem('currentMenuClick',ejecutar );
     this.router.navigate([url, ejecutar]);
+    this.handleNotify();
   }
   prueba(event:any){
     const params = event.item.id.split('-');
@@ -66,6 +67,6 @@ ponerCommand(list:any, fu:any){
 }
 
 handleNotify() {
-  this.notify.emit(!this.showClass);
+  this.notify.emit(false);
 }
 }

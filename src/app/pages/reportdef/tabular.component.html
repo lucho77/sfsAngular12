@@ -1,6 +1,5 @@
 <p-toast position="top-center"></p-toast>
-
-<div class="row">
+<div class="row" *ngIf="!mobile">
     <div class="col-md-12">
         <!--- Complete Table -->
         <div class="card">
@@ -116,6 +115,57 @@
         </div>
         </div>
     </div>
+
+
+    <div class="row" *ngIf="mobile">
+        <div class="col-md-12">
+            <!--- Complete Table -->
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title mb-0"><span class="lstick"></span>{{tituloReporte}}</h4>
+                    
+                    <p-toolbar>
+                        <div class="p-toolbar-group-left">
+                    
+                                <p-button icon="pi pi-plus" styleClass="p-button-sm" class="mr-2" *ngIf="tabularABM===true && tabular.permisoDTO.nueva" type="button" label="Nuevo"  (click)="nuevoAbm()"></p-button>
+                                
+                            <i class="p-toolbar-separator pi pi-bars mr-2" style="vertical-align: middle"></i>
+                            <div *ngFor="let field of tabular.botones">
+                                <p-button  label="{{field.buttomDTO.metodoDTO.labelButtom}}" styleClass="p-button-help p-button-sm mr-2"   (click)="processActions(field)"></p-button>
+                            </div>
+        
+                            
+                        </div>
+                        
+                        <div class="p-toolbar-group-right">
+                            <p-button type="button" icon="pi pi-refresh" title="refrescar" styleClass="p-button-help p-button-sm" (click)="refrescar($event)"> </p-button>
+                            <p-button *ngIf="menu===false" icon="pi pi-arrow-left" type="button" title="volver pantalla anterior" (click)="backHistorico()" styleClass="p-button-danger p-button-sm"></p-button>
+                        </div>
+                    </p-toolbar>
+    
+    
+                            <p-panel *ngIf="tabular.data.length ===0" header="Sin datos">
+                                Sin resultados
+                            </p-panel>
+
+                            <br>
+                            <p-fieldset legend="Registro {{i +1}}"  *ngFor='let data of tabular.data; index as i' [toggleable]="true" >
+                                    <p>{{tabular.dataMobile[i][0].value}}</p>
+                                    <p> {{tabular.dataMobile[i][1].value}}</p>
+                                    <p>{{tabular.dataMobile[i][2].value}}</p>
+                                    <p> {{tabular.dataMobile[i][3].value}}</p>
+                                    <p>{{tabular.dataMobile[i][4].value}}</p>
+                                    <p>{{tabular.dataMobile[i][5].value}}</p>
+                                    </p-fieldset>
+                            
+                
+
+    
+            </div>
+            </div>
+        </div>
+    </div>
+
 
 
     <ng-template #content1 let-modal>

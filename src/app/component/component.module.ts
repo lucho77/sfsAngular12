@@ -49,6 +49,9 @@ import { EditorComponent } from '../_controls/editor/editor.component';
 import { FileUploaderComponent } from '../_controls/fileUpload/file-uploader.component';
 import {CalendarModule} from 'primeng/calendar';
 import { NgbDateCustomParserFormatter } from '../_controls/adapter/datePicker';
+import {FieldsetModule} from 'primeng/fieldset';
+import {PanelModule} from 'primeng/panel';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -60,7 +63,9 @@ import { NgbDateCustomParserFormatter } from '../_controls/adapter/datePicker';
     BusquedaGenericaModule,
     MessagesModule,ToolbarModule,
      MessageModule,  ButtonModule,
-     SplitButtonModule,AccordionModule,ProgressSpinnerModule,ToastModule, InputTextareaModule, AutoCompleteModule, EditorModule, CalendarModule
+     SplitButtonModule,AccordionModule,ProgressSpinnerModule,ToastModule, 
+     InputTextareaModule, AutoCompleteModule, EditorModule, CalendarModule,
+     FieldsetModule,PanelModule
   ],
   declarations: [
     ReportdefComponent, TabularComponent, FormularioComponent, ConfirmDialogComponent,NgbdSortableHeader,TabularABMFinderComponent,
