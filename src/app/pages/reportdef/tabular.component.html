@@ -1,5 +1,5 @@
 <p-toast position="top-center"></p-toast>
-<div class="row" *ngIf="!mobile">
+<div class="row" *ngIf="mobile">
     <div class="col-md-12">
         <!--- Complete Table -->
         <div class="card">
@@ -117,7 +117,7 @@
     </div>
 
 
-    <div class="row" *ngIf="mobile">
+    <div class="row" *ngIf="!mobile">
         <div class="col-md-12">
             <!--- Complete Table -->
             <div class="card">
@@ -156,6 +156,18 @@
                                     <p> {{tabular.dataMobile[i][3].value}}</p>
                                     <p>{{tabular.dataMobile[i][4].value}}</p>
                                     <p>{{tabular.dataMobile[i][5].value}}</p>
+                                    <div class="btn-group mr-3">
+                                        <button type="button" class="btn btn-primary mr-0">Acciones</button>
+                                        <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+                                            <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
+                                            <div class="dropdown-menu" ngbDropdownMenu>
+                                                <button class="dropdown-item">One</button>
+                                                <button class="dropdown-item">Two</button>
+                                                <button class="dropdown-item">Four!</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                    
                                     </p-fieldset>
                             
                 
