@@ -53,7 +53,7 @@
                             <i *ngIf="this.tabularABM && this.tabular.permisoDTO.edit" class="ti-pencil text-info m-r-10 pointer"  (click)="onEdit(fil)"></i>
                              <i *ngIf="this.tabularABM && this.tabular.permisoDTO.delete" (click)="onDelete(fil)" class="ti-trash text-danger pointer"></i> 
                          </td> 
-                        <td [ngStyle]="col.visible == false ? {'display':'none'}:{'display':''}" [ngClass]="col.link || col.linkDina  == true ? 'btn-outline-primary cursor: pointer' : ''" (click)="clickLinkTabular($event,col,fil)"
+                        <td [ngStyle]="col.visible == false ? {'display':'none'}:{'display':''}" [ngClass]="col.link || col.linkDina  == true ? 'btn-outline-primary cursor: pointer' : ''" (click)="clickLinkTabular(col,fil)"
                             *ngFor="let col of header; index as i">
                                         <b *ngIf="col.download==true && fil[col.name]">                                                                                                            
                                             <i class="fa fa-download" style="text-align: center;cursor: pointer;" title="download archivo" alt="download archivo" aria-hidden="true" (click) = "downloadFile(col, fil)"></i>
@@ -149,31 +149,32 @@
                             </p-panel>
 
                             <br>
-                            <p-fieldset legend="Registro {{i +1}}"  *ngFor='let data of tabular.data; index as i' [toggleable]="true" >
-                                    <p>{{tabular.dataMobile[i][0].value}}</p>
-                                    <p> {{tabular.dataMobile[i][1].value}}</p>
-                                    <p>{{tabular.dataMobile[i][2].value}}</p>
-                                    <p> {{tabular.dataMobile[i][3].value}}</p>
-                                    <p>{{tabular.dataMobile[i][4].value}}</p>
-                                    <p>{{tabular.dataMobile[i][5].value}}</p>
-                                    <div class="btn-group mr-3">
+                            <p-fieldset legend="Registro {{i +1}}"  *ngFor='let fil of pagination.listaPaginacion; index as i' [toggleable]="true" >
+                                    
+                                <div *ngFor="let da of tabular.dataMobile[i]">
+                                      
+                                    <div *ngFor="let d of da | keyobject">
+                                        <p><b> {{d.header}}:</b>{{d.value}}</p>
+                                    </div>       
+                                </div>       
+                                <div class="btn-group mr-3">
                                         <button type="button" class="btn btn-primary mr-0">Acciones</button>
                                         <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
                                             <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
                                             <div class="dropdown-menu" ngbDropdownMenu>
-                                                <button class="dropdown-item">One</button>
-                                                <button class="dropdown-item">Two</button>
-                                                <button class="dropdown-item">Four!</button>
+                                                <button  *ngIf="this.tabularABM && this.tabular.permisoDTO.edit" (click)="onEdit(fil)" class="dropdown-item">Editar <i class="fas fa-edit"></i></button>
+                                                <button  *ngIf="this.tabularABM && this.tabular.permisoDTO.delete" (click)="onDelete(fil)" class="dropdown-item">Eliminar <i class="fas fa-eraser"></i></button>
+                                                <button  *ngIf="tabular.tabularDescriptivo" (click)="obtenerCampoDescriptivo(fil,content2)" class="dropdown-item">Ver detalle <i class="fas fa-eye"></i></button>
+                                                <div *ngFor="let col of header; index as i">    
+                                                    <button  *ngIf="col.download" (click)="downloadFile(col, fil)" class="dropdown-item">{{col.title}}<i class="fas fa-download"></i></button>                                                    
+                                                    <button  *ngIf="col.columnaAdicional" (click)="clickLinkTabular(col,fil)" class="dropdown-item">{{col.title}}<i class="fas fa-print"></i></button>                                                    
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                    
-                                    </p-fieldset>
-                            
-                
-
-    
-            </div>
+       
+                                    </p-fieldset>   
+                </div>
             </div>
         </div>
     </div>
@@ -211,3 +212,22 @@
             <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
         </div>
     </ng-template>
+
+    <ng-template #content2 let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Detalle</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            
+            <div [innerHTML]="mensaje"></div>            
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Salir</button>
+        </div>
+    </ng-template>
+
+

@@ -810,7 +810,7 @@ for (const f of data) {
     }
   }
 if (f.fecha) {
-    if (value) {
+    if (value && value !=='') {
 
         if (value instanceof NgbDate) {
           const date: NgbDate = value;
@@ -945,7 +945,7 @@ ubicaListaSelectaFicha (arr1: any, arr2: any) {
 
 private checkNullvalue(value: any) {
   // console.log('este es el valor del campo');
-  if (value === null || value === undefined || (value instanceof String && value.trim() === '') || (value.trim() === '')) {
+  if (value === null || value === undefined || (value instanceof String && value.trim() === '')) {
       return true;
   }
   return false;

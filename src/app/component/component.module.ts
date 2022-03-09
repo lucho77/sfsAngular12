@@ -51,6 +51,7 @@ import {CalendarModule} from 'primeng/calendar';
 import { NgbDateCustomParserFormatter } from '../_controls/adapter/datePicker';
 import {FieldsetModule} from 'primeng/fieldset';
 import {PanelModule} from 'primeng/panel';
+import { PipeKeyobject } from '../pages/reportdef/pibeObjectToArray';
 
 @NgModule({
   imports: [
@@ -69,7 +70,7 @@ import {PanelModule} from 'primeng/panel';
   ],
   declarations: [
     ReportdefComponent, TabularComponent, FormularioComponent, ConfirmDialogComponent,NgbdSortableHeader,TabularABMFinderComponent,
-     CheckBoxComponent, ComboComponent, TextBoxComponent, RadioComponent,  
+     CheckBoxComponent, ComboComponent, TextBoxComponent, RadioComponent,PipeKeyobject, 
     FieldBuilderComponent, TextAreaComponent,  BusquedaGenericaTextComponent, FechaComponent, ButtonComponent,
     ButtonCancelComponent,  InfoAreaComponent ,SpinnerComponent,
      CardsComponent, LabelComponent, InfoNotificationComponent, LinkComponent, AutocompleteComponent, EditorComponent, FileUploaderComponent

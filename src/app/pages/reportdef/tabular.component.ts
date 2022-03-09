@@ -120,7 +120,7 @@ export class TabularComponent  implements OnInit, OnChanges {
     private deviceService: DeviceDetectorService) {
       // this.safeSrc =  this.sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/c9F5kMUfFKk");
       // this.safeSrc =  this.sanitizer.bypassSecurityTrustResourceUrl(this.laurl);
-      this.mobile = false;
+      this.mobile = true;
       this.mobile = this.deviceService.isMobile();
 
    
@@ -391,7 +391,7 @@ onSort( column) {
       listParametros.push(param);
       ejecutarMetodo(m, false, listParametros, this.reportdefService).then(
         (resp) => {
-        this.dataContainer.nativeElement.innerHTML = resp.valor;
+        //this.dataContainer.nativeElement.innerHTML = resp.valor;
         this.mensaje = resp.valor;
       }
      ).catch( error =>
@@ -461,7 +461,10 @@ onSort( column) {
         console.log('this.tabular.tabularDescriptivo');
         if (this.tabular.campoDescriptivo.includes('METHOD')) {
           this.obtenerDescripcionTabular(this.tabular.campoDescriptivo, fila);
+          if(!this.mobile){
+            this.dataContainer.nativeElement.innerHTML = this.mensaje;
 
+          }
         } else {
           const des = fila[this.tabular.campoDescriptivo];
           this.dataContainer.nativeElement.innerHTML = des;
@@ -469,7 +472,17 @@ onSort( column) {
         }
       }
     }
-  clickLinkTabular($event, col, fila) {
+
+    obtenerCampoDescriptivo(fila,content2){
+      this.mostrarDetalle(fila);
+      this.modalService.open(content2, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
+        //this.closeResult = `Closed with: ${result}`;
+      }, (reason) => {
+        //this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      });
+  
+    }
+  clickLinkTabular( col, fila) {
 
 
     if (col.linkDina) {
