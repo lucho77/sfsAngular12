@@ -121,7 +121,7 @@ export class TabularComponent  implements OnInit, OnChanges {
       // this.safeSrc =  this.sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/c9F5kMUfFKk");
       // this.safeSrc =  this.sanitizer.bypassSecurityTrustResourceUrl(this.laurl);
       this.mobile = true;
-      this.mobile = this.deviceService.isMobile();
+      //this.mobile = this.deviceService.isMobile();
 
    
     }
