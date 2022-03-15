@@ -24,6 +24,6 @@
     <h6>{{field.label}}</h6>
 
 <span class="p-fluid">
-    <p-autoComplete  minLength="3"   [dropdown]="true" [formControlName]="field.name"   dropdownMode="current" (onSelect)="onSelect($event)" forceSelection="true" [suggestions]="results" (completeMethod)="buscar($event)"></p-autoComplete>
+    <p-autoComplete  minLength="8"   [dropdown]="true" [formControlName]="field.name"   dropdownMode="current" (onSelect)="onSelect($event)" dropdownIcon="pi pi-search-plus" [suggestions]="results" (completeMethod)="buscar($event)"></p-autoComplete>
 </span>
 </div>

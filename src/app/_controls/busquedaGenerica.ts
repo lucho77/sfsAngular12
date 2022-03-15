@@ -81,7 +81,7 @@ export class BusquedaGenericaComponent {
                       paramContenido.name = 'P1';
                       paramContenido.text = true;
                       paramContenido.type = FrontEndConstants.JAVA_LANG_STRING;
-                      const value = this.form.controls[this.field.name].value;
+                      const value = this.mobile?event.query:this.form.controls[this.field.name].value;
                       paramContenido.valueNew = value ? value : '';
                       finder.finderGenericDTO.parametrosFinderMetodo.push(paramContenido);
                     } else {
