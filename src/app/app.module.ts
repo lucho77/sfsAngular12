@@ -34,6 +34,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ErrorInterceptor, JwtInterceptor } from './_helpers';
 import { FooterComponent } from './pages/footer/footer.component';
 import { PanelMenuModule } from 'primeng/panelmenu';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -80,6 +82,12 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
+    }),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
     })
   ],
   providers: [

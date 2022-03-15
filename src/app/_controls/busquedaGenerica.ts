@@ -27,9 +27,10 @@ import { MessageService } from 'primeng/api';
 export class BusquedaGenericaComponent {
     @Input() field: FormdataReportdef;
     @Input() form: FormGroup;
-    @Input() elindex: any;
-    @Input() esambula: number;
     @Input() dataForm: FormdataReportdef[];
+    @Input() mobile: boolean;
+    results: any[];
+
     spinner:boolean;
 
     get isValid() { return this.form.controls[this.field.name].valid; }
@@ -40,6 +41,12 @@ export class BusquedaGenericaComponent {
         ) {
             this.spinner = false;
     }
+    public onSelect(event) {
+        const valueAutocomplete = event.split('-');
+         // la primera parte es el id de la entidad
+         this.field.valueNew = valueAutocomplete[0];
+    }
+
     public buscar(event) {
         console.log('buscar');
          // this.loadSpinner.show();
@@ -52,6 +59,7 @@ export class BusquedaGenericaComponent {
         inicializarFinder(finder);
         finder.entityClass = this.field.type;
         finder.viewName = this.field.busquedaGenericaDTO.view;
+         
         if (this.field.busquedaGenericaDTO.metodoNombre !== null) {
             finder.typeMethodFinder = true;
             finder.methodName = this.field.busquedaGenericaDTO.metodoNombre;
@@ -110,16 +118,24 @@ export class BusquedaGenericaComponent {
         }
         finder.nameParam = this.field.name;
         finder.globalParam = this.field.busquedaGenericaDTO.globalParam;
-        if (this.form.controls[this.field.name].value !== null && this.form.controls[this.field.name].value.trim() !== '' ) {
+
+        let valueBG = null;
+        if(this.mobile){
+            valueBG = event.query; 
+
+        }else{
+            valueBG = this.form.controls[this.field.name].value; 
+        }
+        if (valueBG !== null && valueBG.trim() !== '' ) {
             finder.finderGenericDTO.atribute = this.field.busquedaGenericaDTO.typeFindBy;
             finder.finderGenericDTO.type = this.field.busquedaGenericaDTO.typeFindByType;
             if (finder.finderGenericDTO.type === FrontEndConstants.JAVA_LANG_LONG) {
-                finder.finderGenericDTO.value = this.form.controls[this.field.name].value;
+                finder.finderGenericDTO.value = valueBG;
             } else {
                     if (this.field.busquedaGenericaDTO.findStringEqual) {
-                        finder.finderGenericDTO.value = this.form.controls[this.field.name].value;
+                        finder.finderGenericDTO.value = valueBG;
                     } else {
-                        finder.finderGenericDTO.value = '%' + this.form.controls[this.field.name].value + '%';
+                        finder.finderGenericDTO.value = '%' + valueBG + '%';
                     }
             }
         } else {
@@ -127,7 +143,8 @@ export class BusquedaGenericaComponent {
             finder.finderGenericDTO.type = null;
             finder.finderGenericDTO.value = null;
         }
-        const formdataGlobales = <FormdataReportdef[]>JSON.parse(localStorage.getItem('paramGlobal'));
+    
+    const formdataGlobales = <FormdataReportdef[]>JSON.parse(localStorage.getItem('paramGlobal'));
         finder.listGlobales =  formdataGlobales['list'];
         console.log('la dependencia');
         console.log(this.field.dependenciaDTO);
@@ -144,8 +161,37 @@ export class BusquedaGenericaComponent {
             }
         }
         this.abmservice.consultarAbmGeneric(user, finder).subscribe(
-            result => {
+            (result: any) =>{
                 // this.loadSpinner.hide();
+                let valor = '';
+
+                if(this.mobile){
+                    this.results = [];
+                    const pos = result['pkColIndex'];
+                    const rowLabel = result['rowLabel'];
+                    const labelArray = rowLabel.split(',');
+    
+                    for (const i in result.data) {
+    
+                        const value = result.data[i][pos].value;
+                        let cont = 0;
+                        let pos2 = 0;
+                        // tslint:disable-next-line:forin
+                        for (const j in labelArray) {
+                            for ( const h in result['columns']) {
+                                if (result['columns'][h].name === labelArray[j] ) {
+                                    // tslint:disable-next-line:radix
+                                    pos2 = parseInt(h);
+                                    break;
+                                }
+                            }
+                            const l = result.data[i][pos2].value;
+                                valor = value.toString() + '-' + l.toString();
+                            cont++;
+                        }
+                        this.results.push(valor);
+                    }
+                }else{
 
                 this.spinner = false;
 
@@ -192,6 +238,8 @@ export class BusquedaGenericaComponent {
                     });
 
                 }
+            }
+
         },
         (err: HttpErrorResponse) => {
 

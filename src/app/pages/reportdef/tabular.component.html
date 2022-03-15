@@ -5,7 +5,6 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title mb-0"><span class="lstick"></span>{{tituloReporte}}</h4>
-                
                 <p-toolbar>
                     <div class="p-toolbar-group-left">
                 
@@ -125,24 +124,26 @@
                     <h4 class="card-title mb-0"><span class="lstick"></span>{{tituloReporte}}</h4>
                     
                     <p-toolbar>
+
                         <div class="p-toolbar-group-left">
-                    
-                                <p-button icon="pi pi-plus" styleClass="p-button-sm" class="mr-2" *ngIf="tabularABM===true && tabular.permisoDTO.nueva" type="button" label="Nuevo"  (click)="nuevoAbm()"></p-button>
-                                
-                            <i class="p-toolbar-separator pi pi-bars mr-2" style="vertical-align: middle"></i>
-                            <div *ngFor="let field of tabular.botones">
-                                <p-button  label="{{field.buttomDTO.metodoDTO.labelButtom}}" styleClass="p-button-help p-button-sm mr-2"   (click)="processActions(field)"></p-button>
+                            <button type="button" class="btn btn-secondary mr-0">Acciones</button>
+                            <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+                                <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
+                                <div class="dropdown-menu" ngbDropdownMenu>
+                                    <button  *ngIf="tabularABM===true && tabular.permisoDTO.nueva" (click)="nuevoAbm()" class="dropdown-item">Nuevo <i class="fas fa-plus-circle"></i></button>
+                                    <button  *ngIf="menu===false" (click)="verFiltros(content1)" class="dropdown-item">Ver Filtros <i class="fas fa-filter"></i></button>
+                                    <button   (click)="refrescar($event)" class="dropdown-item">Refrescar <i class="fas fa-sync"></i></button>
+                                    <div *ngFor="let field of tabular.botones">
+                                        <button  (click)="processActions(field)" class="dropdown-item">{{field.buttomDTO.metodoDTO.labelButtom}} <i class="fas fa-arrow-alt-from-left"></i></button>
+                                    </div>
+                                      <button   *ngIf="menu===false" (click)="backHistorico()" class="dropdown-item danger">Volver<i class="fas fa-arrow-alt-circle-left"></i></button>
+                                </div>
                             </div>
-        
-                            
                         </div>
-                        
-                        <div class="p-toolbar-group-right">
-                            <p-button type="button" icon="pi pi-refresh" title="refrescar" styleClass="p-button-help p-button-sm" (click)="refrescar($event)"> </p-button>
-                            <p-button *ngIf="menu===false" icon="pi pi-arrow-left" type="button" title="volver pantalla anterior" (click)="backHistorico()" styleClass="p-button-danger p-button-sm"></p-button>
-                        </div>
-                    </p-toolbar>
+                   </p-toolbar>
     
+    
+        
     
                             <p-panel *ngIf="tabular.data.length ===0" header="Sin datos">
                                 Sin resultados

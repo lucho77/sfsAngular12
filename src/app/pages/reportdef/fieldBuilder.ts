@@ -12,8 +12,7 @@ import { FormdataReportdef } from 'src/app/_models/formdata';
 export class FieldBuilderComponent implements OnInit {
   @Input() field: any;
   @Input() form: any;
-  @Input() elindex: any;
-  @Input() esambula: number;
+  @Input() mobile: boolean;
   @Output()accionesDina = new EventEmitter<any>();
 
   @Input() dataForm: FormdataReportdef[];

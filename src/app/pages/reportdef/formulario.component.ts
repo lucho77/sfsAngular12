@@ -34,6 +34,7 @@ import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { isNumber, toInteger } from './util/util';
 import { NotifierService } from 'angular-notifier';
 import { MessageService } from 'primeng/api';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 declare function mapa(usuario: string, latitud: number, longitud: number, info: string): any;
 
@@ -90,11 +91,17 @@ export class FormularioComponent  implements OnInit {
   postPersist: string;
   filtros = false;
   urlResponse: string;
+  mobile:boolean;
 
   constructor(private confirmationDialogService: ConfirmationDialogService,
     private abmservice: AbmService, private messageService: MessageService, private reportdefService: ReportdefService,
     private nameService: NameGlobalService, private nameAvisoSeteo: AvisaSeteoService, private paramService: ParamDataHijoService,
-    private router: Router ,	private notifier: NotifierService) {}
+    private router: Router ,	private notifier: NotifierService,private deviceService: DeviceDetectorService) {
+
+      this.mobile = true;
+      //this.mobile = this.deviceService.isMobile();
+
+    }
     // tslint:disable-next-line:use-life-cycle-interface
   ngOnInit() {
     // tslint:disable-next-line:prefer-const
@@ -195,9 +202,20 @@ private createFormAngular(fieldsCtrls: any, data: any ) {
          if (f.disable) {
             fieldsCtrls[f.name] = new FormControl({value : f.valueNew, disabled: f.disable});
          } else {
-            fieldsCtrls[f.name] = new FormControl({value : '', disabled: f.disable});
+            if(this.mobile){
+              let valor = '';
+              if (f.valueNew) {
+                 valor = f.valueNew + '-' + f.busquedaGenericaDTO.mostrarToStringLupa;
+              }
+              fieldsCtrls[f.name] = new FormControl({value : valor  || '', disabled: f.disable});     
+            }else{
+              fieldsCtrls[f.name] = new FormControl({value : '', disabled: f.disable});
+            }
          }
-        fieldsCtrls[f.nameRes] = new FormControl({ value : f.busquedaGenericaDTO.mostrarToStringLupa || '', disabled: true});
+         if(!this.mobile){
+          fieldsCtrls[f.nameRes] = new FormControl({ value : f.busquedaGenericaDTO.mostrarToStringLupa || '', disabled: true});
+
+         }
         continue;
       }
     } else {
@@ -364,7 +382,7 @@ private createValidators(data: FormdataReportdef[], form: FormGroup) {
     }
     // console.log(f);
     // console.log(form.controls[f.name]);
-    if (f.require && f.busquedaGenerica && !f.autocomplete && !f.combo ) {
+    if (f.require && f.busquedaGenerica && !f.autocomplete && !f.combo && !this.mobile ) {
         form.controls[f.nameRes].setValidators([Validators.required]);
     } else if (f.require && !f.entero) {
       form.controls[f.name].setValidators([Validators.required]);
@@ -715,7 +733,10 @@ for (const f of data) {
   }
      if (f.require) {
        if (f.busquedaGenerica && !f.combo) {
-        value = form.get(f.nameRes).value;
+         if(!this.mobile){
+          value = form.get(f.nameRes).value;
+
+         }
          if (this.checkNullvalue(value)) {
           const mensaje = 'el campo ' + f.label + ' es obligatorio';
           if (hijo) {

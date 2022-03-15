@@ -3,7 +3,7 @@
 </p-messages>
 <p-toast position="top-center"></p-toast>
 
-<p-toolbar>
+<p-toolbar *ngIf="!mobile">
     <div class="p-toolbar-group-left">
 
         <div *ngFor="let field of data.list">
@@ -23,6 +23,35 @@
         <p-button icon="pi pi-arrow-left" *ngIf="menu===false" type="button" title="volver pantalla anterior" (click)="backHistorico()" class="p-button-danger"></p-button>
     </div>
 </p-toolbar>
+<p-toolbar *ngIf="mobile">
+    <div class="p-toolbar-group-left">
+
+
+            <div class="p-toolbar-group-left">
+                <button type="button" class="btn btn-secondary mr-0">Acciones</button>
+                <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+                    <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
+                    <div class="dropdown-menu" ngbDropdownMenu>
+                        <div *ngFor="let field of data.list">
+                            <button  *ngIf="field.buttom && field.buttomDTO.saveUpdate" (click)="processActions(field,false)" class="dropdown-item">{{field.buttomDTO.metodoDTO.labelButtom}} <i class="fas fa-plus-circle"></i></button>
+                            <button  *ngIf="field.buttomDTO.bottonVolver" (click)="backHistorico()" class="dropdown-item">{{field.buttomDTO.metodoDTO.labelButtom}} <i class="fas fa-plus-circle"></i></button>
+                        </div>               
+                        <div *ngFor="let field of data.list">
+                            <button  *ngIf="field.buttom && !field.buttomDTO.bottonVolver && !field.buttomDTO.saveUpdate" (click)="processActions(field,false)" class="dropdown-item">{{field.buttomDTO.metodoDTO.labelButtom}} <i class="fas fa-arrow-alt-from-left"></i></button>
+                        </div>
+                        <button  *ngIf="menu===false" (click)="verFiltros(content1)" class="dropdown-item">Ver Filtros <i class="fas fa-filter"></i></button>
+                        <button  *ngIf="menu===false" (click)="backHistorico()" class="dropdown-item">volver <i class="fas fa-filter"></i></button>
+                
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        </p-toolbar>
+
+
+        
+    
 
 <div class="row">
     <div class="col-12">
@@ -33,7 +62,7 @@
             <form class="m-t-30" [formGroup]="form">
                     <div class="form-group">
                         <div *ngFor="let field of data.list; let i = index">
-                            <app-field-builder *ngIf="!field.buttom" [dataForm]="data.list" [field]="field"  [form]="form"></app-field-builder>
+                            <app-field-builder *ngIf="!field.buttom" [dataForm]="data.list" [field]="field" [mobile]="mobile"  [form]="form"></app-field-builder>
                         </div>
                     </div>
                 </form>

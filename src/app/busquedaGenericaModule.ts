@@ -6,11 +6,12 @@ import { GenericFinderComponent } from './pages/genericFinder/genericFinder.comp
 import { BusquedaGenericaComponent } from './_controls/busquedaGenerica';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 
 @NgModule({
     imports: [
-        CommonModule, FormsModule, ReactiveFormsModule, NgbModule, ProgressSpinnerModule
+        CommonModule, FormsModule, ReactiveFormsModule, NgbModule, ProgressSpinnerModule,AutoCompleteModule
     ],
     declarations: [
         BusquedaGenericaComponent, GenericFinderComponent,

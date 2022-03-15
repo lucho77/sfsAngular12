@@ -1,11 +1,11 @@
 
-<div [formGroup]="form">
+<div [formGroup]="form" *ngIf="!mobile">
     <p-progressSpinner *ngIf="spinner"></p-progressSpinner>
 
 <div class="form-group">
     <label>{{field.label}} <strong class="text-danger" *ngIf="field.require">*</strong></label>
     <div class="input-group">
-            <input type="text" class="form-control" [id]="field.name " [name]="field.name " [formControlName]="field.name " (keydown.enter)="buscar($event)" aria-label="" aria-describedby="basic-addon1">
+            <input type="text" class="form-control" [id]="field.name" [name]="field.name" [formControlName]="field.name" (keydown.enter)="buscar($event)" aria-label="" aria-describedby="basic-addon1">
             <button class="btn btn-info" type="button" (click)="buscar($event)">
                 <i class="fa fa-search "></i> 
             </button>   
@@ -20,3 +20,10 @@
 </div>
 </div>
 
+<div [formGroup]="form">
+    <h6>{{field.label}}</h6>
+
+<span class="p-fluid">
+    <p-autoComplete  minLength="3"   [dropdown]="true" [formControlName]="field.name"   dropdownMode="current" (onSelect)="onSelect($event)" forceSelection="true" [suggestions]="results" (completeMethod)="buscar($event)"></p-autoComplete>
+</span>
+</div>

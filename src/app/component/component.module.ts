@@ -86,6 +86,7 @@ import { PipeKeyobject } from '../pages/reportdef/pibeObjectToArray';
 
   
   ],
+
   entryComponents: [ ConfirmDialogComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
