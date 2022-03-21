@@ -52,6 +52,8 @@ import { NgbDateCustomParserFormatter } from '../_controls/adapter/datePicker';
 import {FieldsetModule} from 'primeng/fieldset';
 import {PanelModule} from 'primeng/panel';
 import { PipeKeyobject } from '../pages/reportdef/pibeObjectToArray';
+import { FechaCustomComponent } from '../_controls/fechaCustom';
+import {TableModule} from 'primeng/table';
 
 @NgModule({
   imports: [
@@ -66,14 +68,15 @@ import { PipeKeyobject } from '../pages/reportdef/pibeObjectToArray';
      MessageModule,  ButtonModule,
      SplitButtonModule,AccordionModule,ProgressSpinnerModule,ToastModule, 
      InputTextareaModule, AutoCompleteModule, EditorModule, CalendarModule,
-     FieldsetModule,PanelModule
+     FieldsetModule,PanelModule,TableModule
   ],
   declarations: [
     ReportdefComponent, TabularComponent, FormularioComponent, ConfirmDialogComponent,NgbdSortableHeader,TabularABMFinderComponent,
      CheckBoxComponent, ComboComponent, TextBoxComponent, RadioComponent,PipeKeyobject, 
     FieldBuilderComponent, TextAreaComponent,  BusquedaGenericaTextComponent, FechaComponent, ButtonComponent,
-    ButtonCancelComponent,  InfoAreaComponent ,SpinnerComponent,
-     CardsComponent, LabelComponent, InfoNotificationComponent, LinkComponent, AutocompleteComponent, EditorComponent, FileUploaderComponent
+    ButtonCancelComponent,  InfoAreaComponent ,SpinnerComponent,FechaCustomComponent,
+     CardsComponent, LabelComponent, InfoNotificationComponent, LinkComponent,
+      AutocompleteComponent, EditorComponent, FileUploaderComponent
   ],
   providers: [
     ConfirmationDialogService, GenericFinderService,

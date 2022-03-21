@@ -124,13 +124,14 @@
                     <h4 class="card-title mb-0"><span class="lstick"></span>{{tituloReporte}}</h4>
                     
                     <p-toolbar>
-
                         <div class="p-toolbar-group-left">
+                            <button  *ngIf="tabularABM===true && tabular.permisoDTO.nueva" (click)="nuevoAbm()" class="btn btn-success">Nuevo <i class="fas fa-plus-circle"></i></button>
+                        </div>
+                        <div class="p-toolbar-group-right">
                             <button type="button" class="btn btn-secondary mr-0">Acciones</button>
                             <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
                                 <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
                                 <div class="dropdown-menu" ngbDropdownMenu>
-                                    <button  *ngIf="tabularABM===true && tabular.permisoDTO.nueva" (click)="nuevoAbm()" class="dropdown-item">Nuevo <i class="fas fa-plus-circle"></i></button>
                                     <button  *ngIf="menu===false" (click)="verFiltros(content1)" class="dropdown-item">Ver Filtros <i class="fas fa-filter"></i></button>
                                     <button   (click)="refrescar($event)" class="dropdown-item">Refrescar <i class="fas fa-sync"></i></button>
                                     <div *ngFor="let field of tabular.botones">

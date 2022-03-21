@@ -23,29 +23,20 @@
         <p-button icon="pi pi-arrow-left" *ngIf="menu===false" type="button" title="volver pantalla anterior" (click)="backHistorico()" class="p-button-danger"></p-button>
     </div>
 </p-toolbar>
-<p-toolbar *ngIf="mobile">
+<p-toolbar *ngIf="mobile && menu===false">
+
     <div class="p-toolbar-group-left">
+    </div>
 
-
-            <div class="p-toolbar-group-left">
+            <div class="p-toolbar-group-right">
                 <button type="button" class="btn btn-secondary mr-0">Acciones</button>
                 <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
                     <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
                     <div class="dropdown-menu" ngbDropdownMenu>
-                        <div *ngFor="let field of data.list">
-                            <button  *ngIf="field.buttom && field.buttomDTO.saveUpdate" (click)="processActions(field,false)" class="dropdown-item">{{field.buttomDTO.metodoDTO.labelButtom}} <i class="fas fa-plus-circle"></i></button>
-                            <button  *ngIf="field.buttomDTO.bottonVolver" (click)="backHistorico()" class="dropdown-item">{{field.buttomDTO.metodoDTO.labelButtom}} <i class="fas fa-plus-circle"></i></button>
-                        </div>               
-                        <div *ngFor="let field of data.list">
-                            <button  *ngIf="field.buttom && !field.buttomDTO.bottonVolver && !field.buttomDTO.saveUpdate" (click)="processActions(field,false)" class="dropdown-item">{{field.buttomDTO.metodoDTO.labelButtom}} <i class="fas fa-arrow-alt-from-left"></i></button>
-                        </div>
-                        <button  *ngIf="menu===false" (click)="verFiltros(content1)" class="dropdown-item">Ver Filtros <i class="fas fa-filter"></i></button>
-                        <button  *ngIf="menu===false" (click)="backHistorico()" class="dropdown-item">volver <i class="fas fa-filter"></i></button>
-                
+                        <button  *ngIf="menu===false" (click)="verFiltros(content1)" class="dropdown-item">Ver Filtros <i class="fas fa-filter"></i></button>                
                     </div>
                 </div>
             </div>
-        </div>
 
         </p-toolbar>
 
@@ -65,11 +56,22 @@
                             <app-field-builder *ngIf="!field.buttom" [dataForm]="data.list" [field]="field" [mobile]="mobile"  [form]="form"></app-field-builder>
                         </div>
                     </div>
+                    <div  *ngIf="mobile">
+                        <div  *ngFor="let field of data.list; let i = index">
+                            <button  *ngIf="field.buttom && field.buttomDTO.saveUpdate" (click)="processActions(field,false)" class="btn btn-outline-primary btn-block  mb-2">{{field.buttomDTO.metodoDTO.labelButtom}} <i class="fas fa-plus-circle"></i></button>
+                            <button  *ngIf="field.buttom && !field.buttomDTO.bottonVolver && !field.buttomDTO.saveUpdate" (click)="processActions(field,false)" class="btn btn-outline-info btn-block  mb-2">{{field.buttomDTO.metodoDTO.labelButtom}} <i class="fas fa-arrow-alt-from-left"></i></button>
+                            <button  *ngIf="field.buttomDTO.bottonVolver" (click)="backHistorico()" class="btn btn-outline-danger btn-block  mb-2">{{field.buttomDTO.metodoDTO.labelButtom}} <i class="fas fa-sign-out"></i></button>
+                        </div>
+                        <button  *ngIf="menu===false" (click)="backHistorico()" class="btn btn-outline-danger btn-block  mb-2">volver <i class="fas fa-sign-out"></i></button>
+
+                    </div>
+
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 
 <div class="row" *ngIf="tieneHijos.es && !tieneHijos.alta && tieneHijos.tabular">
            

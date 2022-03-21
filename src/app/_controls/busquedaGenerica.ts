@@ -43,8 +43,8 @@ export class BusquedaGenericaComponent {
     }
     public onSelect(event) {
         const valueAutocomplete = event.split('-');
-         // la primera parte es el id de la entidad
          this.field.valueNew = valueAutocomplete[0];
+         this.field.busquedaGenericaDTO.mostrarToStringLupa = valueAutocomplete[1];
     }
 
     public buscar(event) {

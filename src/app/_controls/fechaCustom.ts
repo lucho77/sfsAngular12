@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { getData } from '../pages/genericFinder/utilFinder';
 import * as moment from 'moment';
 import { toInteger } from '../pages/reportdef/util/util';
+import { PrimeNGConfig } from 'primeng/api';
 
 
 @Component({
@@ -26,23 +27,25 @@ export class FechaCustomComponent {
     dataFecha: any;
     filaCel: any;
     turnoSeleccionado: string;
-    constructor() {
+    constructor(private config: PrimeNGConfig) {
 
     }
       // tslint:disable-next-line:use-life-cycle-interface
       ngOnInit() {
         console.log('me he inicializado');
-        this.en = {
-            firstDayOfWeek: 0,
-            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
-            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
-            dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
-            monthNames: [ 'Enero', 'Febrero', 'Marzo',
-            'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ],
-            monthNamesShort: [ 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ],
-            today: 'Hoy',
-            clear: 'Limpiar'
-        };
+
+        this.config.setTranslation({
+          accept: 'Accept',
+          reject: 'Cancel',
+          dayNames: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'],
+          dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+          dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+          monthNames: [ 'Enero', 'Febrero', 'Marzo',
+          'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ],
+          monthNamesShort: [ 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ],
+          today: 'Hoy',
+          clear: 'Limpiar'
+    });
         const f = JSON.parse(localStorage.getItem('fechaCustom'));
         if (f) {
           const f1 = moment(f, 'DD-MM-YYYY');
@@ -244,12 +247,12 @@ export class FechaCustomComponent {
   }
 
     pintarDiasSel() {
-      const elementos = document.querySelectorAll('.ui-datepicker-calendar-container a');
+      const elementos = document.querySelectorAll('.p-datepicker-calendar-container span');
       const canti = elementos.length;
 
       for (let i = 0; i < canti; i ++) {
-           if (elementos[i].hasAttribute('draggable') && elementos[i].classList.contains('ui-state-default') &&
-            !elementos[i].classList.contains('ui-state-active')) {
+           if (elementos[i].hasAttribute('draggable') && elementos[i].classList.contains('p-ripple') &&
+            !elementos[i].classList.contains('p-disabled')) {
             const elemo = <HTMLElement>elementos[i];
             elemo.style.backgroundColor = '#7ec481';
            }
