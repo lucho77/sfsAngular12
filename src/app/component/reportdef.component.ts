@@ -1447,7 +1447,7 @@ callForm(user: any, menu: boolean, m: FormReportdef, metadata: MetodoDTO, listRe
       data.pdf = pdf;
       data.metodo = metadata.methodName;
       const user = JSON.parse(localStorage.getItem('currentUser'));
-
+      data.b64 = true;
       // console.log('data');
       // console.log(data);
       this.reportdefService.postExecuteMethod(user, data).subscribe
