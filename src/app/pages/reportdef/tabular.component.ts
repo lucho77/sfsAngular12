@@ -281,40 +281,8 @@ onSort( column) {
     this.data[indiceFil]['chequeado'] = elvenChe;
     }
 
-    /*
-    buscaDentroTabla($event) {
-
-      const texto = $event.target.value;
-      let datatTEMP = [];
-      let datatPersi = [];
-      datatTEMP = this.data;
-
-      const nombreColumnaBuscadoCol = localStorage.getItem('elembus');
-      let resultadoIt = this.filterItems(datatTEMP, texto, nombreColumnaBuscadoCol);
-      this.contadorFiltro = resultadoIt.length;
-
-      datatPersi = this.data;
-      this.data = resultadoIt;
-
-      this.ordenaYaColumna(1, 1);
-      this.data = datatPersi;
-      resultadoIt = null;
-      datatPersi = null;
-
-    }
-    */
-   /*
-    filterItems(datatTEMP, texto, nombreColumnaBuscadoCol) {
-
-      return datatTEMP.filter(function(el) {
-
-        let valorVSel = el[nombreColumnaBuscadoCol];
-        valorVSel == null ? valorVSel = '' : valorVSel = valorVSel;
-        const valSelCOnv: string = valorVSel.toString();
-        return valSelCOnv.toLowerCase().indexOf(texto.toLowerCase()) > -1;
-      });
-    }
- */
+   
+   
   buscarParamDestination(fila: any) {
     const objeto = {name: {} as ParamAllRequestDTO, all: []};
     const nameParamArray = [];
@@ -437,22 +405,7 @@ onSort( column) {
 
     }
   }
-  quitarSombraFila() {
-
-    const lementoRes = document.querySelectorAll('tr.cl-filsese');
-    const lementoRTDs = document.querySelectorAll('#table-cont tr.cl-filsese td');
-
-    for (let i = 0; i < lementoRes.length; i++) {
-      const elementoes = <HTMLElement>lementoRes[i];
-      elementoes.style.backgroundColor  =  '';
-    }
-
-    for (let j = 0; j < lementoRTDs.length; j++) {
-      const elementoestd = <HTMLElement>lementoRTDs[j];
-      elementoestd.style.backgroundColor  =  '';
-    }
-
-  }
+  
 
 
   mostrarDetalle(fila) {

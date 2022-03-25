@@ -34,7 +34,7 @@
                             <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
                                 <tr [pSelectableRow]="rowData" [ngClass]="rowData.Estado">
                                     <td [ngStyle]="col.visible == false ? {'display':'none'}:{'display':''}" *ngFor="let col of columns">
-                                         <span class="p-column-title">{{col.name}} </span><a (click) = "clickTabular(col,i)" >{{rowData[col.name]}}</a>
+                                         <span class="p-column-title">{{col.name}} </span>{{rowData[col.name]}}
                                     </td>
                                 </tr>
                             </ng-template>

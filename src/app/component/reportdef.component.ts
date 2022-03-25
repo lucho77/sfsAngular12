@@ -43,6 +43,7 @@ import { AltaEdicionABMDTO } from '../_models/edicionABM';
 import { generarDatosPaginacion, getData } from '../pages/genericFinder/utilFinder';
 import { MessageService } from 'primeng/api';
 // import { SocketClientService } from '../../../_services/SocketClientService';
+import { saveAs } from 'file-saver';
 
 declare function applicacionContext(): any;
 declare function downloadFile(mime: string, url: string): any;
@@ -585,7 +586,9 @@ private async generarTabularAbm(menu: boolean, metadata: MetodoDTO, finder: Find
       }
       this.limpiarreporte();
       const dataReportdef = new ReportdefData(false, true, false, false, false, false, menu, false , user.mostrarInfoArea, responsive);
+     if(this.pagination !=null){
       this.pagination.listaPaginacion = [];
+     }
       this.dataReportdef = dataReportdef;
       this.dataReportdefAux.menu = menu;
       if (m.etiqueta !== null) {
@@ -1457,15 +1460,18 @@ callForm(user: any, menu: boolean, m: FormReportdef, metadata: MetodoDTO, listRe
         // console.log('result');
         // console.log(result);
         if (pdf) {
-          if (this.isAndroid()) {
-            console.log('/SFS2FwWsServerWEB/FwWsFileServlet?P_FILE_NAME=' + result.valor + '&P_FILE_CTYPE=pdf');
-            downloadFile('application/pdf', '/SFS2FwWsServerWEB/FwWsFileServlet?P_FILE_NAME=' + result.valor + '&P_FILE_CTYPE=pdf' );
-            // window.open('/SFS2FwWsServerWEB/FwWsFileServlet?P_FILE_NAME=' + result.valor + '&P_FILE_CTYPE=pdf');
-          } else {
-            window.open('/SFS2FwWsServerWEB/FwWsFileServlet?P_FILE_NAME=' + result.valor + '&P_FILE_CTYPE=pdf');
-          }
-          this.messageService.add({severity:'success', summary: 'Exito', detail: 'Archivo PDF generado con exito'});
 
+          const byteString = window.atob(result.arch);
+          const arrayBuffer = new ArrayBuffer(byteString.length);
+          const int8Array = new Uint8Array(arrayBuffer);
+          for (let i = 0; i < byteString.length; i++) {
+            int8Array[i] = byteString.charCodeAt(i);
+          }
+          const blob = new Blob([int8Array]);    
+
+        saveAs(blob, result.nameArch);
+
+            this.messageService.add({severity:'success', summary: 'Exito', detail: 'Archivo PDF generado con exito'});
         } else {
           this.messageService.add({severity:'success', summary: 'Exito', detail: 'Accion ejecuta exitosamente'});
         }

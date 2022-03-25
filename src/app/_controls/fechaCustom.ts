@@ -82,8 +82,10 @@ export class FechaCustomComponent {
         this.turnoSeleccionado = ' ';
         // tslint:disable-next-line:forin
         for (const key in this.filaCel) {
+            if(key ==='ID'){
+              this.field.fechaCustomDTO.idSeleccionado = this.filaCel[key];
+            }
             this.turnoSeleccionado += ' ' + key + ' ' + this.filaCel[key];
-            this.field.fechaCustomDTO.idSeleccionado = this.filaCel[key];
         }
         this.turnoSeleccionado = 'ha seleccionado el turno el dia:' +  this.turnoSeleccionado;
     }
@@ -147,44 +149,6 @@ export class FechaCustomComponent {
         this.form.get(this.field.name).setValue(fecha.toDate());
         this.setearprimerDiaMes(fecha);
       }
-    }
-    clickTabular(col: any, pos: any) {
-      const data = this.data[pos];
-      let i = 0;
-      let metodoId = null;
-      let param = '';
-      let dataSel = null;
-      // tslint:disable-next-line:forin
-      for (const header of this.field.fechaCustomDTO.dataTableDTO.columns) {
-
-        if (header['name'] === col.headerAccion) {
-          // data[i].metodoDTO.retasigparam
-          param =  col.paramHeaderAccion;
-            break;
-        }
-        i++;
-      }
-      let j = 0;
-      for (const header of this.field.fechaCustomDTO.dataTableDTO.columns) {
-
-        if (header['name'] === col.valueHeaderAccion) {
-          // data[i].metodoDTO.id = data[j].value;
-          metodoId = data[col.valueHeaderAccion];
-          dataSel = this.field.fechaCustomDTO.dataTableDTO.data.filter(item => item[j].value === metodoId);
-          console.log(dataSel[0][i]);
-          break;
-        }
-        j++;
-      }
-
-
-
-      if (dataSel[0][i].metodoDTO !== undefined) {
-          dataSel[0][i].metodoDTO.retasigparam = param;
-          dataSel[0][i].metodoDTO.id = metodoId;
-          this.acciones.emit(dataSel[0][i].metodoDTO);
-      }
-
     }
     /*
     private getSettings(columns: HeaderDTO[]) {

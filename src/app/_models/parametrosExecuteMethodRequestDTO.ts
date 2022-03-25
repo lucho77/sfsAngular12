@@ -11,4 +11,6 @@ export interface ParametrosExecuteMethodRequestDTO {
     pdf: boolean;
     list: FormdataReportdef[];
     async: boolean;
+    b64:boolean;
+    
 }

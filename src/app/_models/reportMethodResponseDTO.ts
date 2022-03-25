@@ -6,4 +6,6 @@ export interface ReportMethodResponseDTO {
     tituloMensaje: string;
     valor: any;
     esObjeto: boolean;
+    nameArch: string;
+	arch: string;
 }
