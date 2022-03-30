@@ -52,12 +52,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
   localStorage.removeItem('tabInformationBody');
 
   const user  = await this.login();
-  await obtenerReporteInicio(user, this.authenticationService);
-  await configurarMenu(user, this.authenticationService);
-  const p = await configurarParamnetrosGlobales(user, this.authenticationService, null, false, null);
-  if (user['metodo'] !== null && user['metodo'] !== undefined) {
-   await ejecutarMetodoArea(user, p, this.reportdefService);
-  }
+  //await obtenerReporteInicio(user, this.authenticationService);
+  //await configurarMenu(user, this.authenticationService);
+  //const p = await configurarParamnetrosGlobales(user, this.authenticationService, null, false, null);
   this.routes.navigate(['/home']);
 
   }
@@ -86,6 +83,14 @@ export class LoginComponent implements OnInit, AfterViewInit {
                   this.authenticationService.logout();
                  }
                  localStorage.setItem('currentUser', JSON.stringify(user));
+                 localStorage.setItem('paramGlobal', JSON.stringify(user.listGlobales));
+                 localStorage.setItem('userMenu', JSON.stringify(user.menues));
+                 localStorage.setItem('reporte', user.reporteInicio);
+
+                 if (user['metodo'] !== null && user['metodo'] !== undefined) {
+                   ejecutarMetodoArea(user, user.listGlobales, this.reportdefService);
+                 }
+               
                  // this.cargarChat(user);
                   resolve(user);
     },

@@ -7,6 +7,7 @@ import { MenuErrorComponent } from './pages/errors/menu/menu-error.component';
 import { GlobalParamsErrorComponent } from './pages/errors/globalParams/globalParamsError.component';
 import { NotfoundComponent } from './pages/errors/not-found/not-found.component';
 import { AuthGuard } from './_guards';
+import { RegisterComponent } from './register/register.component';
 
 export const Approutes: Routes = [
   {
@@ -26,6 +27,10 @@ export const Approutes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
   },
   { path: 'globalParamsError', component: GlobalParamsErrorComponent },
   { path: 'menuError', component: MenuErrorComponent },

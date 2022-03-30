@@ -36,6 +36,7 @@ import { FooterComponent } from './pages/footer/footer.component';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { RegisterComponent } from './register/register.component';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -61,7 +62,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     HorizontalNavigationComponent,
     HorizontalSidebarComponent,
     LoginComponent,
-    FooterComponent
+    FooterComponent,RegisterComponent
   ],
   imports: [
     CommonModule,

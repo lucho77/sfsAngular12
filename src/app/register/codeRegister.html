@@ -1,0 +1,38 @@
+<div *ngIf="!registrase">
+    <form [formGroup]="formValida" (ngSubmit)="onSubmit('valida')" autocomplete="off" class="text-left mt-4">
+
+        <div class="card mb-2">
+            <div class="card-body">
+                <p class="card-text">se ha enviado un mensaje de texto con el codigo de validacion, asi como tambien un correo electronico a su casilla de correo. (en caso de no recibir el codigo de validacion en su celular o su correo, por favor pulse "solicitar
+                    nuevo codigo")</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-12">
+                <label class="maliz-15">Usuario 
+                </label>
+            </div>
+            <input [formControl]="userName2" autocomplete="off" class="form-control validation-field" type="text" disabled>
+        </div>
+
+        <div class="col-xs-12">
+            <label class="maliz-15">Codigo Validacion 
+                            <strong class="text-danger">*</strong>
+                    </label>
+        </div>
+
+        <input [formControl]="semilla" autocomplete="off" class="form-control validation-field" type="text">
+        <small class="text-danger" *ngIf="formValida.get('semilla').touched">
+                    <span *ngIf="formValida.get('semilla').hasError('required')">codigo validacion requerido</span>
+                </small>
+        <br>
+        <br>
+        <div class="form-group">
+            <button [disabled]="(!formValida.valid || clickValida )" class="btn btn-info" type="submit">validar</button> <br>
+            <button [disabled]="(!formValida.valid || clickValida )" (click)="solicitarNuevoCodigo()" class="btn btn-warning" type="submit">solicitar nuevo codigo</button>
+        </div>
+        <div *ngIf="errorLogin" class="alert alert-danger" role="alert">
+            {{error}}
+        </div>
+    </form>
+</div>

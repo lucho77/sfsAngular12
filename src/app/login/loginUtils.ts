@@ -160,7 +160,7 @@ export function configurarMenu(user: any, authenticationService: AuthenticationS
      const param = user.metodo.substring(pos + 1, (user.metodo.length - 1 ));
      const params = param.split(',');
      for (const p of params) {
-       for ( const g of m.list) {
+       for ( const g of m) {
          if (g.name === p) {
            listAux.push(g);
          }
