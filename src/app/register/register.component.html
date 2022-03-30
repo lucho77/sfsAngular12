@@ -1,12 +1,11 @@
 <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background:url(assets/images/big/auth-bg.jpg) no-repeat center center;">
     <div>
         <div class="auth-box">
-            <div id="form" [ngClass]="{'d-none': recoverform}">
+            <div id="form">
                 <div class="logo">
                     <span class="db"><img src="assets/images/logo-icon.png" alt="logo" /></span>
                     <h5 class="font-medium m-b-20">Regístrese</h5>
                 </div>
-                <div *ngIf="msg" class="alert alert-danger">{{ msg }}</div>
                 <!-- Form -->
                 <div class="row">
                     <div class="col-12">
@@ -15,21 +14,18 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1"><i class="ti-user"></i></span>
                                 </div>
-                                <input formControlName="name" autocomplete="off" class="col-lg-8 form-control validation-field" type="text" required>
+                                <input formControlName="name" autocomplete="off" placeholder="Nombre" class="col-lg-8 form-control validation-field" type="text" required>
 
                             </div>
                             <small class="form-text text-danger"
                                 *ngIf="!form.get('name').valid && (form.get('name').dirty || form.get('name').touched)">nombre de Usuario requerido
-                            </small>
-                            <small class="form-text text-danger"
-                                *ngIf="!form.get('name').hasError('minlength')">minimo 3 caracteres
                             </small>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1"><i class="ti-email"></i></span>
                                 </div>
 
-                            <input formControlName="email" autocomplete="off" class="col-lg-8 form-control validation-field" type="text">
+                            <input formControlName="email" autocomplete="off" placeholder="email" class="col-lg-8 form-control validation-field" type="text">
 
                             </div>
 
@@ -38,14 +34,14 @@
                                     <span class="input-group-text" id="basic-addon1"><i class="ti-user"></i></span>
                                 </div>
 
-                            <input formControlName="phone" autocomplete="off" class="col-lg-8 form-control validation-field" type="text">
+                            <input formControlName="phone" autocomplete="off" placeholder="Telefono" class="col-lg-8 form-control validation-field" type="text">
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1"><i class="ti-id-badge"></i></span>
                                 </div>
 
-                                <input formControlName="dni" autocomplete="off" class="col-lg-8 form-control validation-field" type="text">
+                                <input formControlName="dni" autocomplete="off" placeholder="DNI" class="col-lg-8 form-control validation-field" type="text">
                             </div>
 
                             <small class="form-text text-danger"
@@ -68,13 +64,13 @@
                                 *ngIf="!form.get('fecnac').valid && (form.get('fecnac').dirty || form.get('fecnac').touched)">Fecha de nacimiento es requerido
                             </small>
                             <small class="form-text text-danger"
-                                *ngIf="form.get('fecnac').hasError('ngbDate')">Formato Fecha Incorrecto, Ingrese DD-MM-AAAA
+                                *ngIf="(!form.get('fecnac').valid && (form.get('fecnac').dirty || form.get('fecnac').touched)) && form.get('fecnac').hasError('ngbDate')">Formato Fecha Incorrecto, Ingrese DD-MM-AAAA
                             </small>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1"><i class="ti-calendar"></i></span>
+                                    <span class="input-group-text" id="basic-addon1"><i class="ti-user"></i></span>
                                 </div>
-                                <input formControlName="userName"  class="col-lg-6 form-control" type="text" >
+                                <input formControlName="userName"  placeholder="Nombre usuario" class="col-lg-6 form-control" type="text" >
                             </div>
                             <small class="form-text text-danger"
                                 *ngIf="!form.get('userName').valid && (form.get('userName').dirty || form.get('userName').touched)">Nombre de usuario es requerido
@@ -107,228 +103,25 @@
                                 *ngIf="form.get('confirmPassword').hasError('mismatchedPasswords')">No coinciden las contraseñas 
                             </small>
 
-                        </div>
 
 
-
-
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon2"><i class="ti-pencil"></i></span>
-                                </div>
-                                <input type="password" formControlName="password" class="form-control form-control-lg" placeholder="Password" aria-label="Password"
-                                aria-describedby="basic-addon1" #p2>
+                            <div class="form-group">
+                                <button [disabled]="(!form.valid || click )" class="btn btn-info" type="submit">Regístrate</button>
                             </div>
-                            <small class="form-text text-danger"
-                            *ngIf="!loginForm.get('password').valid && (loginForm.get('password').dirty || loginForm.get('password').touched)">password requerido,
-                             con al menos 4 caracteres!</small>
-
-                            <div class="form-group row">
-                                <div class="col-md-12">
-                                    <div class="custom-control custom-checkbox">
-                                        <a (click)="showRecoverForm()" href="javascript:void(0)" id="to-recover" class="text-dark float-right"><i
-                                        class="fa fa-lock m-r-5"></i> olvido el password?</a>
-                                    </div>
-                                </div>
+                            <div *ngIf="errorLogin" class="alert alert-danger" role="alert">
+                                {{error}}
                             </div>
-                            <div class="form-group text-center">
-                                <div class="col-xs-12 p-b-20">
-                                    <button class="btn btn-block btn-lg btn-info" type="submit">Log
-                                    In</button>
-                                </div>
+                            <div class="card-footer text-muted">
+                                {{version}}
                             </div>
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-12 m-t-10 text-center">
-                                    <div class="social">
-                                        <a href="javascript:void(0)" class="btn btn-facebook" data-toggle="tooltip" title=""
-                                            data-original-title="Login with Facebook"> <i aria-hidden="true" class="fab fa-facebook"></i>
-                                        </a>
-                                        <a href="javascript:void(0)" class="btn btn-googleplus ml-2" data-toggle="tooltip" title=""
-                                            data-original-title="Login with Google"> <i aria-hidden="true" class="fab fa-google-plus"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group m-b-0 m-t-10">
-                                <div class="col-sm-12 text-center">
-                                    No tiene cuenta? <a href="#/authentication/signup" class="text-info m-l-5"><b>Registrece
-                                    </b></a>
-                                </div>
-                            </div>
+                    
                         </form>
                     </div>
                 </div>
             </div>
-            <div id="recoverform" [ngClass]="{'d-block': recoverform}">
-                <div class="logo">
-                    <span class="db"><img src="assets/images/logo-icon.png" alt="logo" /></span>
-                    <h5 class="font-medium m-b-20">Recover Password</h5>
-                    <span>Enter your Email and instructions will be sent to you!</span>
-                </div>
-                <div class="row m-t-20">
-                    <!-- Form -->
-                    <form class="col-12">
-                        <!-- email -->
-                        <div class="form-group row">
-                            <div class="col-12">
-                                <input class="form-control form-control-lg" type="email" required="" placeholder="Username">
-                            </div>
-                        </div>
-                        <!-- pwd -->
-                        <div class="row m-t-20">
-                            <div class="col-12">
-                                <button class="btn btn-block btn-lg btn-danger" type="submit" name="action">Reset</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 
-
-
-<div class="animationload" *ngIf="loadSpinner">
-    <div class="osahanloading"></div>
-</div>
-
-
-<div class="row">
-    <div class="col-lg-12 mb-4">
-        <div widget class="card border-0 box-shadow">
-            <div class="card-header transparent border-0 text-muted">
-                <h5 class="mb-0">Regístrese</h5>
-                <div class="widget-controls">
-                    <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
-                    <a data-widgster="collapse" href="#" class="transition"><i class="fa fa-chevron-up"></i></a>
-                    <a data-widgster="close" href="#" class="transition"><i class="fa fa-times"></i></a>
-                </div>
-            </div>
-            <div class="card-body pt-0 widget-body">
-                <a *ngIf="registrase" routerLink="/login" class="transition">Ya tiene una cuenta? Ingrese!</a>
-
- 
-                <div *ngIf="registrase">
-
-                    <form [formGroup]="form" (ngSubmit)="onSubmit('noValida')" autocomplete="off" class="text-left mt-4">
-                        <div class="form-group">
-                            <div class="col-xs-12">
-                                <label class="maliz-15">Nombre completo 
-                                            <strong class="text-danger">*</strong>
-                                    </label>
-                            </div>
-
-                            <input [formControl]="name" autocomplete="off" class="col-lg-8 form-control validation-field" type="text">
-                            <small class="text-danger" *ngIf="form.get('name').touched">
-                                    <span *ngIf="form.get('name').hasError('required')">Nombre completo es requerido</span>
-                                    <span *ngIf="form.get('name').hasError('minlength')">minimo 3 caracteres</span>
-                                </small>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-12">
-                                <label class="maliz-15">Email 
-                                </label>
-                            </div>
-                            <input [formControl]="email" autocomplete="off" class="col-lg-8 form-control validation-field" type="text">
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-12">
-                                <label class="maliz-15">Celular Sin el 0 ni el 15
-                                        </label>
-                            </div>
-                            <input [formControl]="phone" id="phone-number" class="col-lg-8 form-control" type="text" OnlyNumber="true">
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-xs-12">
-                                <label class="maliz-15">DNI 
-                                                    <strong class="text-danger">*</strong>
-                                                </label>
-                            </div>
-
-                            <input [formControl]="dni" autocomplete="off" class="col-lg-8 form-control validation-field" type="text">
-                            <small class="text-danger" *ngIf="form.get('dni').touched">
-                                    <span *ngIf="form.get('dni').hasError('required')">DNI es requerido</span>
-                                </small>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-xs-12">
-                                <label class="maliz-15">Fecha de Nacimiento 
-                                                    <strong class="text-danger">*</strong>
-                                                </label>
-                            </div>
-
-                            <div class="input-group">
-
-                                <input class="col-lg-6 form-control" placeholder="dd-mm-yyyy" [minDate]="{year: 1910, month: 1, day: 1}" [formControl]="fecnac" ngbDatepicker #p="ngbDatepicker">
-                                <span class="input-group-btn">
-                                        <button class="btn btn-info" type="button" (click)="p.toggle()">
-                                            <i class="fa fa-calendar"></i> 
-                                        </button>
-                                    </span>
-                            </div>
-                            <small class="text-danger" *ngIf="form.get('fecnac').touched">
-                                <span *ngIf="form.get('fecnac').hasError('required')">Fecha de Nacimiento es requerido</span>
-                                <span *ngIf="form.get('fecnac').hasError('ngbDate')">Formato Fecha Incorrecto, Ingrese DD-MM-AAAA</span>
-                            </small>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-12">
-                                <label class="maliz-15">Nombre Usuario 
-                                                    <strong class="text-danger">*</strong>
-                                                </label>
-                            </div>
-
-                            <input [formControl]="userName" autocomplete="off" class="col-lg-8 form-control validation-field" type="text">
-                            <small class="text-danger" *ngIf="form.get('userName').touched">
-                                    <span *ngIf="form.get('userName').hasError('required')">Nombre de usuario es requerido</span>
-                                    <span *ngIf="form.get('userName').hasError('whitespace')">no puede tener espacios en blanco el nombre de usuario</span>
-
-                                </small>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-12">
-                                <label class="maliz-15">Contraseña 
-                                                    <strong class="text-danger">*</strong>
-                                                </label>
-                            </div>
-
-                            <input [formControl]="password" autocomplete="new-password" class="col-lg-8 form-control validation-field" type="password" minlength="5">
-                            <small class="text-danger" *ngIf="form.get('password').touched">
-                                    <span *ngIf="form.get('password').hasError('required')">Contraseña es requerido</span>
-                                    <span *ngIf="form.get('password').hasError('minlength')">Contraseña demasiado corta, 5 caracteres como minimo</span>
-                                </small>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-xs-12">
-                                <label class="maliz-15">Reingrese contraseña 
-                                            <strong class="text-danger">*</strong>
-                                    </label>
-                            </div>
-
-                            <input [formControl]="confirmPassword" autocomplete="off" class="col-lg-8 form-control validation-field" type="password">
-                            <small class="text-danger" *ngIf="form.get('confirmPassword').touched">
-                                    <span *ngIf="form.get('confirmPassword').hasError('required')">Confirmación de contraseña es requerido</span>
-                                    <span *ngIf="form.get('confirmPassword').hasError('mismatchedPasswords')">No coinciden las contraseñas</span>
-                                </small>
-                        </div>
-
-                        <div class="form-group">
-                            <button [disabled]="(!form.valid || click )" class="btn btn-info" type="submit">Regístrate</button>
-                        </div>
-                        <div *ngIf="errorLogin" class="alert alert-danger" role="alert">
-                            {{error}}
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="card-footer text-muted">
-                {{version}}
-            </div>
 
         </div>
     </div>

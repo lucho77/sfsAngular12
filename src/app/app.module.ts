@@ -37,6 +37,7 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { RegisterComponent } from './register/register.component';
+import { ConfirmationDialogService } from './pages/confirmDialog/confirmDialog.service';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -92,7 +93,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     })
   ],
   providers: [
-    
+    ConfirmationDialogService,
       {provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG},
       { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
