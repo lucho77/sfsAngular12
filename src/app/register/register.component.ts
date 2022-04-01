@@ -38,8 +38,8 @@ export class RegisterComponent implements OnInit {
         private confirmationDialogService: ConfirmationDialogService) {
         this.router = router;
         this.form = fb.group({
-            name: ['', Validators.compose([Validators.required, Validators.minLength(3)])],
-            email: [''],
+            name: ['', Validators.compose([Validators.required])],
+            email: ['',emailValidator],
             password: ['', Validators.required],
             phone: [''],
             dni: ['', Validators.required],
@@ -60,6 +60,7 @@ export class RegisterComponent implements OnInit {
     }
     ngOnInit() {
         this.obtenerVersion();
+        console.log(this.form);
 
     }
 
@@ -154,11 +155,11 @@ export class RegisterComponent implements OnInit {
             console.log('ok!');
      }
     }
-    export function emailValidator(control: FormControl): {[key: string]: any} {
-    const emailRegexp = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/;
-    if (control.value && !emailRegexp.test(control.value.trim())) {
-        return {invalidEmail: true};
-    }
+    export function emailValidator(control: FormControl){
+        const emailRegexp = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/;
+        if (control.value && !emailRegexp.test(control.value.trim())) {
+            return {invalidEmail: true};
+        }
 }
 export function noWhitespaceValidator(control: FormControl) {
     const isWhitespace = control.value.trim().indexOf(' ') >= 0;

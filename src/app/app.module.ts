@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Routes, RouterModule } from '@angular/router';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateParserFormatter, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { FullComponent } from './layouts/full/full.component';
 import { BlankComponent } from './layouts/blank/blank.component';
@@ -38,6 +38,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { RegisterComponent } from './register/register.component';
 import { ConfirmationDialogService } from './pages/confirmDialog/confirmDialog.service';
+import { NgbDateCustomParserFormatter } from './_controls/adapter/datePicker';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -94,6 +95,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   ],
   providers: [
     ConfirmationDialogService,
+    {provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter},
+
       {provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG},
       { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

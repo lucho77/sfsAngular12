@@ -14,16 +14,16 @@ import { AuthenticationService } from "../_services";
   })
   export class CodeRegisterComponent  {
   
-    public formValida: FormGroup;
+    public form: FormGroup;
     error = '';
     paramRegister = {} as RegistroDTO;
 
     constructor(private router: Router,  fbValida: FormBuilder, private authenticationService: AuthenticationService,
         private confirmationDialogService: ConfirmationDialogService) {
     
-        this.formValida = fbValida.group({
+        this.form = fbValida.group({
             semilla: ['', Validators.compose([Validators.required])],
-             userName2: ['']
+             userName: ['']
         });
     }
 
@@ -66,13 +66,13 @@ import { AuthenticationService } from "../_services";
 
     public onSubmit(): void {
         this.error = '';
-            if (this.formValida.valid) {
+            if (this.form.valid) {
                 const semillaDTO = {} as SemillaDTO;
                     semillaDTO.usernameGeneric = 'citassgd';
                     semillaDTO.usernameGenericProd = 'citassg';
                 const p =  JSON.parse(localStorage.getItem('userAdd'));
                 this.paramRegister = p;
-                semillaDTO.semilla = this.formValida.controls['semilla'].value;
+                semillaDTO.semilla = this.form.controls['semilla'].value;
                 if (this.paramRegister.username === undefined || this.paramRegister.username === null ||
                     this.paramRegister.username.trim() === '' ) {
                         this.error = 'no existe el usuario';
