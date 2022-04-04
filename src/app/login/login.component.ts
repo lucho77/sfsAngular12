@@ -100,7 +100,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         if (err['errorBusiness']) {
             // es un error
             this.msg = err['mensaje'];
-
+            
             return;
         } else {
             this.msg = 'error grave al tratar de loguearse, vuelva a intentarlo';

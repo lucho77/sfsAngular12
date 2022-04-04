@@ -13,4 +13,5 @@ export class RegistroDTO {
     password: string;
     phone: string;
     usernameGenericProd: string;
+    usernameGenericDesa:string;
 }

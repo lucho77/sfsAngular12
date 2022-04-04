@@ -39,6 +39,7 @@ import { environment } from '../environments/environment';
 import { RegisterComponent } from './register/register.component';
 import { ConfirmationDialogService } from './pages/confirmDialog/confirmDialog.service';
 import { NgbDateCustomParserFormatter } from './_controls/adapter/datePicker';
+import { CodeRegisterComponent } from './register/codeRegister';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -64,7 +65,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     HorizontalNavigationComponent,
     HorizontalSidebarComponent,
     LoginComponent,
-    FooterComponent,RegisterComponent
+    FooterComponent,RegisterComponent, CodeRegisterComponent
   ],
   imports: [
     CommonModule,

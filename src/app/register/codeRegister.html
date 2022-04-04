@@ -6,7 +6,7 @@
                     <span class="db"><img src="assets/images/logo-icon.png" alt="logo" /></span>
                     <h5 class="font-medium m-b-20">Verificación código</h5>
                 </div>
-                <div  class="alert alert-danger">se ha enviado un mensaje de texto con el codigo de validacion, 
+                <div  class="alert alert-info">se ha enviado un mensaje de texto con el codigo de validacion, 
                     asi como tambien un correo electronico a su casilla de correo. (en caso de no recibir el codigo
                      de validacion en su celular o su correo, por favor pulse "solicitar
                     nuevo codigo"</div>
@@ -40,10 +40,10 @@
 
 
         <div class="form-group">
-            <button [disabled]="(!formValida.valid || clickValida )" class="btn btn-info" type="submit">validar</button> <br>
-            <button [disabled]="(!formValida.valid || clickValida )" (click)="solicitarNuevoCodigo()" class="btn btn-warning" type="submit">solicitar nuevo codigo</button>
+            <button [disabled]="(!form.valid )" class="btn btn-info" type="submit">validar</button> <br>
+            <button [disabled]="(!form.valid )" (click)="solicitarNuevoCodigo()" class="btn btn-warning" type="submit">solicitar nuevo codigo</button>
         </div>
-        <div *ngIf="errorLogin" class="alert alert-danger" role="alert">
+        <div *ngIf="error && error !==''" class="alert alert-danger" role="alert">
             {{error}}
         </div>
     </form>

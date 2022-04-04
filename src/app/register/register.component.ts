@@ -20,10 +20,8 @@ export class RegisterComponent implements OnInit {
     public email: AbstractControl;
     public dni: AbstractControl;
     public userName: AbstractControl;
-    public userName2: AbstractControl;
     public fecnac: AbstractControl;
     public password: AbstractControl;
-    public semilla: AbstractControl;
     public phone: AbstractControl;
     public confirmPassword: AbstractControl;
     paramRegister = {} as RegistroDTO;
@@ -90,7 +88,7 @@ export class RegisterComponent implements OnInit {
                 //const token = JSON.parse(localStorage.getItem('paramToken'));
                 console.log('token');
                 //console.log(token);
-                this.paramRegister.usernameGeneric = 'citassgd';
+                this.paramRegister.usernameGenericDesa = 'citassgd';
                 this.paramRegister.usernameGenericProd = 'citassg';
                 
                 this.paramRegister.username =   this.form.controls['userName'].value;
@@ -128,10 +126,10 @@ export class RegisterComponent implements OnInit {
                     // tslint:disable-next-line:max-line-length
                     'feclicitaciones!, ha creado con exito su cuenta, ahora necesita revisar su casilla de mensajes en su celular. Gracias por elegirnos')
                     .then((confirmed) => {
-                        localStorage.setItem('userAdd', JSON.stringify(this.paramRegister));
+                        //localStorage.setItem('userAdd', JSON.stringify(this.paramRegister));
                         this.loadSpinner = false;
                         if (confirmed) {
-                            // this.router.navigate(['/login']);                }
+                             this.router.navigate(['/checkCodigo']);            
                         }
                     }).catch(() => this.router.navigate(['/login']));
 

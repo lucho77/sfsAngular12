@@ -8,6 +8,7 @@ import { GlobalParamsErrorComponent } from './pages/errors/globalParams/globalPa
 import { NotfoundComponent } from './pages/errors/not-found/not-found.component';
 import { AuthGuard } from './_guards';
 import { RegisterComponent } from './register/register.component';
+import { CodeRegisterComponent } from './register/codeRegister';
 
 export const Approutes: Routes = [
   {
@@ -31,6 +32,10 @@ export const Approutes: Routes = [
   {
     path: 'register',
     component: RegisterComponent,
+  },
+  {
+    path: 'checkCodigo',
+    component: CodeRegisterComponent,
   },
   { path: 'globalParamsError', component: GlobalParamsErrorComponent },
   { path: 'menuError', component: MenuErrorComponent },

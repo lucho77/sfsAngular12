@@ -34,7 +34,7 @@ export class AuthenticationService {
     }
     login(username: string, password: string) {
         console.log('Permitido en el Authentication service');
-        return this.http.get<any>(`${devolverProyecto()}/login/${username}/${password}/configura`);
+        return this.http.get<any>(`${devolverProyecto()}/loginNew/${username}/${password}/configura`);
     }
     obtnerReporteInicio(username: string, datasource: string, id: number) {
         console.log('Permitido en el Authentication service');

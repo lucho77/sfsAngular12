@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { ConfirmationDialogService } from "../pages/confirmDialog/confirmDialog.service";
 import { RegistroDTO } from "../_models/registroDTO";
@@ -15,6 +15,9 @@ import { AuthenticationService } from "../_services";
   export class CodeRegisterComponent  {
   
     public form: FormGroup;
+    public semilla: AbstractControl;
+    public userName: AbstractControl;
+
     error = '';
     paramRegister = {} as RegistroDTO;
 
@@ -25,6 +28,10 @@ import { AuthenticationService } from "../_services";
             semilla: ['', Validators.compose([Validators.required])],
              userName: ['']
         });
+        const p =  JSON.parse(localStorage.getItem('userAdd'));
+        this.form.controls['userName'].setValue(this.paramRegister.username.trim());
+        this.paramRegister = p;
+
     }
 
     solicitarNuevoCodigo() {
@@ -32,8 +39,6 @@ import { AuthenticationService } from "../_services";
         const semillaDTO = {} as SemillaDTO;
             semillaDTO.usernameGeneric = 'citassgd';
             semillaDTO.usernameGenericProd = 'citassg';
-        const p =  JSON.parse(localStorage.getItem('userAdd'));
-        this.paramRegister = p;
 
         semillaDTO.usernameNuevo  = this.paramRegister.username.trim();
         semillaDTO.email = this.paramRegister.email;
