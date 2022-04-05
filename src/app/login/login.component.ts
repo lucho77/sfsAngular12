@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
+import { RegistroDTO } from '../_models/registroDTO';
 import { AuthenticationService } from '../_services';
 import { ReportdefService } from '../_services/reportdef.service';
 import { configurarMenu, configurarParamnetrosGlobales, ejecutarMetodoArea, obtenerReporteInicio } from './loginUtils';
@@ -13,18 +14,19 @@ import { configurarMenu, configurarParamnetrosGlobales, ejecutarMetodoArea, obte
 export class LoginComponent implements OnInit, AfterViewInit {
   msg = '';
   loginForm: FormGroup;
-
+  validarusuario:boolean;
   constructor(private authenticationService: AuthenticationService,private routes: Router, private formBuilder: FormBuilder, private reportdefService: ReportdefService) { }
   ngAfterViewInit(): void {
     this.ponerFocus();
   }
   ngOnInit(): void {
     this.cargarForm();
+    this.validarusuario = false;
   }
 
   loginform = true;
   recoverform = false;
-
+  
   showRecoverForm() {
     this.loginform = !this.loginform;
     this.recoverform = !this.recoverform;
@@ -99,13 +101,18 @@ export class LoginComponent implements OnInit, AfterViewInit {
       console.log(err);
         if (err['errorBusiness']) {
             // es un error
-            this.msg = err['mensaje'];
-            
-            return;
+              this.msg = err['mensaje'];
+              if(err['confirmoMail']){
+                //debe confirmar mail
+                this.validarusuario = true;
+                let paramRegister = {} as RegistroDTO;
+                paramRegister.username = this.f.username.value;
+                localStorage.setItem('userAdd', JSON.stringify(paramRegister));
+              }
+              return;
         } else {
             this.msg = 'error grave al tratar de loguearse, vuelva a intentarlo';
             return;
-
         }
       }
     );

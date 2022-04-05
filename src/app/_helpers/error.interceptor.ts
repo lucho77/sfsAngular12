@@ -24,14 +24,14 @@ export class ErrorInterceptor implements HttpInterceptor {
             // this.errorService.limpiar();
             if (err.error !== 'undefined') {
                 const error = new Error(err.error.mensaje, err.error.errorBusiness, err.error.tokenError, err.error.tokenExpired,
-                     false, '{}', '{}', '{}', '{}', '{}');
+                     false, '{}', '{}', '{}', '{}', '{}',err.error.confirmoMail);
                 console.log('error business');
                  console.log(error);
                // this.errorService.setError(error);
                 return throwError(error);
             } else {
                 console.log('error grave ');
-                const error = new Error('Error Grave', false, false, false, true, '{}', '{}', '{}', '{}', '{}');
+                const error = new Error('Error Grave', false, false, false, true, '{}', '{}', '{}', '{}', '{}',false);
                 // this.errorService.setError(error);
                 return throwError(error);
             }

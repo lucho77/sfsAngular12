@@ -1,7 +1,9 @@
 export interface SemillaDTO {
     usernameNuevo: string;
-    usernameGeneric: string;
     usernameGenericProd: string;
+    usernameGenericDesa: string;
+    usernameGenericUser: string;
+
      semilla: number;
      name: string;
      email: string;

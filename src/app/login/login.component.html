@@ -6,7 +6,14 @@
                     <span class="db"><img src="assets/images/logo-icon.png" alt="logo" /></span>
                     <h5 class="font-medium m-b-20">Login</h5>
                 </div>
-                <div  class="alert alert-info">{{ msg }}</div>
+                <div  class="alert alert-danger">{{ msg }}</div>
+                <div class="form-group m-b-0 m-t-10" *ngIf="validarusuario===true">
+                    <div class="col-sm-12 text-center">
+                        Confirmar creacion usuario <a routerLink="/checkCodigo" class="text-info m-l-5"><b>Validar usuario
+                        </b></a>
+                    </div>
+                </div>
+
                 <!-- Form -->
                 <div class="row">
                     <div class="col-12">

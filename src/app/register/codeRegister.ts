@@ -29,15 +29,15 @@ import { AuthenticationService } from "../_services";
              userName: ['']
         });
         const p =  JSON.parse(localStorage.getItem('userAdd'));
-        this.form.controls['userName'].setValue(this.paramRegister.username.trim());
         this.paramRegister = p;
+        this.form.controls['userName'].setValue(this.paramRegister.username.trim());
 
     }
 
     solicitarNuevoCodigo() {
         this.error = '';
         const semillaDTO = {} as SemillaDTO;
-            semillaDTO.usernameGeneric = 'citassgd';
+            semillaDTO.usernameGenericDesa = 'citassgd';
             semillaDTO.usernameGenericProd = 'citassg';
 
         semillaDTO.usernameNuevo  = this.paramRegister.username.trim();
@@ -73,17 +73,20 @@ import { AuthenticationService } from "../_services";
         this.error = '';
             if (this.form.valid) {
                 const semillaDTO = {} as SemillaDTO;
-                    semillaDTO.usernameGeneric = 'citassgd';
+                    semillaDTO.usernameGenericDesa = 'citassgd';
                     semillaDTO.usernameGenericProd = 'citassg';
                 const p =  JSON.parse(localStorage.getItem('userAdd'));
                 this.paramRegister = p;
                 semillaDTO.semilla = this.form.controls['semilla'].value;
+                this.paramRegister.usernameGeneric = "citassg";
+                
                 if (this.paramRegister.username === undefined || this.paramRegister.username === null ||
                     this.paramRegister.username.trim() === '' ) {
                         this.error = 'no existe el usuario';
                         return ;
 
                 }
+                semillaDTO.usernameGenericUser="citassg";
                 semillaDTO.usernameNuevo  = this.paramRegister.username.trim();
                 this.authenticationService.getChequearSemilla(semillaDTO).subscribe
                 ( register => {
