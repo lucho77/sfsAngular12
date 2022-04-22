@@ -101,8 +101,8 @@ export class BusquedaGenericaComponent {
                             const formdataGlobales = <FormdataReportdef[]>JSON.parse(localStorage.getItem('paramGlobal'));
                             console.log('formdataGlobales');
                             console.log(formdataGlobales);
-                            for (const g of  formdataGlobales['list']) {
-                                if (!g.button && s.toUpperCase() ===  g.name.toUpperCase()) {
+                            for (const g of  formdataGlobales) {
+                                if (!g.buttom && s.toUpperCase() ===  g.name.toUpperCase()) {
                                     finder.finderGenericDTO.parametrosFinderMetodo.push(g);
                                     encontrado = true;
                                     break;
@@ -145,7 +145,7 @@ export class BusquedaGenericaComponent {
         }
     
     const formdataGlobales = <FormdataReportdef[]>JSON.parse(localStorage.getItem('paramGlobal'));
-        finder.listGlobales =  formdataGlobales['list'];
+        finder.listGlobales =  formdataGlobales;
         console.log('la dependencia');
         console.log(this.field.dependenciaDTO);
         if (this.field.dependenciaDTO && this.field.dependenciaDTO.length > 0) {

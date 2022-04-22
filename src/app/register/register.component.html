@@ -2,6 +2,7 @@
     <div>
         <div class="auth-box">
             <div id="form">
+                <p-progressSpinner *ngIf="loadSpinner"></p-progressSpinner>
                 <div class="logo">
                     <span class="db"><img src="assets/images/logo-icon.png" alt="logo" /></span>
                     <h5 class="font-medium m-b-20">Regístrese</h5>
@@ -119,7 +120,6 @@
 
 
                             <div class="form-group">
-
                                 <button [disabled]="(!form.valid || click )" class="btn btn-block btn-lg btn-info" type="submit">Regístrate</button>
                             </div>
                             <div class="form-group m-b-0 m-t-10">

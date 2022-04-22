@@ -40,6 +40,7 @@ import { RegisterComponent } from './register/register.component';
 import { ConfirmationDialogService } from './pages/confirmDialog/confirmDialog.service';
 import { NgbDateCustomParserFormatter } from './_controls/adapter/datePicker';
 import { CodeRegisterComponent } from './register/codeRegister';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -74,7 +75,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ReactiveFormsModule,
     FormsModule,PanelMenuModule,
     HttpClientModule,
-    NgbModule,
+    NgbModule, ProgressSpinnerModule,
     RouterModule.forRoot(Approutes),
     PerfectScrollbarModule,
     FeatherModule.pick(allIcons),

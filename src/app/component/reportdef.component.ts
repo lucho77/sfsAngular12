@@ -285,7 +285,7 @@ this.android = false;
      private mostrarInfo() {
       const formdataGlobales = <FormdataReportdef[]>JSON.parse(localStorage.getItem('paramGlobal'));
 
-      for (const p of formdataGlobales['list'] ) {
+      for (const p of formdataGlobales ) {
           if (p.name === 'P_INFO' && p.value === '1' ) {
             this.dataReportdefAux.mostrarInfoArea = true;
             break;
@@ -309,7 +309,7 @@ this.android = false;
          if (this.tipoReporte.tipo === 'TABULAR' ) {
           const formdataGlobales = <FormdataReportdef[]>JSON.parse(localStorage.getItem('paramGlobal'));
           // si es un tabular que viene directamente desde un menu, puede filtrar por los globales
-             this.generarTabular(true, metadata, formdataGlobales['list'], false);
+             this.generarTabular(true, metadata, formdataGlobales, false);
        } else if (this.tipoReporte.tipo === 'FORM' ) {
         this.generarForm(true, metadata, false, null);
        } else if (this.tipoReporte.tipo === 'ABM') {
@@ -345,7 +345,7 @@ this.android = false;
    data.webServicesAddress = user.webservice;
    data.reportdef = reportdef;
    data.vista = vista;
-   data.global = formdataGlobales['list'];
+   data.global = formdataGlobales;
    data.campoFinder = campoFinder;
    data.valueFinder = datoFinder;
    data.filterNameParam = filterNameParam;
@@ -365,7 +365,7 @@ this.android = false;
  data.webServicesAddress = user.webservice;
  data.reportdef = reportdef;
  data.vista = vista;
- data.global = formdataGlobales['list'];
+ data.global = formdataGlobales;
  data.list = listRequest;
 }
 private async generarTabularAbm(menu: boolean, metadata: MetodoDTO, finder: FinderRequestDTO,
@@ -723,7 +723,7 @@ callForm(user: any, menu: boolean, m: FormReportdef, metadata: MetodoDTO, listRe
      const formTipoClase: any = await this.consultarPropiedadFormTipoClase(metadata.methodName, user);
      if (formTipoClase.respuestagenerica != null ) {
         console.log('es un form de tipo clase');
-        this.reportdefService.getObtenerFormByClass(user, metadata.methodName, formdataGlobales['list'], listRequest).subscribe
+        this.reportdefService.getObtenerFormByClass(user, metadata.methodName, formdataGlobales, listRequest).subscribe
           ((m: FormReportdef) => {
             console.log('form de tipo clase');
             this.callForm(user, menu, m, metadata, listRequest);
@@ -732,7 +732,7 @@ callForm(user: any, menu: boolean, m: FormReportdef, metadata: MetodoDTO, listRe
             this.checkError(err);
       });
      } else {
-      this.reportdefService.getObtenerForm(user, metadata.methodName, formdataGlobales['list'], listRequest).subscribe
+      this.reportdefService.getObtenerForm(user, metadata.methodName, formdataGlobales, listRequest).subscribe
       ((m: FormReportdef) => {
         this.callForm(user, menu, m, metadata, listRequest);
       },
@@ -1482,7 +1482,7 @@ callForm(user: any, menu: boolean, m: FormReportdef, metadata: MetodoDTO, listRe
           // seteo el parametro global
           const formdataGlobales = <FormdataReportdef[]>JSON.parse(localStorage.getItem('paramGlobal'));
           const listParam: FormdataReportdef[] = [];
-          for (const p of formdataGlobales['list'] ) {
+          for (const p of formdataGlobales ) {
             if (p.name === metadata.retasigparam  ) {
               p.valueNew = result.valor;
               listParam.push(p);
@@ -1552,7 +1552,7 @@ callForm(user: any, menu: boolean, m: FormReportdef, metadata: MetodoDTO, listRe
     async actualizarInfoArea(list: FormdataReportdef []) {
       this.setearToStringEntidad(list).then( (resp) => {
         const formdataGlobales = <FormdataReportdef[]>JSON.parse(localStorage.getItem('paramGlobal'));
-        for (const p of formdataGlobales['list'] ) {
+        for (const p of formdataGlobales ) {
 
           for (const f of list ) {
             if (p.name === f.name  ) {
@@ -1572,7 +1572,7 @@ callForm(user: any, menu: boolean, m: FormReportdef, metadata: MetodoDTO, listRe
              const param = user.metodo.substring(pos + 1, (user.metodo.length - 1 ));
              const params = param.split(',');
              for (const p of params) {
-               for ( const g of formdataGlobales['list'] ) {
+               for ( const g of formdataGlobales ) {
                  if (g.name === p) {
                    listAux.push(g);
                  }
@@ -1811,7 +1811,7 @@ callForm(user: any, menu: boolean, m: FormReportdef, metadata: MetodoDTO, listRe
   const abmEdit = {} as AltaEdicionABMDTO;
   abmEdit.alta = data.alta;
     const formdataGlobales = <FormdataReportdef[]>JSON.parse(localStorage.getItem('paramGlobal'));
-   abmEdit.global = formdataGlobales['list'];
+   abmEdit.global = formdataGlobales;
  abmEdit.id = data.id;
  this.idEntidad = data.id;
  abmEdit.reportName = data.reporte;

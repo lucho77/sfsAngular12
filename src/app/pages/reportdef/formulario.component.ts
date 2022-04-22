@@ -98,8 +98,8 @@ export class FormularioComponent  implements OnInit {
     private nameService: NameGlobalService, private nameAvisoSeteo: AvisaSeteoService, private paramService: ParamDataHijoService,
     private router: Router ,	private notifier: NotifierService,private deviceService: DeviceDetectorService) {
 
-      this.mobile = true;
-      //this.mobile = this.deviceService.isMobile();
+      //this.mobile = true;
+      this.mobile = this.deviceService.isMobile();
 
     }
     // tslint:disable-next-line:use-life-cycle-interface
@@ -404,7 +404,7 @@ actualizarDesdeGlobales(data: FormdataReportdef[]) {
     if (f.noEsPisadoGlobal) {
       continue;
     }
-    for (const global of formdataGlobales['list']) {
+    for (const global of formdataGlobales) {
         if (f.name === global.name && global.valueNew !== null ) {
           f.value = global.valueNew;
           f.global = true;
@@ -546,7 +546,7 @@ private continuarEjecucionForm(hijo: boolean, event: FormdataReportdef) {
     for (const clave of Object.keys(event.buttomDTO.metodoDTO.paramsPasar)) {
       // busco si tiene un parametro en el historico
 
-      for (const g of formdataGlobales['list']) {
+      for (const g of formdataGlobales) {
 
         if (g.name === clave) {
           listParam.push(g);
@@ -1199,7 +1199,7 @@ onRowSelectHijo(event) {
   const abmEdit = {} as AltaEdicionABMDTO;
    abmEdit.alta = alta;
      const formdataGlobales = <FormdataReportdef[]>JSON.parse(localStorage.getItem('paramGlobal'));
-    abmEdit.global = formdataGlobales['list'];
+    abmEdit.global = formdataGlobales;
   abmEdit.id = id;
   abmEdit.reportName = this.abmParams.childreportname;
   abmEdit.viewName = this.dataHijos.vista;

@@ -19,7 +19,7 @@
         </div>
 </div>
 </div>
-<div [formGroup]="form">
+<div [formGroup]="form" *ngIf="mobile">
     <h6>{{field.label}}</h6>
 <span class="p-fluid">
     <p-autoComplete  minLength="8"   [dropdown]="true" [formControlName]="field.name"   dropdownMode="current" (onSelect)="onSelect($event)" dropdownIcon="pi pi-search-plus" [suggestions]="results" (completeMethod)="buscar($event)"></p-autoComplete>

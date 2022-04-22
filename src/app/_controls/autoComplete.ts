@@ -86,8 +86,8 @@ export class AutocompleteComponent {
                             const formdataGlobales = <FormdataReportdef[]>JSON.parse(localStorage.getItem('paramGlobal'));
                             console.log('formdataGlobales');
                             console.log(formdataGlobales);
-                            for (const g of  formdataGlobales['list']) {
-                                if (!g.button && s.toUpperCase() ===  g.name.toUpperCase()) {
+                            for (const g of  formdataGlobales) {
+                                if (!g.buttom && s.toUpperCase() ===  g.name.toUpperCase()) {
                                     finder.finderGenericDTO.parametrosFinderMetodo.push(g);
                                     encontrado = true;
                                     break;

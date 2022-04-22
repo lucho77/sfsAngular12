@@ -11,6 +11,7 @@ import { ConfirmationDialogService } from '../pages/confirmDialog/confirmDialog.
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class RegisterComponent implements OnInit {
@@ -25,7 +26,6 @@ export class RegisterComponent implements OnInit {
     public phone: AbstractControl;
     public confirmPassword: AbstractControl;
     paramRegister = {} as RegistroDTO;
-
     errorLogin = false;
     error = '';
     click = false;
@@ -54,7 +54,6 @@ export class RegisterComponent implements OnInit {
         this.confirmPassword = this.form.controls['confirmPassword'];
         this.userName = this.form.controls['userName'];
         this.phone = this.form.controls['phone'];
-
     }
     ngOnInit() {
         this.obtenerVersion();
@@ -75,6 +74,7 @@ export class RegisterComponent implements OnInit {
      public onSubmit(): void {
             this.error = '';
             this.click = true;
+            this.loadSpinner = true;
             if (this.form.valid) {
                 const email = this.form.controls['email'].value;
                 const pho = this.form.controls['phone'].value;
@@ -93,7 +93,7 @@ export class RegisterComponent implements OnInit {
                 
                 this.paramRegister.username =   this.form.controls['userName'].value;
                 this.paramRegister.username = this.paramRegister.username.trim();
-
+    
                 this.paramRegister.password =   this.form.controls['password'].value;
                 this.paramRegister.email =   this.form.controls['email'].value;
                 this.paramRegister.dni =   this.form.controls['dni'].value;
@@ -117,7 +117,7 @@ export class RegisterComponent implements OnInit {
                     return;
                 }
                 this.paramRegister.fecnac =  now.format('DD-MM-YYYY');
-                this.paramRegister.name   =  this.form.controls['name'].value;
+                this.paramRegister.name   =  this.form.controls['name'].value;                                
                 this.authenticationService.getRegister(this.paramRegister).subscribe
                 ( register => {
                     this.loadSpinner = false;

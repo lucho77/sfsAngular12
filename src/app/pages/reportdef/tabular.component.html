@@ -10,7 +10,7 @@
                 
                             <p-button icon="pi pi-plus" styleClass="p-button-sm" class="mr-2" *ngIf="tabularABM===true && tabular.permisoDTO.nueva" type="button" label="Nuevo"  (click)="nuevoAbm()"></p-button>
                             
-                        <i class="p-toolbar-separator pi pi-bars mr-2" style="vertical-align: middle"></i>
+                        <i class="mr-2" style="vertical-align: middle"></i>
                         <div *ngFor="let field of tabular.botones">
                             <p-button  label="{{field.buttomDTO.metodoDTO.labelButtom}}" styleClass="p-button-help p-button-sm mr-2"   (click)="processActions(field)"></p-button>
                         </div>

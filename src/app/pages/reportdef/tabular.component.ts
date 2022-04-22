@@ -120,8 +120,8 @@ export class TabularComponent  implements OnInit, OnChanges {
     private deviceService: DeviceDetectorService) {
       // this.safeSrc =  this.sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/c9F5kMUfFKk");
       // this.safeSrc =  this.sanitizer.bypassSecurityTrustResourceUrl(this.laurl);
-      this.mobile = true;
-      //this.mobile = this.deviceService.isMobile();
+      //this.mobile = true;
+      this.mobile = this.deviceService.isMobile();
 
    
     }
@@ -817,7 +817,7 @@ private  convertDataURItoFile(data: string, fileName: string, fmt: boolean) {
   i = 0;
   if (this.tabular.onlyOwner ) {
     const formdataGlobales = <FormdataReportdef[]>JSON.parse(localStorage.getItem('paramGlobal'));
-    for (const p of  formdataGlobales['list']) {
+    for (const p of  formdataGlobales) {
           if (p.name === this.tabular.onlyOwnerParamGlobal && p.value !== null) {
         idOwner = p.value;
         break;
@@ -875,7 +875,7 @@ private  convertDataURItoFile(data: string, fileName: string, fmt: boolean) {
     i = 0;
     if (this.tabular.onlyOwner ) {
       const formdataGlobales = <FormdataReportdef[]>JSON.parse(localStorage.getItem('paramGlobal'));
-      for (const p of  formdataGlobales['list']) {
+      for (const p of  formdataGlobales) {
             if (p.name === this.tabular.onlyOwnerParamGlobal && p.value !== null) {
           idOwner = p.value;
           break;
@@ -1030,7 +1030,7 @@ private  convertDataURItoFile(data: string, fileName: string, fmt: boolean) {
     requestPDF.valueFinder =  null;
     requestPDF.campoFinder = null;
     requestPDF.list =  [];
-    requestPDF.global =  formdataGlobales['list'];
+    requestPDF.global =  formdataGlobales;
     requestPDF.filterNameParam = null;
     requestPDF.filterType = null;
   }
@@ -1068,7 +1068,7 @@ private  convertDataURItoFile(data: string, fileName: string, fmt: boolean) {
         console.log(parametros);
         const listAux = [];
         for (const p of parametros) {
-          for (const g of formdataGlobales['list']) {
+          for (const g of formdataGlobales) {
             if (p.trim() === g.name.trim()) {
                 listAux.push(g);
                 break;

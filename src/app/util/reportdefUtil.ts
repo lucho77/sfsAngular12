@@ -36,7 +36,7 @@ export function actualizaDatosGlobales(datos: FormdataReportdef[], parametroGlob
     console.log('datos');
     console.log(datos);
     for (const f of datos) {
-      for (const global of formdataGlobales['list']) {
+      for (const global of formdataGlobales) {
         if ((f.name === global.name)  && global.name === parametroGlobalInfo) {
           global.value = f.valueNew;
           global.valueNew = f.valueNew;
@@ -256,9 +256,9 @@ export function prepararParametrosApasar(repordefData: ReportdefData, metadata: 
             let enc = false;
             for (const param of paramNoEcontrados) {
               enc = false;
-              if (globales !== null && globales['list'].length > 0 ) {
+              if (globales !== null && globales.length > 0 ) {
 
-              for (const g of globales['list']) {
+              for (const g of globales) {
                     console.log(g);
                     if (param === g.name) {
                         enc = true;
@@ -436,7 +436,7 @@ export function prepararParametrosApasar(repordefData: ReportdefData, metadata: 
                   // busco en los globales
                   console.log('clave a buscar ' + clave.toString());
                   const formdataGlobales = <FormdataReportdef[]>JSON.parse(localStorage.getItem('paramGlobal'));
-                  for (const g of formdataGlobales['list']) {
+                  for (const g of formdataGlobales) {
                         if (g.name.trim() === clave.toString().trim()) {
                         encontrado = true;
                         dataDetalle.list.push(g);
