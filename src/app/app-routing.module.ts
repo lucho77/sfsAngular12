@@ -12,11 +12,10 @@ import { CodeRegisterComponent } from './register/codeRegister';
 
 export const Approutes: Routes = [
   {
-    path: '',
+    path: 'full',
     component: FullComponent,
     canLoad: [AuthGuard],
     children: [
-      { path: '', redirectTo: '/login', pathMatch: 'full' },
       {
         path: 'home',
         loadChildren: () => import('./component/component.module').then(m => m.ComponentsModule)
@@ -25,6 +24,7 @@ export const Approutes: Routes = [
 
     ]
   },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   {
     path: 'login',
     component: LoginComponent,

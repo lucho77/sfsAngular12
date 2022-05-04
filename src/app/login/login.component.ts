@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   //await obtenerReporteInicio(user, this.authenticationService);
   //await configurarMenu(user, this.authenticationService);
   //const p = await configurarParamnetrosGlobales(user, this.authenticationService, null, false, null);
-  this.routes.navigate(['/home']);
+  this.routes.navigate(['/full/home']);
 
   }
   get f() { return this.loginForm.controls; }

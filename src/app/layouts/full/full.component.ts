@@ -45,6 +45,7 @@ export class FullComponent implements OnInit {
     //if (this.router.url === '/') {
     //  this.router.navigate(['/dashboard/classic']);
    // }
+   console.log('se inicializo el full');
     this.defaultSidebar = this.options.sidebartype;
     this.handleSidebar();
   }

@@ -27,7 +27,7 @@ export class VerticalSidebarComponent implements OnInit {
 
 
   ejecutarMenu(ejecutar:string){
-    const url = '/home/reportdef';
+    const url = '/full/home/reportdef';
     localStorage.setItem('currentMenuClick',ejecutar );
     this.router.navigate([url, ejecutar]);
     this.handleNotify();
