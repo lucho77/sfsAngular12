@@ -54,6 +54,7 @@ import {PanelModule} from 'primeng/panel';
 import { PipeKeyobject } from '../pages/reportdef/pibeObjectToArray';
 import { FechaCustomComponent } from '../_controls/fechaCustom';
 import {TableModule} from 'primeng/table';
+import {DividerModule} from 'primeng/divider';
 
 @NgModule({
   imports: [
@@ -68,7 +69,7 @@ import {TableModule} from 'primeng/table';
      MessageModule,  ButtonModule,
      SplitButtonModule,AccordionModule,ProgressSpinnerModule,ToastModule, 
      InputTextareaModule, AutoCompleteModule, EditorModule, CalendarModule,
-     FieldsetModule,PanelModule,TableModule
+     FieldsetModule,PanelModule,TableModule,DividerModule
   ],
   declarations: [
     ReportdefComponent, TabularComponent, FormularioComponent, ConfirmDialogComponent,NgbdSortableHeader,TabularABMFinderComponent,
