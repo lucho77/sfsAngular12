@@ -1,9 +1,12 @@
+import { Location } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
+import { SwUpdate } from '@angular/service-worker';
 import { RegistroDTO } from '../_models/registroDTO';
 import { AuthenticationService } from '../_services';
+import { AppConfigService } from '../_services/AppConfigService';
 import { ReportdefService } from '../_services/reportdef.service';
 import { configurarMenu, configurarParamnetrosGlobales, ejecutarMetodoArea, obtenerReporteInicio } from './loginUtils';
 
@@ -15,13 +18,19 @@ export class LoginComponent implements OnInit, AfterViewInit {
   msg = '';
   loginForm: FormGroup;
   validarusuario:boolean;
-  constructor(private authenticationService: AuthenticationService,private routes: Router, private formBuilder: FormBuilder, private reportdefService: ReportdefService) { }
+  versionFront:string;
+  constructor(private authenticationService: AuthenticationService,private routes: Router, 
+    private formBuilder: FormBuilder, private reportdefService: ReportdefService, 
+    private appConfig:AppConfigService, private swUpdate: SwUpdate) {
+      this.updateClient();
+     }
   ngAfterViewInit(): void {
     this.ponerFocus();
   }
   ngOnInit(): void {
     this.cargarForm();
     this.validarusuario = false;
+    this.versionFront = this.appConfig.getConfig().version;
   }
 
   loginform = true;
@@ -62,10 +71,30 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
   get f() { return this.loginForm.controls; }
 
+  updateClient(){
+    if(!this.swUpdate.isEnabled){
+        console.log('service worker not available');
+        alert('service worker not available');
+        return;
+    }
+    alert('service worker available');
+    this.swUpdate.available.subscribe((event)=>{
+      console.log(`current`,event.current,`available`,event.available);  
+      if(confirm('Existen cambios en la Aplicacion, por favor confirme')){
+        this.swUpdate.activateUpdate().then(()=>location.reload())
+      }
+    })
+    this.swUpdate.activated.subscribe((event)=>{
+      console.log(`current`,event.previous,`available`,event.current)  
+    })
+      
+  }
 
   login() {
     return new Promise(resolve => {
-    this.authenticationService.login(this.f.username.value, this.f.password.value).subscribe
+      console.log(this.appConfig.getConfig())
+    this.authenticationService.login(this.f.username.value, this.f.password.value, 
+    this.appConfig.getConfig().novalidaHabilitado).subscribe
     (user => {
 
                  if (user.errorBusiness) {
@@ -77,12 +106,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
                  }
                  // this.loadSpinner = false;
                  if (user && user.token) {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
-                // limpio la cache local
-                  localStorage.setItem('currentUser', null);
-                  console.log('despues del localstorage');
-
-                  this.authenticationService.logout();
+                    // store user details and jwt token in local storage to keep user logged in between page refreshes
+                    // limpio la cache local
+                      localStorage.setItem('currentUser', null);
+                      console.log('despues del localstorage');
+                      this.authenticationService.logout();
                  }
                  localStorage.setItem('currentUser', JSON.stringify(user));
                  localStorage.setItem('paramGlobal', JSON.stringify(user.listGlobales));

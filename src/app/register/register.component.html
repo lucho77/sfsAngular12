@@ -11,7 +11,8 @@
                 <div class="row">
                     <div class="col-12">
                         <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-horizontal m-t-20">
-                            <label for="name">Nombre</label>
+                            <label for="name">Nombre<strong class="text-danger">*</strong>
+                            </label>
 
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
@@ -57,7 +58,7 @@
                             <small class="form-text text-danger"
                                 *ngIf="!form.get('dni').valid && (form.get('dni').dirty || form.get('dni').touched)">dni es requerido
                             </small>
-                            <label for="fecnac">Fecha de Nacimiento</label>
+                            <label for="fecnac">Fecha de Nacimiento<strong class="text-danger">*</strong></label>
 
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
@@ -77,7 +78,7 @@
                             <small class="form-text text-danger"
                                 *ngIf="(!form.get('fecnac').valid && (form.get('fecnac').dirty || form.get('fecnac').touched)) && form.get('fecnac').hasError('ngbDate')">Formato Fecha Incorrecto, Ingrese DD-MM-AAAA
                             </small>
-                            <label for="userName">Username</label>
+                            <label for="userName">Username<strong class="text-danger">*</strong></label>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1"><i class="ti-user"></i></span>
@@ -90,7 +91,7 @@
                             <small class="form-text text-danger"
                                 *ngIf="form.get('userName').hasError('whitespace')">no puede tener espacios en blanco el nombre de usuario
                             </small>
-                            <label for="userName">Password</label>
+                            <label for="userName">Password<strong class="text-danger">*</strong></label>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1"><i class="ti-eye"></i></span>
@@ -103,7 +104,7 @@
                             <small class="form-text text-danger"
                                 *ngIf="form.get('password').hasError('minlength')">Contraseña demasiado corta, 5 caracteres como minimo 
                             </small>
-                            <label for="userName">Confirme password</label>
+                            <label for="userName">Confirme password<strong class="text-danger">*</strong></label>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1"><i class="ti-eye"></i></span>

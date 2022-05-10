@@ -6,13 +6,14 @@ import { ConfirmationDialogService } from "../pages/confirmDialog/confirmDialog.
 import { RegistroDTO } from "../_models/registroDTO";
 import { SemillaDTO } from "../_models/semillaDTO";
 import { AuthenticationService } from "../_services";
+import { AppConfigService } from "../_services/AppConfigService";
 
 @Component({
     selector: 'app-codeRegister',
     templateUrl: './codeRegister.html',
     encapsulation: ViewEncapsulation.None
   })
-  export class CodeRegisterComponent  {
+  export class CodeRegisterComponent implements OnInit {
   
     public form: FormGroup;
     public semilla: AbstractControl;
@@ -20,9 +21,9 @@ import { AuthenticationService } from "../_services";
 
     error = '';
     paramRegister = {} as RegistroDTO;
-
+    dataUser:any;
     constructor(private router: Router,  fbValida: FormBuilder, private authenticationService: AuthenticationService,
-        private confirmationDialogService: ConfirmationDialogService) {
+        private confirmationDialogService: ConfirmationDialogService,private appConfig:AppConfigService) {
     
         this.form = fbValida.group({
             semilla: ['', Validators.compose([Validators.required])],
@@ -33,12 +34,15 @@ import { AuthenticationService } from "../_services";
         this.form.controls['userName'].setValue(this.paramRegister.username.trim());
 
     }
+    ngOnInit(): void {
+        this.dataUser = JSON.parse(localStorage.getItem('dataUser'));
+    }
 
     solicitarNuevoCodigo() {
         this.error = '';
         const semillaDTO = {} as SemillaDTO;
-            semillaDTO.usernameGenericDesa = 'citassgd';
-            semillaDTO.usernameGenericProd = 'citassg';
+        semillaDTO.usernameGenericDesa = this.dataUser.userDesa;
+        semillaDTO.usernameGenericProd = this.dataUser.userProd;
 
         semillaDTO.usernameNuevo  = this.paramRegister.username.trim();
         semillaDTO.email = this.paramRegister.email;
@@ -73,20 +77,18 @@ import { AuthenticationService } from "../_services";
         this.error = '';
             if (this.form.valid) {
                 const semillaDTO = {} as SemillaDTO;
-                    semillaDTO.usernameGenericDesa = 'citassgd';
-                    semillaDTO.usernameGenericProd = 'citassg';
+                semillaDTO.usernameGenericDesa = this.dataUser.userDesa;
+                semillaDTO.usernameGenericProd = this.dataUser.userProd;
+                semillaDTO.usernameGenericUser=this.dataUser.userGeneric;
                 const p =  JSON.parse(localStorage.getItem('userAdd'));
                 this.paramRegister = p;
-                semillaDTO.semilla = this.form.controls['semilla'].value;
-                this.paramRegister.usernameGeneric = "citassg";
-                
+                semillaDTO.semilla = this.form.controls['semilla'].value;                
                 if (this.paramRegister.username === undefined || this.paramRegister.username === null ||
                     this.paramRegister.username.trim() === '' ) {
                         this.error = 'no existe el usuario';
                         return ;
 
                 }
-                semillaDTO.usernameGenericUser="citassg";
                 semillaDTO.usernameNuevo  = this.paramRegister.username.trim();
                 this.authenticationService.getChequearSemilla(semillaDTO).subscribe
                 ( register => {

@@ -1,4 +1,3 @@
-import * as $ from 'jquery';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
@@ -41,6 +40,8 @@ import { ConfirmationDialogService } from './pages/confirmDialog/confirmDialog.s
 import { NgbDateCustomParserFormatter } from './_controls/adapter/datePicker';
 import { CodeRegisterComponent } from './register/codeRegister';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { APP_INITIALIZER } from '@angular/core';
+import { AppConfigService } from './_services/AppConfigService';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -105,6 +106,16 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
       { provide: LOCALE_ID, useValue: 'es' },
       {provide: LocationStrategy, useClass: HashLocationStrategy},
+      {
+        provide: APP_INITIALIZER,
+        multi: true,
+        deps: [AppConfigService],
+        useFactory: (appConfigService: AppConfigService) => {
+          return () => {
+            return appConfigService.loadConfig();
+          };
+        }
+      }
 
   ],
   bootstrap: [AppComponent]

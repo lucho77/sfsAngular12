@@ -1,6 +1,6 @@
 export class RegistroDTO {
     username: string;
-    usernameGeneric: string;
+    usernameGenericUser: string;
     datasource: string;
     token: string;
     idUsuarioUra: number;

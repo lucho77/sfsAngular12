@@ -32,9 +32,9 @@ export class AuthenticationService {
         return this.http.get<any>(`./sfsSockket`, {params: params
         });
     }
-    login(username: string, password: string) {
+    login(username: string, password: string, novalidahabilitado:boolean) {
         console.log('Permitido en el Authentication service');
-        return this.http.get<any>(`${devolverProyecto()}/loginNew/${username}/${password}/configura`);
+        return this.http.get<any>(`${devolverProyecto()}/loginNew/${username}/${password}/configura/${novalidahabilitado}`);
     }
     obtnerReporteInicio(username: string, datasource: string, id: number) {
         console.log('Permitido en el Authentication service');
@@ -115,4 +115,9 @@ export class AuthenticationService {
         return this.http.post(`${devolverProyecto()}/guardarTokenTelefono/`, datos)
         .pipe(map(result => result));
     }
+    getUserProd(username: string) {
+        console.log('obteniendo user generic prod');
+        return this.http.get<any>(`${devolverProyecto()}/getUserProd/${username}`);
+    }
+
 }

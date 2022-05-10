@@ -7,6 +7,8 @@ import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { RegistroDTO } from '../_models/registroDTO';
 import { AuthenticationService } from '../_services';
 import { ConfirmationDialogService } from '../pages/confirmDialog/confirmDialog.service';
+import { AppConfigService } from '../_services/AppConfigService';
+import { useAnimation } from '@angular/animations';
 
 @Component({
   selector: 'app-register',
@@ -32,8 +34,9 @@ export class RegisterComponent implements OnInit {
     clickValida = false;
     loadSpinner = false;
     version = '';
+    users={userProd:'',userDesa:'',userGeneric:''};
     constructor(router: Router, fb: FormBuilder, fbValida: FormBuilder, private authenticationService: AuthenticationService,
-        private confirmationDialogService: ConfirmationDialogService) {
+        private confirmationDialogService: ConfirmationDialogService,private appConfig:AppConfigService ) {
         this.router = router;
         this.form = fb.group({
             name: ['', Validators.compose([Validators.required])],
@@ -58,6 +61,7 @@ export class RegisterComponent implements OnInit {
     ngOnInit() {
         this.obtenerVersion();
         console.log(this.form);
+        this.getUserProd();
 
     }
 
@@ -71,6 +75,27 @@ export class RegisterComponent implements OnInit {
           console.log('no se ha podido obtener la version');
         });
     }
+    getUserProd() {
+        // alert('entro al metodo que obtiene el usuario de produccion');
+         this.authenticationService.getUserProd(this.appConfig.getConfig().genericUser).subscribe
+         (result => {
+        //   alert('obtengo el getUserProd');
+           console.log(result);
+        //   alert(result);
+           this.users.userProd =result.usernameProd;
+           this.users.userDesa =result.usernameDesa;
+           this.users.userGeneric = this.appConfig.getConfig().genericUser;
+           // this.version = result.respuestagenerica;
+           localStorage.setItem('dataUser', JSON.stringify(this.users));
+
+         },
+         (err: HttpErrorResponse) => {
+           console.log('no se ha podido obtener la version');
+          // alert('errorrrrrrrrrrrrrrrr');
+         });
+   
+       }
+   
      public onSubmit(): void {
             this.error = '';
             this.click = true;
@@ -88,8 +113,9 @@ export class RegisterComponent implements OnInit {
                 //const token = JSON.parse(localStorage.getItem('paramToken'));
                 console.log('token');
                 //console.log(token);
-                this.paramRegister.usernameGenericDesa = 'citassgd';
-                this.paramRegister.usernameGenericProd = 'citassg';
+                this.paramRegister.usernameGenericDesa = this.users.userDesa;
+                this.paramRegister.usernameGenericProd = this.users.userProd;
+                this.paramRegister.usernameGenericUser = this.users.userGeneric;
                 
                 this.paramRegister.username =   this.form.controls['userName'].value;
                 this.paramRegister.username = this.paramRegister.username.trim();
