@@ -120,7 +120,7 @@ export class TabularComponent  implements OnInit, OnChanges {
     private deviceService: DeviceDetectorService) {
       // this.safeSrc =  this.sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/c9F5kMUfFKk");
       // this.safeSrc =  this.sanitizer.bypassSecurityTrustResourceUrl(this.laurl);
-      //this.mobile = true;
+     // this.mobile = true;
       this.mobile = this.deviceService.isMobile();
 
    

@@ -94,7 +94,7 @@ export class FormularioComponent  implements OnInit {
   mobile:boolean;
 
   constructor(private confirmationDialogService: ConfirmationDialogService,
-    private abmservice: AbmService, private messageService: MessageService, private reportdefService: ReportdefService,
+    private abmservice: AbmService, private reportdefService: ReportdefService,
     private nameService: NameGlobalService, private nameAvisoSeteo: AvisaSeteoService, private paramService: ParamDataHijoService,
     private router: Router ,	private notifier: NotifierService,private deviceService: DeviceDetectorService) {
 
@@ -674,7 +674,8 @@ private continuarEjecucionForm(hijo: boolean, event: FormdataReportdef) {
   }
   if (this.tipoReporte.formAbmNew && event.buttomDTO.metodoDTO.tipoMetodo.toUpperCase() !==
   FrontEndConstants.PERSISTIR_ENTIDAD.toUpperCase()) {
-    this.messageService.add({severity:'error', summary: 'Error', detail: 'No puede ejecutar la accion hasta tanto persista la entidad'});
+    this.mensajeErrorPadre = [];
+    this.mensajeErrorPadre.push({severity:'error', summary: 'Error', detail: 'No puede ejecutar la accion hasta tanto persista la entidad'});
     return;
   }
   if ( event.buttomDTO.metodoDTO.validaTabularFromForm && event.buttomDTO.metodoDTO.metodoValidaForm !== null) {
@@ -699,7 +700,8 @@ private continuarEjecucionForm(hijo: boolean, event: FormdataReportdef) {
     for (const f of this.data.list ) {
       if (f.fechaCustom) {
         if (f.fechaCustomDTO.idSeleccionado === null) {
-          this.messageService.add({severity:'error', summary: 'Error', detail: 'debe seleccionar un turno disponible'});
+          this.mensajeErrorPadre = [];
+          this.mensajeErrorPadre.push({severity:'error', summary: 'Error', detail: 'debe seleccionar un turno disponible'});
 
           return;
         }
@@ -713,7 +715,9 @@ private continuarEjecucionForm(hijo: boolean, event: FormdataReportdef) {
 }
 
 exitoSetParamGlobal() {
-  this.messageService.add({severity:'success', summary: 'Exito', detail: 'parametro global seteado exitosamente'});
+  this.mensajeErrorPadre = [];
+
+  this.mensajeErrorPadre.push({severity:'success', summary: 'Exito', detail: 'parametro global seteado exitosamente'});
 }
 private chequeaCamposForm(data: FormdataReportdef[], form: FormGroup, hijo: boolean) {
   // limpio los errores
@@ -736,6 +740,8 @@ for (const f of data) {
          if(!this.mobile){
           value = form.get(f.nameRes).value;
 
+         }else{
+           value =form.get(f.name).value;
          }
          if (this.checkNullvalue(value)) {
           const mensaje = 'el campo ' + f.label + ' es obligatorio';
@@ -890,6 +896,7 @@ if (f.fecha) {
 this.ubicaListaSelectaFicha(this.data.fieldsTab, this.data.list);
 
 if (this.mensajeErrorPadre.length > 0 || this.mensajeErrorHijo.length > 0 ) {
+
     return false;
 }
 return true;
@@ -966,7 +973,7 @@ ubicaListaSelectaFicha (arr1: any, arr2: any) {
 
 private checkNullvalue(value: any) {
   // console.log('este es el valor del campo');
-  if (value === null || value === undefined || (value instanceof String && value.trim() === '')) {
+  if (value === null || value === undefined || (( typeof value === 'string') && (value.trim() === ''))) {
       return true;
   }
   return false;
@@ -1086,10 +1093,12 @@ private persistirmodificarEntidad(alta: boolean) {
   data.camposPersistirDTO.push(pk);
   this.reportdefService.persistirModificarEntidad(user, data).subscribe
   (result => {
+    this.mensajeErrorPadre = [];
+
     if (result.mensajeLogica) {
-      this.messageService.add({severity:'success', summary: 'Error', detail: result.mensajeLogica});
+      this.mensajeErrorPadre.push({severity:'success', summary: 'Error', detail: result.mensajeLogica});
     } else {
-      this.messageService.add({severity:'success', summary: 'Error', detail: 'Entidad persistida'});
+      this.mensajeErrorPadre.push({severity:'success', summary: 'Error', detail: 'Entidad persistida'});
     }
     // vuelvo al historico
     this.cargarHijos(this.abmParams.idPadre, this.abmParams.entidadPadre, this.abmParams.childreportname);
@@ -1167,7 +1176,8 @@ onDeleteHijo(event) {
  if (confirmed) {
    this.abmservice.eliminarEntidad(user, this.abmParams.childreportname, id, null, false, false, null, null).subscribe(
      result => {
-      this.messageService.add({severity:'success', summary: 'Exito', detail: 'registro eliminado exitosamente'});
+      this.mensajeErrorPadre = [];
+      this.mensajeErrorPadre.push({severity:'success', summary: 'Exito', detail: 'registro eliminado exitosamente'});
       this.cargarHijos(this.abmParams.idPadre, this.abmParams.entidadPadre, this.abmParams.childreportname);
      }, (err: HttpErrorResponse) => {
       this.checkError(err);
@@ -1178,7 +1188,8 @@ onDeleteHijo(event) {
 }).catch(() => console.log('salio)'));
 }
 private checkError(error: any ) {
-  this.messageService.add({severity:'error', summary: 'Error', detail: error.mensaje});
+  this.mensajeErrorPadre = [];
+  this.mensajeErrorPadre.push({severity:'error', summary: 'Error', detail: error.mensaje});
 }
 onRowSelectHijo(event) {
   // determino a que columna le hago click esto sirve para cuando hgacemos nuevo muestre los datos de la fila
