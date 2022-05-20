@@ -106,7 +106,6 @@ export class FormularioComponent  implements OnInit {
   ngOnInit() {
     // tslint:disable-next-line:prefer-const
 
-    console.log('formInic');
     const fieldsCtrls = {};
     this.camposAgrupaEntero = [];
     this.camposAgrupaEnteroDescompuesto = [];
@@ -468,6 +467,11 @@ if (event.preMethodDTO !== null && event.preMethodDTO.metodo !== null ) {
       }
      );
   });
+}
+
+ejecutarAccionPadre(accion){
+  this.acciones.emit(accion);
+
 }
 
 processActions(event: FormdataReportdef, hijo: boolean) {

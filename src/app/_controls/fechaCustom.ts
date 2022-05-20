@@ -57,6 +57,9 @@ export class FechaCustomComponent {
           this.pintarDiasSel();
         }
     }
+    setearAccion(accion:any){
+      this.acciones.emit(accion);
+    }
     changeMonth(event) {
         console.log(event);
         const p = '01-' + (event.month < 10 ? '0' + event.month : event.month) + '-' +  event.year;

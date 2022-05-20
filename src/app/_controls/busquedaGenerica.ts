@@ -43,7 +43,7 @@ export class BusquedaGenericaComponent {
     }
     public onSelect(event) {
         const valueAutocomplete = event.split('-');
-        alert('Busqueda generica seleccionada: '+valueAutocomplete[0]);
+        //alert('Busqueda generica seleccionada: '+valueAutocomplete[0]);
          this.field.valueNew = valueAutocomplete[0];
          this.field.busquedaGenericaDTO.mostrarToStringLupa = valueAutocomplete[1];
     }
