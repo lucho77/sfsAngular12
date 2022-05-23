@@ -39,10 +39,10 @@ import { RegisterComponent } from './register/register.component';
 import { ConfirmationDialogService } from './pages/confirmDialog/confirmDialog.service';
 import { NgbDateCustomParserFormatter } from './_controls/adapter/datePicker';
 import { CodeRegisterComponent } from './register/codeRegister';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { APP_INITIALIZER } from '@angular/core';
 import { AppConfigService } from './_services/AppConfigService';
 
+import { NgxSpinnerModule } from "ngx-spinner";
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -76,7 +76,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ReactiveFormsModule,
     FormsModule,PanelMenuModule,
     HttpClientModule,
-    NgbModule, ProgressSpinnerModule,
+    BrowserAnimationsModule,
+    NgxSpinnerModule,
+    NgbModule,
     RouterModule.forRoot(Approutes),
     PerfectScrollbarModule,
     FeatherModule.pick(allIcons),

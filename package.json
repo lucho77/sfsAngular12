@@ -49,6 +49,7 @@
     "ngx-custom-validators": "8.0.0",
     "ngx-device-detector": "^3.0.0",
     "ngx-perfect-scrollbar": "^9.0.0",
+    "ngx-spinner": "^13.1.1",
     "pace-js": "^1.0.2",
     "primeicons": "^5.0.0",
     "primeng": "^13.1.0",

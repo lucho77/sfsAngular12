@@ -4,6 +4,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { RegistroDTO } from '../_models/registroDTO';
 import { AuthenticationService } from '../_services';
 import { AppConfigService } from '../_services/AppConfigService';
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   versionFront:string;
   constructor(private authenticationService: AuthenticationService,private routes: Router, 
     private formBuilder: FormBuilder, private reportdefService: ReportdefService, 
-    private appConfig:AppConfigService, private swUpdate: SwUpdate) {
+    private appConfig:AppConfigService, private swUpdate: SwUpdate,private spinner: NgxSpinnerService) {
       this.updateClient();
      }
   ngAfterViewInit(): void {
@@ -58,6 +59,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     if (this.loginForm.invalid) {
       return;
   }
+
   localStorage.removeItem('paramGlobal');
   localStorage.removeItem('tabInformationName');
   localStorage.removeItem('tabInformationBody');
@@ -91,13 +93,15 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   login() {
+    this.spinner.show();
     return new Promise(resolve => {
       console.log(this.appConfig.getConfig())
     this.authenticationService.login(this.f.username.value, this.f.password.value, 
     this.appConfig.getConfig().novalidaHabilitado).subscribe
     (user => {
 
-                 if (user.errorBusiness) {
+      this.spinner.hide();
+      if (user.errorBusiness) {
                      // es un error
                      console.log('ERRORRRRRRRRRRRRRRRRRRR');
                      console.log('error metodo login');
@@ -127,6 +131,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
     (err: HttpErrorResponse) => {
       console.log('error metodo login');
       console.log(err);
+      this.spinner.hide();
+
         if (err['errorBusiness']) {
             // es un error
               this.msg = err['mensaje'];

@@ -40,7 +40,7 @@ export class RegisterComponent implements OnInit {
         this.router = router;
         this.form = fb.group({
             name: ['', Validators.compose([Validators.required])],
-            email: ['',emailValidator],
+            email: ['',([Validators.required, emailValidator])],
             password: ['', Validators.required],
             phone: [''],
             dni: ['', Validators.required],

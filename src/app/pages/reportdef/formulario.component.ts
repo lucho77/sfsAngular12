@@ -470,7 +470,18 @@ if (event.preMethodDTO !== null && event.preMethodDTO.metodo !== null ) {
 }
 
 ejecutarAccionPadre(accion){
-  this.acciones.emit(accion);
+  if (accion.mensajeAntesAccion) {
+    this.confirmationDialogService.confirm(true, 'Atencion!',
+    accion.mensajeAntesAccion)
+    .then((confirmed) => {
+    if (confirmed) {
+      this.acciones.emit(accion);
+    }
+  
+    }).catch(() => console.log('salio)'));
+  
+  }
+  
 
 }
 

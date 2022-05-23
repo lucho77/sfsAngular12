@@ -57,7 +57,13 @@ export class FechaCustomComponent {
           this.pintarDiasSel();
         }
     }
-    setearAccion(accion:any){
+    setearAccion(accion:any, columna:any){
+      //let listado = [];
+      let data = {data:columna};
+      this.onRowSelect(data);
+      accion.tipoReportdefParent = 'FORM';
+      accion.clickFilaTabular = false;
+      
       this.acciones.emit(accion);
     }
     changeMonth(event) {

@@ -41,7 +41,7 @@
                          <span class="p-column-title"><b>{{col.name}}:</b> </span>{{rowData[col.name]}}
                     </td>
                 </tr>
-                <p-button *ngFor="let acciones of this.field.fechaCustomDTO.dataTableDTO.accionesColumna" [label]=acciones.columna icon="pi pi-calendar" (onClick)="setearAccion(acciones.metatada)" styleClass="p-button-outlined"></p-button>
+                <p-button *ngFor="let acciones of this.field.fechaCustomDTO.dataTableDTO.accionesColumna" [label]=acciones.columna icon="pi pi-calendar" (onClick)="setearAccion(acciones.metatada,rowData)" styleClass="p-button-outlined"></p-button>
                 <p-divider>
 
                 </p-divider>

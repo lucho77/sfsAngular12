@@ -1,0 +1,28 @@
+<p-dialog  header="Filtros" [modal]="true" [responsive]="true" [maximizable]="true" [baseZIndex]="10000">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Parametro</th>
+                            <th scope="col">Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let param of listRequest ; let i = index" [attr.data-index]="i">
+                            <td>{{ i +1 }}</td>
+                            <td>{{param.name}}</td>
+                            <td>{{param.valueNew}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <p-footer>
+        <button type="button" pButton icon="pi pi-check" (click)="filtros=false" label="cerrar"></button>
+    </p-footer>
+</p-dialog>
