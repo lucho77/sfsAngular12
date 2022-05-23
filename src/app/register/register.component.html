@@ -37,6 +37,10 @@
                             <small class="form-text text-danger"
                                 *ngIf="!form.get('email').valid && (form.get('email').dirty || form.get('email').touched) && form.get('email').hasError('invalidEmail')">Formato email invalido
                             </small>
+                            <small class="form-text text-danger"
+                                *ngIf="!form.get('email').valid && (form.get('email').dirty || form.get('email').touched)">Email es requerido
+                            </small>
+
                             <label for="phone">Telefono</label>
 
                             <div class="input-group mb-3">
