@@ -55,6 +55,7 @@ import { PipeKeyobject } from '../pages/reportdef/pibeObjectToArray';
 import { FechaCustomComponent } from '../_controls/fechaCustom';
 import {TableModule} from 'primeng/table';
 import {DividerModule} from 'primeng/divider';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   imports: [
@@ -69,7 +70,7 @@ import {DividerModule} from 'primeng/divider';
      MessageModule,  ButtonModule,
      SplitButtonModule,AccordionModule,ProgressSpinnerModule,ToastModule, 
      InputTextareaModule, AutoCompleteModule, EditorModule, CalendarModule,
-     FieldsetModule,PanelModule,TableModule,DividerModule
+     FieldsetModule,PanelModule,TableModule,DividerModule,NgxSpinnerModule
   ],
   declarations: [
     ReportdefComponent, TabularComponent, FormularioComponent, ConfirmDialogComponent,NgbdSortableHeader,TabularABMFinderComponent,

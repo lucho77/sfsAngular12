@@ -1,9 +1,10 @@
+<ngx-spinner [fullScreen]="false" type="ball-scale-multiple" name="reportdef"></ngx-spinner>
+
 <p-toast position="top-center"></p-toast>
 
 <app-infonotification [notifi]="notifi">
 </app-infonotification>
 <app-infoarea *ngIf="dataReportdefAux.mostrarInfoArea"></app-infoarea>
-<p-progressSpinner *ngIf="spinner"></p-progressSpinner>
 <p-accordion *ngIf="dataReportdefAux.tabularAbm && cargadoABM && showABMFilter">
     <p-accordionTab header="Buscar">
         <app-tabularfinder  [busquedaAlmacenada]=busquedaAlmacenada [campos]=campos (find)="processFind($event)"></app-tabularfinder>

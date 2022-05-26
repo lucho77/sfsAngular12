@@ -44,6 +44,7 @@ import { generarDatosPaginacion, getData } from '../pages/genericFinder/utilFind
 import { MessageService } from 'primeng/api';
 // import { SocketClientService } from '../../../_services/SocketClientService';
 import { saveAs } from 'file-saver';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare function applicacionContext(): any;
 declare function downloadFile(mime: string, url: string): any;
@@ -74,7 +75,6 @@ export class ReportdefComponent  implements OnInit {
    stack = new LinkedList<Historico>();
    pagination: Pagination;
    android: boolean;
-   spinner:boolean;
   // fin datos tabla
   // datos form
   formRepordef: FormReportdef;
@@ -119,7 +119,7 @@ export class ReportdefComponent  implements OnInit {
     private rutaActiva: ActivatedRoute, private reportdefService: ReportdefService,
     private paramService: ParamDataHijoService, private descriptionService: DescriptionService, private nameService: NameGlobalService,
     private confirmationDialogService: ConfirmationDialogService, private changeDetector: ChangeDetectorRef,
-    private exitService: ExitService,
+    private exitService: ExitService,private spinnerSfs: NgxSpinnerService
   ) {
 
    }
@@ -165,7 +165,7 @@ export class ReportdefComponent  implements OnInit {
 
   ngOnInit() {
 
-    this.spinner = false;
+    //this.spinner = false;
      this.exitService.exitChanged$.subscribe(() => {
       this.disconnect();
     });
@@ -370,7 +370,8 @@ this.android = false;
 }
 private async generarTabularAbm(menu: boolean, metadata: MetodoDTO, finder: FinderRequestDTO,
   busquedaFinder: boolean, backHistorico: boolean, excel: boolean) {
-   this.spinner =true;
+   
+    this.spinnerSfs.show('reportdef');
     const data = {} as TabularAbmRequestDTO;
 
     // veo si tiene que mandar algun parametro global
@@ -484,7 +485,8 @@ private async generarTabularAbm(menu: boolean, metadata: MetodoDTO, finder: Find
       }
       this.tabular = m;
      this.header = this.tabular.columns;
-      this.spinner = false;
+     this.spinnerSfs.hide('reportdef') 
+     
      this.dataTabular =  getData(this.tabular.data, this.tabular.columns);
      this.getFinder(this.tabular.finderDTOs);
      this.pagination =  generarDatosPaginacion(this.tabular,this.dataTabular);
@@ -547,7 +549,8 @@ private async generarTabularAbm(menu: boolean, metadata: MetodoDTO, finder: Find
   }
 
   private generarTabular(menu: boolean, metadata: MetodoDTO, listRequest: FormdataReportdef[], backHistory: boolean ) {
-    this.spinner = true;
+    this.spinnerSfs.show('reportdef')
+    
     const user = JSON.parse(localStorage.getItem('currentUser'));
     const data = {} as TabularRequestDTO;
     // tslint:disable-next-line:prefer-const
@@ -577,6 +580,7 @@ private async generarTabularAbm(menu: boolean, metadata: MetodoDTO, finder: Find
     //this.pagination.listaPaginacion = [];
     this.reportdefService.getObtenerTabular(data).subscribe
     ((m: Tabular) => {
+      this.spinnerSfs.hide('reportdef')
       // this.loadSpinner.hide();
       if (menu) {
        this.limpiarHistorico();
@@ -604,7 +608,8 @@ private async generarTabularAbm(menu: boolean, metadata: MetodoDTO, finder: Find
      this.dataTabular =  getData(this.tabular.data, this.tabular.columns);
      this.getFinder(null);
      this.pagination =  generarDatosPaginacion(this.tabular,this.dataTabular);
-     this.spinner = false;
+     this.spinnerSfs.hide('reportdef')
+     
 
 
      this.vista = this.tabular.vista;
@@ -712,6 +717,7 @@ callForm(user: any, menu: boolean, m: FormReportdef, metadata: MetodoDTO, listRe
     this.limpiarreporte();
     // el listRequest se usa para poder rellenar algun campo;
     // this.loadSpinner.show();
+    this.spinnerSfs.show('reportdef')
     if (!backHistorico || metadata.recargarSiempre) {
       // primero me fijo que no sea un form de tipo clase
       if (backHistorico) {
@@ -725,6 +731,7 @@ callForm(user: any, menu: boolean, m: FormReportdef, metadata: MetodoDTO, listRe
         console.log('es un form de tipo clase');
         this.reportdefService.getObtenerFormByClass(user, metadata.methodName, formdataGlobales, listRequest).subscribe
           ((m: FormReportdef) => {
+            this.spinnerSfs.hide('reportdef')
             console.log('form de tipo clase');
             this.callForm(user, menu, m, metadata, listRequest);
               },
@@ -734,6 +741,7 @@ callForm(user: any, menu: boolean, m: FormReportdef, metadata: MetodoDTO, listRe
      } else {
       this.reportdefService.getObtenerForm(user, metadata.methodName, formdataGlobales, listRequest).subscribe
       ((m: FormReportdef) => {
+        this.spinnerSfs.hide('reportdef')
         this.callForm(user, menu, m, metadata, listRequest);
       },
         (err: HttpErrorResponse) => {
@@ -1724,7 +1732,7 @@ callForm(user: any, menu: boolean, m: FormReportdef, metadata: MetodoDTO, listRe
 }
   private checkError(error: any ) {
     // this.loadSpinner.hide();
-
+    this.spinnerSfs.hide('reportdef')
     // console.log('esto es un error');
     // console.log(error);
     if (error !== undefined && error !== null) {
@@ -1911,7 +1919,5 @@ reloadTree() {
   // then we can enable it again to create a new instance
   this.dataReportdefAux.cargando = false;
 }
-processSpinner(sping: boolean){
-  this.spinner = sping;
-}
+
 }

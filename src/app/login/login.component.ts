@@ -93,14 +93,14 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   login() {
-    this.spinner.show();
+    this.spinner.show('login');
     return new Promise(resolve => {
       console.log(this.appConfig.getConfig())
     this.authenticationService.login(this.f.username.value, this.f.password.value, 
     this.appConfig.getConfig().novalidaHabilitado).subscribe
     (user => {
 
-      this.spinner.hide();
+      this.spinner.hide('login');
       if (user.errorBusiness) {
                      // es un error
                      console.log('ERRORRRRRRRRRRRRRRRRRRR');
@@ -131,7 +131,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     (err: HttpErrorResponse) => {
       console.log('error metodo login');
       console.log(err);
-      this.spinner.hide();
+      this.spinner.hide('login');
 
         if (err['errorBusiness']) {
             // es un error
