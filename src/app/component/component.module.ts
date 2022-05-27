@@ -56,6 +56,7 @@ import { FechaCustomComponent } from '../_controls/fechaCustom';
 import {TableModule} from 'primeng/table';
 import {DividerModule} from 'primeng/divider';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import {CardModule} from 'primeng/card';
 
 @NgModule({
   imports: [
@@ -70,7 +71,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
      MessageModule,  ButtonModule,
      SplitButtonModule,AccordionModule,ProgressSpinnerModule,ToastModule, 
      InputTextareaModule, AutoCompleteModule, EditorModule, CalendarModule,
-     FieldsetModule,PanelModule,TableModule,DividerModule,NgxSpinnerModule
+     FieldsetModule,PanelModule,TableModule,DividerModule,NgxSpinnerModule,CardModule
+
   ],
   declarations: [
     ReportdefComponent, TabularComponent, FormularioComponent, ConfirmDialogComponent,NgbdSortableHeader,TabularABMFinderComponent,

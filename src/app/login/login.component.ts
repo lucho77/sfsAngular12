@@ -76,10 +76,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
   updateClient(){
     if(!this.swUpdate.isEnabled){
         console.log('service worker not available');
-        alert('service worker not available');
+        //alert('service worker not available');
         return;
     }
-    alert('service worker available');
+    //alert('service worker available');
     this.swUpdate.available.subscribe((event)=>{
       console.log(`current`,event.current,`available`,event.available);  
       if(confirm('Existen cambios en la Aplicacion, por favor confirme')){

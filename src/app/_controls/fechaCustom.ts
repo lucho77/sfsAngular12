@@ -76,7 +76,7 @@ export class FechaCustomComponent {
     }
 
     doAction(event) {
-      alert('Action');
+      //alert('Action');
     }
 
     select(event) {

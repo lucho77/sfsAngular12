@@ -184,7 +184,7 @@ export function configurarMenu(user: any, authenticationService: AuthenticationS
          (mensaje: any) => {
            localStorage.setItem('tabInformationBody', mensaje.valor);
 
-           for ( const g of m.list) {
+           for ( const g of m) {
             if (g.name === 'P_IDAFILIADO4') {
                 localStorage.setItem('tabInformationName', g.busquedaGenericaDTO.mostrarToStringLupa);
                 break;

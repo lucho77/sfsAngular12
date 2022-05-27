@@ -256,7 +256,7 @@ this.android = false;
           // ******* fin socket and idle  */
     (<any>window).geoUpdate = (res) => {
           const a = res;
-          alert('la funcion esta andando');
+        //  alert('la funcion esta andando');
     };
 
   });
@@ -749,6 +749,8 @@ callForm(user: any, menu: boolean, m: FormReportdef, metadata: MetodoDTO, listRe
     });
   }
     } else {
+      this.spinnerSfs.hide('reportdef')
+
       this.dataReportdefAux.cargando = true;
       const dataReportdef = new ReportdefData(true, false, false, false, false, false, menu, false, user.mostrarInfoArea, false);
       this.dataReportdef = dataReportdef;

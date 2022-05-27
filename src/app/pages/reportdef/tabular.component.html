@@ -123,9 +123,10 @@
                 <div class="card-body">
                     <h4 class="card-title mb-0"><span class="lstick"></span>{{tituloReporte}}</h4>
                     
-                    <p-toolbar>
+                    <p-toolbar  [style]="{'padding':'0.25rem'}">
                         <div class="p-toolbar-group-left">
-                            <button  *ngIf="tabularABM===true && tabular.permisoDTO.nueva" (click)="nuevoAbm()" class="btn btn-success">Nuevo <i class="fas fa-plus-circle"></i></button>
+                            <button  *ngIf="tabularABM===true && tabular.permisoDTO.nueva" (click)="nuevoAbm()" class="btn btn-success">Nuevo <i class="fas fa-plus-circle"></i></button>                           
+                            <p-button  icon="pi pi-arrow-left" *ngIf="menu===false" type="button" title="volver pantalla anterior" (click)="backHistorico()" styleClass="p-button-danger"></p-button>
                         </div>
                         <div class="p-toolbar-group-right">
                             <button type="button" class="btn btn-secondary mr-0">Acciones</button>
@@ -137,7 +138,6 @@
                                     <div *ngFor="let field of tabular.botones">
                                         <button  (click)="processActions(field)" class="dropdown-item">{{field.buttomDTO.metodoDTO.labelButtom}} <i class="fas fa-arrow-alt-from-left"></i></button>
                                     </div>
-                                      <button   *ngIf="menu===false" (click)="backHistorico()" class="dropdown-item danger">Volver<i class="fas fa-arrow-alt-circle-left"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -151,12 +151,12 @@
                             </p-panel>
 
                             <br>
-                            <p-fieldset legend="Registro {{i +1}}"  *ngFor='let fil of pagination.listaPaginacion; index as i' [toggleable]="true" >
+                            <p-card  [style]="{'padding':'0.25rem','margin':'0.11rem'}" *ngFor='let fil of pagination.listaPaginacion; index as i' >
                                     
                                 <div *ngFor="let da of tabular.dataMobile[i]">
                                       
                                     <div *ngFor="let d of da | keyobject">
-                                        <p><b> {{d.header}}:</b>{{d.value}}</p>
+                                        <p class="text-sm w-10"><b> {{d.header}}:</b>{{d.value}}</p>
                                     </div>       
                                 </div>       
                                 <div class="btn-group mr-3">
@@ -175,7 +175,7 @@
                                         </div>
                                     </div>
        
-                                    </p-fieldset>   
+                                    </p-card>   
                 </div>
             </div>
         </div>
