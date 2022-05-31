@@ -45,6 +45,7 @@ import { MessageService } from 'primeng/api';
 // import { SocketClientService } from '../../../_services/SocketClientService';
 import { saveAs } from 'file-saver';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 declare function applicacionContext(): any;
 declare function downloadFile(mime: string, url: string): any;
@@ -119,7 +120,7 @@ export class ReportdefComponent  implements OnInit {
     private rutaActiva: ActivatedRoute, private reportdefService: ReportdefService,
     private paramService: ParamDataHijoService, private descriptionService: DescriptionService, private nameService: NameGlobalService,
     private confirmationDialogService: ConfirmationDialogService, private changeDetector: ChangeDetectorRef,
-    private exitService: ExitService,private spinnerSfs: NgxSpinnerService
+    private exitService: ExitService,private spinnerSfs: NgxSpinnerService,private deviceService: DeviceDetectorService
   ) {
 
    }
@@ -373,7 +374,7 @@ private async generarTabularAbm(menu: boolean, metadata: MetodoDTO, finder: Find
    
     this.spinnerSfs.show('reportdef');
     const data = {} as TabularAbmRequestDTO;
-
+    data.mobile = this.deviceService.isMobile();
     // veo si tiene que mandar algun parametro global
     // tslint:disable-next-line:prefer-const
 
@@ -555,6 +556,7 @@ private async generarTabularAbm(menu: boolean, metadata: MetodoDTO, finder: Find
     const data = {} as TabularRequestDTO;
     // tslint:disable-next-line:prefer-const
     this.generateTabularRequestDTO(data, metadata.methodName, 0, 200, null, listRequest);
+    data.mobile = this.deviceService.isMobile();
     this.listRequest = listRequest;
     // console.log('this.listRequest');
     // console.log(this.listRequest);

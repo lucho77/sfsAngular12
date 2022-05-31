@@ -17,4 +17,5 @@ export interface TabularAbmRequestDTO {
     filterNameParam: string;
     filterType: string;
     noEjecutarSelect: boolean;
+    mobile:boolean;
 }

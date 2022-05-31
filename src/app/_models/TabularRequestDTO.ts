@@ -11,4 +11,5 @@ export interface TabularRequestDTO {
     hasta: number;
     list: FormdataReportdef[];
     global: FormdataReportdef[];
+    mobile:boolean;
 }
