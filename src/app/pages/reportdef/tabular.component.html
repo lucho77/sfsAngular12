@@ -151,41 +151,17 @@
                             </p-panel>
 
                             <br>
-
-                            <div class="card">
-                                <div class="card-body">
-                                  <h5 class="card-title">Card title</h5>
-                                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                  <a href="#" class="btn btn-primary">Go somewhere</a>
-                                </div>
-                              </div>
-
-
-                            <p-card  [style]="{'padding':'0.25rem','margin':'0.11rem'}" *ngFor='let fil of pagination.listaPaginacion; index as i' >
-                                    
-                                <div *ngFor="let da of tabular.dataMobile[i]">
-                                      
-                                    <div *ngFor="let d of da | keyobject">
-                                        <p class="text-sm w-10"><b> {{d.header}}:</b>{{d.value}}</p>
-                                    </div>       
-                                </div>       
-                                <div class="btn-group mr-3">
-                                        <button type="button" class="btn btn-primary mr-0">Acciones</button>
-                                        <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
-                                            <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
-                                            <div class="dropdown-menu" ngbDropdownMenu>
-                                                <button  *ngIf="this.tabularABM && this.tabular.permisoDTO.edit" (click)="onEdit(fil)" class="dropdown-item">Editar <i class="fas fa-edit"></i></button>
-                                                <button  *ngIf="this.tabularABM && this.tabular.permisoDTO.delete" (click)="onDelete(fil)" class="dropdown-item">Eliminar <i class="fas fa-eraser"></i></button>
-                                                <button  *ngIf="tabular.tabularDescriptivo" (click)="obtenerCampoDescriptivo(fil,content2)" class="dropdown-item">Ver detalle <i class="fas fa-eye"></i></button>
-                                                <div *ngFor="let col of header; index as i">    
-                                                    <button  *ngIf="col.download" (click)="downloadFile(col, fil)" class="dropdown-item">{{col.title}}<i class="fas fa-download"></i></button>                                                    
-                                                    <button  *ngIf="col.columnaAdicional" (click)="clickLinkTabular(col,fil)" class="dropdown-item">{{col.title}}<i class="fas fa-print"></i></button>                                                    
-                                                </div>
-                                            </div>
+                            <div  *ngFor="let fil of tabular.dataMobile; index as i">
+                                
+                                <div class="card" style="margin-bottom: 2px;">
+                                        <div class="card-body" style="border-style:groove">
+                                            <p  *ngFor="let d of fil" style="margin-top: -20px;"><b> {{d.header}}:</b>{{d.value}}</p>
+                                                <button  *ngIf="this.tabularABM && this.tabular.permisoDTO.edit" (click)="onEdit(fil)" class="btn btn-outline-primary">Editar <i class="fas fa-edit"></i></button>
+                                                <button  *ngIf="this.tabularABM && this.tabular.permisoDTO.delete" (click)="onDelete(fil)" class="btn btn-outline-danger">Eliminar <i class="fas fa-eraser"></i></button>
+                                                <button  *ngIf="tabular.tabularDescriptivo" (click)="obtenerCampoDescriptivo(fil,content2)" class="btn btn-outline-dark">Ver detalle <i class="fas fa-eye"></i></button>
                                         </div>
-                                    </div>
-       
-                                    </p-card>   
+                                </div>
+                            </div>
                 </div>
             </div>
         </div>

@@ -46,7 +46,7 @@ export class VerticalSidebarComponent implements OnInit {
 
       const user = JSON.parse(localStorage.getItem('currentUser'));
     this.dataUser.name = user['username'];
-    this.dataUser.mail =user['mail']||'agregar mail';
+    //this.dataUser.mail =user['mail']||'agregar mail';
     const menuDTO = JSON.parse(localStorage.getItem('userMenu'));
   
       this.items = menuDTO;
