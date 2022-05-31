@@ -435,6 +435,16 @@ onSort( column) {
       });
   
     }
+    executeColumnAction(col,fila){
+
+      for(let col2 of this.tabular.columns){
+        if(col2.title === col.columna){
+          this.clickLinkTabular(col2,fila);
+          break;
+        }
+      }
+    }
+
   clickLinkTabular( col, fila) {
 
 
@@ -488,15 +498,15 @@ onSort( column) {
     }
     for (const columna of this.tabular.accionesColumna) {
       if (columna.columna === col['title']) {
-          if (col['columnaAdicional']) {
+          if (col['columnaAdicional']||columna.columnaAccion) {
               // tengo que pasar el id de la columna!
-              const pos = this.tabular.pkColIndex;
+              const pos = this.tabular.pkColIndex ||0;
               let i = 0;
               let id = 0;
               // tslint:disable-next-line:forin
               for (const prop in fila) {
                 if ( i === pos) {
-                  id = fila[prop];
+                  id = fila[prop].value;
                   break;
                 }
                 i++;

@@ -159,7 +159,15 @@
                                                 <button  *ngIf="this.tabularABM && this.tabular.permisoDTO.edit" (click)="onEdit(fil)" class="btn btn-outline-primary">Editar <i class="fas fa-edit"></i></button>
                                                 <button  *ngIf="this.tabularABM && this.tabular.permisoDTO.delete" (click)="onDelete(fil)" class="btn btn-outline-danger">Eliminar <i class="fas fa-eraser"></i></button>
                                                 <button  *ngIf="tabular.tabularDescriptivo" (click)="obtenerCampoDescriptivo(fil,content2)" class="btn btn-outline-dark">Ver detalle <i class="fas fa-eye"></i></button>
-                                        </div>
+                                                <div *ngFor="let col of header;">    
+                                                    <button  *ngIf="col.download" (click)="downloadFile(col, fil)" class="btn btn-outline-dark">{{col.title}}<i class="fas fa-download"></i></button>                                                    
+                                                    <button  *ngIf="col.columnaAdicional" (click)="clickLinkTabular(col,fil)" class="btn btn-outline-dark">{{col.title}}<i class="fas fa-print"></i></button>                                                    
+                                                </div>
+                                                <div *ngFor="let col of tabular.accionesColumna;">    
+                                                    <button   (click)="executeColumnAction(col,fil)" class="btn btn-outline-dark">{{col.labelButton}}</button>                                                    
+                                                </div>
+
+                                            </div>
                                 </div>
                             </div>
                 </div>
