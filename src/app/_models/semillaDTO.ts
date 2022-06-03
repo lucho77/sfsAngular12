@@ -7,4 +7,5 @@ export interface SemillaDTO {
      semilla: number;
      name: string;
      email: string;
+     habilitaUsuario:boolean;
 }
