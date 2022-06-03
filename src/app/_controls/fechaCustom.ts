@@ -27,6 +27,7 @@ export class FechaCustomComponent {
     dataFecha: any;
     filaCel: any;
     turnoSeleccionado: string;
+    fechaCel: string;
     constructor(private config: PrimeNGConfig) {
 
     }
@@ -46,7 +47,8 @@ export class FechaCustomComponent {
           today: 'Hoy',
           clear: 'Limpiar'
     });
-        const f = JSON.parse(localStorage.getItem('fechaCustom'));
+    this.fechaCel = '';
+      const f = JSON.parse(localStorage.getItem('fechaCustom'));
         if (f) {
           const f1 = moment(f, 'DD-MM-YYYY');
           this.setearCalendar(f1);
@@ -153,6 +155,7 @@ export class FechaCustomComponent {
         this.setearprimerDiaMes(fecha);
         this.field.fechaCustomDTO.idSeleccionado = null;
         this.pintarDiasSel();
+        this.fechaCel = f;
       } else {
         fecha = moment(this.field.fechaCustomDTO.fechaDesde, 'DD-MM-YYYY'); // add this 2 of 4
         this.form.get(this.field.name).setValue(fecha.toDate());
