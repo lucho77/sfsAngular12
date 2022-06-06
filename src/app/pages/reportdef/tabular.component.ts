@@ -439,11 +439,25 @@ onSort( column) {
 
       for(let col2 of this.tabular.columns){
         if(col2.title === col.columna){
-          this.clickLinkTabular(col2,fila);
-          break;
+          if(col['metadata'].mensajeAntesAccion){
+            this.confirmationDialogService.confirm(true, 'Atencion!',
+            col['metadata'].mensajeAntesAccion)
+            .then((confirmed) => {
+            if (confirmed) {
+              this.clickLinkTabular(col2,fila);
+              return;
+            }
+          
+            }).catch(() => console.log('salio)'));
+          
+          } else {
+            this.clickLinkTabular(col2,fila);
+          }
+          
+          }
         }
       }
-    }
+    
 
   clickLinkTabular( col, fila) {
 
@@ -491,6 +505,7 @@ onSort( column) {
             }
           }
           this.generarDatosClickTabularColumna(col, listDestination);
+          return;
           }, (err: HttpErrorResponse) => {
             this.checkError(err);
           }
@@ -514,7 +529,7 @@ onSort( column) {
 
               this.llenarParametrosClickLinkTabular(columna, id).then(
                 (resp) =>
-                this.acciones.emit(columna.metatada)
+                this.acciones.emit(columna.metadata)
              ).catch( error =>
                this.checkError(error)
                );
@@ -530,34 +545,39 @@ onSort( column) {
     // tslint:disable-next-line:no-shadowed-variable
     return new Promise<boolean>( (resolve, reject) => {
     let i = 0;
-    const keys = Array.from(Object.keys( columna.metatada.paramsPasar));
+    const keys = Array.from(Object.keys( columna.metadata.paramsPasar));
     const paramClick = [] as FormdataReportdef[];
-    for (const clave of Object.keys(columna.metatada.paramsPasar)) {
+    for (const clave of Object.keys(columna.metadata.paramsPasar)) {
       const user = JSON.parse(localStorage.getItem('currentUser'));
       const  paramRequest = {} as ParamRequestDTO;
       paramRequest.nombre = clave.trim();
       this.reportdefService.consultarParamByName(user, paramRequest).subscribe(
         result => {
           i++;
-          if (this.tabularABM && (columna.metatada.paramSolapa === clave || keys.length === 1)) {
+          if (this.tabularABM && (columna.metadata.paramSolapa === clave || keys.length === 1)) {
             result['valueNew'] = id;
           } else {
+            if(this.mobile){
+              result['valueNew'] = id;
+            }
             result.actualizar = true;
           }
           console.log('result');
           console.log(result);
           if (keys.length === 1 ) {
-            columna.metatada.objeto = result;
+            columna.metadata.objeto = result;
           } else {
             paramClick.push(result);
           }
-          columna.metatada.aditionalColumn = true;
-          columna.metatada.clickFilaTabular = false;
-          columna.metatada.tipoReportdefParent = FrontEndConstants.TABULAR_ABM.toUpperCase();
-          if (columna.metatada.tipoMetodo === FrontEndConstants.ACCION_MENSAJE) {
+          columna.metadata.aditionalColumn = true;
+          columna.metadata.clickFilaTabular = false;
+          if(columna.metadata.tipoReportdefParent === undefined){
+            columna.metadata.tipoReportdefParent = FrontEndConstants.TABULAR_ABM.toUpperCase();
+          }
+          if (columna.metadata.tipoMetodo === FrontEndConstants.ACCION_MENSAJE) {
             const listParam = [];
             listParam.push(result);
-            ejecutarMetodo(columna.metatada.methodName, false, listParam, this.reportdefService)
+            ejecutarMetodo(columna.metadata.methodName, false, listParam, this.reportdefService)
             .then((resp) => {
               console.log(resp);
               this.mensajes = true;
@@ -572,7 +592,7 @@ onSort( column) {
           }
           console.log(keys.length);
           if (i === keys.length) {
-            columna.metatada.objetoEvento = paramClick;
+            columna.metadata.objetoEvento = paramClick;
             console.log('termino la promesa');
             resolve(true);
           }
@@ -608,13 +628,13 @@ async generarDatosClickTabularColumna(col: any, listDestination: FormdataReportd
     const listDestino: FormdataReportdef[] = [];
     for (const columna of this.tabular.accionesColumna) {
       if (columna.columna === col['title']) {
-        columna.metatada.objetoEvento = listDestination;
-        columna.metatada.clickFilaTabular = true;
-        columna.metatada.aditionalColumn = false;
+        columna.metadata.objetoEvento = listDestination;
+        columna.metadata.clickFilaTabular = true;
+        columna.metadata.aditionalColumn = false;
 
-        if (columna.metatada.tipoMetodo === FrontEndConstants.SET_PARAM_GLOBAL ) {
+        if (columna.metadata.tipoMetodo === FrontEndConstants.SET_PARAM_GLOBAL ) {
           // tengo que ver cual es el parametro que tengo que actualizar
-          for (const clave of Object.keys(columna.metatada.paramsPasar)) {
+          for (const clave of Object.keys(columna.metadata.paramsPasar)) {
           for (const f of listDestination ) {
               if (clave.toString().trim() === f.name.trim()) {
                   listDestino.push(f);
@@ -622,8 +642,8 @@ async generarDatosClickTabularColumna(col: any, listDestination: FormdataReportd
                 }
             }
           }
-          if (columna.metatada.preMethodDTO !== null && columna.metatada.preMethodDTO.metodo !== null ) {
-            await this.ejecutarPremethod(columna.metatada.preMethodDTO, listDestination);
+          if (columna.metadata.preMethodDTO !== null && columna.metadata.preMethodDTO.metodo !== null ) {
+            await this.ejecutarPremethod(columna.metadata.preMethodDTO, listDestination);
           }
 
 
@@ -654,9 +674,9 @@ async generarDatosClickTabularColumna(col: any, listDestination: FormdataReportd
                     }
                 }
               }
-              console.log('columna.metatada');
-              console.log(columna.metatada);
-              seteoParamGlobal(columna.metatada, this.reportdefService, this.nameService, null, true, listDestino).then(
+              console.log('columna.metadata');
+              console.log(columna.metadata);
+              seteoParamGlobal(columna.metadata, this.reportdefService, this.nameService, null, true, listDestino).then(
                 (resp) =>
                  this.exitoSetParamGlobal()
               ).catch( error =>
@@ -671,8 +691,8 @@ async generarDatosClickTabularColumna(col: any, listDestination: FormdataReportd
           continue;
 
         }
-        columna.metatada.objetoEvento = listDestination;
-        this.acciones.emit(columna.metatada);
+        columna.metadata.objetoEvento = listDestination;
+        this.acciones.emit(columna.metadata);
         }
 
   }

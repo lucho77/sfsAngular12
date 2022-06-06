@@ -2,7 +2,7 @@ import { MetodoDTO } from './metodoDTO';
 export interface AccionColumna {
 columna: string;
 type: string;
-metatada: MetodoDTO;
+metadata: MetodoDTO;
 idMetodo: number;
 labelButton: string;
 columnaAdicional: boolean;
