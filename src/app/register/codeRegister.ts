@@ -90,6 +90,8 @@ import { AppConfigService } from "../_services/AppConfigService";
 
                 }
                 semillaDTO.usernameNuevo  = this.paramRegister.username.trim();
+                semillaDTO.habilitaUsuario=true;
+
                 this.authenticationService.getChequearSemilla(semillaDTO).subscribe
                 ( register => {
                     this.confirmationDialogService.confirm(true, 'Atencion!',

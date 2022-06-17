@@ -9,6 +9,7 @@ import { AuthenticationService } from '../_services';
 import { ConfirmationDialogService } from '../pages/confirmDialog/confirmDialog.service';
 import { AppConfigService } from '../_services/AppConfigService';
 import { useAnimation } from '@angular/animations';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-register',
@@ -36,7 +37,8 @@ export class RegisterComponent implements OnInit {
     version = '';
     users={userProd:'',userDesa:'',userGeneric:''};
     constructor(router: Router, fb: FormBuilder, fbValida: FormBuilder, private authenticationService: AuthenticationService,
-        private confirmationDialogService: ConfirmationDialogService,private appConfig:AppConfigService ) {
+        private confirmationDialogService: ConfirmationDialogService,
+        private appConfig:AppConfigService,private spinner: NgxSpinnerService ) {
         this.router = router;
         this.form = fb.group({
             name: ['', Validators.compose([Validators.required])],
@@ -97,6 +99,8 @@ export class RegisterComponent implements OnInit {
        }
    
      public onSubmit(): void {
+        this.spinner.show('register');
+
             this.error = '';
             this.click = true;
             this.loadSpinner = true;
@@ -107,7 +111,7 @@ export class RegisterComponent implements OnInit {
                     this.error = 'debe completar el campo mail o en su defecto el campo telefono';
                     this.click = false;
                     this.errorLogin = true;
-                    this.loadSpinner = false;
+                    this.spinner.hide('register');
                     return;
                 }
                 //const token = JSON.parse(localStorage.getItem('paramToken'));
@@ -127,7 +131,7 @@ export class RegisterComponent implements OnInit {
                 if (this.paramRegister.email.trim() === '' && this.paramRegister.phone.trim() === '') {
                     const mensaje = 'no puede dejar vacios los campos Email y Celular, al menos debe completar uno';
                     this.click = false;
-                    this.loadSpinner = false;
+                    this.spinner.hide('register');
                     this.errorLogin = true;
                     this.error = mensaje;
                     return;
@@ -140,20 +144,22 @@ export class RegisterComponent implements OnInit {
                     this.click = false;
                     const mensaje = 'El formato de fecha ingresada no es valido';
                     this.error = mensaje;
+                    this.spinner.hide('register');
+
                     return;
                 }
                 this.paramRegister.fecnac =  now.format('DD-MM-YYYY');
                 this.paramRegister.name   =  this.form.controls['name'].value;                                
                 this.authenticationService.getRegister(this.paramRegister).subscribe
                 ( register => {
-                    this.loadSpinner = false;
+                    this.spinner.hide('register');
                     localStorage.setItem('userAdd', JSON.stringify(this.paramRegister));
                     this.confirmationDialogService.confirm(true, 'Atencion!',
                     // tslint:disable-next-line:max-line-length
                     'feclicitaciones!, ha creado con exito su cuenta, ahora necesita revisar su casilla de mensajes en su celular. Gracias por elegirnos')
                     .then((confirmed) => {
                         //localStorage.setItem('userAdd', JSON.stringify(this.paramRegister));
-                        this.loadSpinner = false;
+
                         if (confirmed) {
                              this.router.navigate(['/checkCodigo']);            
                         }
@@ -162,15 +168,19 @@ export class RegisterComponent implements OnInit {
                         console.log(register);
                     },
                     (err: HttpErrorResponse) => {
-                        this.loadSpinner = false;
+                        this.spinner.hide('register');
                         console.log(err);
                         this.errorLogin = true;
                         this.click = false;
                   if (err['errorBusiness']) {
+                    this.spinner.hide('register');
+
                       // es un error
                       this.error = err['mensaje'];
                       return;
                   } else {
+                    this.spinner.hide('register');
+
                     this.error = 'error grave al tratar de registrarse, vuelva a intentarlo';
                       return;
                   }
