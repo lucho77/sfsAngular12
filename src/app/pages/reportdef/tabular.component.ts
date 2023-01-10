@@ -521,7 +521,7 @@ onSort( column) {
               // tslint:disable-next-line:forin
               for (const prop in fila) {
                 if ( i === pos) {
-                  id = fila[prop].value;
+                  id = fila[prop];
                   break;
                 }
                 i++;
@@ -571,7 +571,7 @@ onSort( column) {
           }
           columna.metadata.aditionalColumn = true;
           columna.metadata.clickFilaTabular = false;
-          if(columna.metadata.tipoReportdefParent === undefined){
+          if(columna.metadata.tipoReportdefParent === undefined || columna.metadata.tipoReportdefParent === null ){
             columna.metadata.tipoReportdefParent = FrontEndConstants.TABULAR_ABM.toUpperCase();
           }
           if (columna.metadata.tipoMetodo === FrontEndConstants.ACCION_MENSAJE) {

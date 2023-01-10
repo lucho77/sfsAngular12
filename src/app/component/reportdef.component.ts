@@ -192,7 +192,7 @@ export class ReportdefComponent  implements OnInit {
 });
 */
 this.android = false;
-  if (this.isAndroid) {
+  if (this.deviceService.isMobile) {
       this.android = true;
   }
     this.notifi.deploying = false;
@@ -374,7 +374,7 @@ private async generarTabularAbm(menu: boolean, metadata: MetodoDTO, finder: Find
    
     this.spinnerSfs.show('reportdef');
     const data = {} as TabularAbmRequestDTO;
-    data.mobile =  true;  //this.deviceService.isMobile();
+    data.mobile =  this.deviceService.isMobile();
     // veo si tiene que mandar algun parametro global
     // tslint:disable-next-line:prefer-const
 
@@ -542,12 +542,6 @@ private async generarTabularAbm(menu: boolean, metadata: MetodoDTO, finder: Find
  });
   }
 
-  private isAndroid() {
-    console.log('metodo que chequea si el dispositivo es android');
-    console.log(navigator.userAgent);
-    console.log(/MisTurnos\/[0-9\.]+$/.test(navigator.userAgent));
-      return /MisTurnos\/[0-9\.]+$/.test(navigator.userAgent);
-  }
 
   private generarTabular(menu: boolean, metadata: MetodoDTO, listRequest: FormdataReportdef[], backHistory: boolean ) {
     this.spinnerSfs.show('reportdef')
@@ -556,14 +550,14 @@ private async generarTabularAbm(menu: boolean, metadata: MetodoDTO, finder: Find
     const data = {} as TabularRequestDTO;
     // tslint:disable-next-line:prefer-const
     this.generateTabularRequestDTO(data, metadata.methodName, 0, 200, null, listRequest);
-    data.mobile =  true;  //this.deviceService.isMobile();
+    //data.mobile =  true;  //this.deviceService.isMobile();
 
-//    data.mobile = this.deviceService.isMobile();
+     data.mobile = this.deviceService.isMobile();
     this.listRequest = listRequest;
     // console.log('this.listRequest');
     // console.log(this.listRequest);
 
-    if (this.isAndroid()) {
+    if (data.mobile) {
       console.log('*************************es android******************************************');
       const context = JSON.parse(applicacionContext());
       console.log('********************************context****************************************');
@@ -1375,7 +1369,7 @@ callForm(user: any, menu: boolean, m: FormReportdef, metadata: MetodoDTO, listRe
           // this.loadSpinner.hide();
           console.log('retorno del  formmetodo');
           console.log(m);
-          if (this.isAndroid()) {
+          if (this.deviceService.isMobile) {
             console.log('*************************es android******************************************');
             const context = JSON.parse(applicacionContext());
             console.log('********************************context****************************************');
