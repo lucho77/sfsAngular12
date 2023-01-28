@@ -89,8 +89,9 @@
                     </tr>
                 </tfoot>
     </table>
-    <div id="cuadro-con-der" class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-xs-12 pt-4" *ngIf="tabular.tabularDescriptivo">
-        <div class="card" >
+    <div  id="cuadro-con-der" class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-xs-12 pt-4" *ngIf="tabular.tabularDescriptivo">
+    
+    <div class="card" [ngStyle]="{'height': '370px'} ">
             <div class="card-header ">
                 <b>Por favor seleccione un registro para ver más detalles</b>
             </div>

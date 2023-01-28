@@ -1,6 +1,11 @@
 table {
   width: 100%;
+}
+.table-responsive {
   display: table;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 th[sortable] {
     cursor: pointer;
@@ -25,4 +30,9 @@ th[sortable] {
   }
   p.ex1 {
     margin: 100px;
+  }
+  
+  .scrollable{
+    overflow-y: auto;
+    max-height: 300px;
   }

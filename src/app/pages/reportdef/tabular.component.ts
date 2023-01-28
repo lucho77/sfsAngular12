@@ -183,26 +183,6 @@ ngOnDestroy(): void {
   
 onSort( column) {
   console.log(column);
-  /*
-  this.headers.forEach(header => {
-    if (header.sortable !== column) {
-      header.direction = '';
-    }
-  });
-  
-//  if (direction === '') {
-    //this.sortClientList = this.tableService.getTable();
-    //this.cfilterClient= this.tableService.getTable();
-//  } else {
-    // // //this.sortClientList = [...this.tableService.getTable()].sort((a, b) => {
-    // // //  const res = compare(a[column] ,b?[column]);
-    // // //  return direction === 'asc' ? res : -res;
-    // // //});
-    // // //this.cfilterClient = [...this.tableService.getTable()].sort((a, b) => {
-    // // //  const res = compare(a[column], b[column]);
-    // // //  return direction === 'asc' ? res : -res;
- //   }  // // //);
-*/
 }
 // ----------------------------Metodos NEGRILLO
   mostrarFiltros() {
