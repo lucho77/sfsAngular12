@@ -43,6 +43,7 @@ import { APP_INITIALIZER } from '@angular/core';
 import { AppConfigService } from './_services/AppConfigService';
 
 import { NgxSpinnerModule } from "ngx-spinner";
+import { LoginExternalComponent } from './login/loginExternal.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -66,7 +67,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     VerticalSidebarComponent,
     HorizontalNavigationComponent,
     HorizontalSidebarComponent,
-    LoginComponent,
+    LoginComponent,LoginExternalComponent,
     FooterComponent,RegisterComponent, CodeRegisterComponent
   ],
   imports: [

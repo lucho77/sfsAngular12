@@ -16,4 +16,5 @@ export interface HeaderDTO {
     headerAccion: string;
     paramHeaderAccion: string;
     valueHeaderAccion: string;
+    comentario: string;
 }

@@ -49,24 +49,24 @@
                             <input type="checkbox" name="chbTodo" id="chbTodo" (click)=chequeaFila(fil,false) [checked]="fil.chequeado" [ngStyle]="{'cursor':'pointer'}">
                         </td>
                         <td>
-                            <i *ngIf="this.tabularABM && this.tabular.permisoDTO.edit" class="ti-pencil text-info m-r-10 pointer"  (click)="onEdit(fil)"></i>
-                             <i *ngIf="this.tabularABM && this.tabular.permisoDTO.delete" (click)="onDelete(fil)" class="ti-trash text-danger pointer"></i> 
+                            <span *ngIf="this.tabularABM && this.tabular.permisoDTO.edit" title="editar documento" class="ti-pencil text-info pointer" style="text-align: center; cursor: pointer;"  (click)="onEdit(fil)"></span>
+                            <span *ngIf="this.tabularABM && this.tabular.permisoDTO.delete" title="eliminar documento" class="ti-trash text-danger pointer" style="text-align: center; cursor: pointer;"  (click)="onDelete(fil)"></span>
                          </td> 
-                        <td [ngStyle]="col.visible == false ? {'display':'none'}:{'display':''}" [ngClass]="col.link || col.linkDina  == true ? 'btn-outline-primary cursor: pointer' : ''" (click)="clickLinkTabular(col,fil)"
+                        <td [ngStyle]="col.visible == false ? {'display':'none'}:{'display':''}" [title]="col.comentario"  [ngClass]="col.link || col.linkDina  == true ? 'btn-outline-primary cursor: pointer' : ''" (click)="clickLinkTabular(col,fil)"
                             *ngFor="let col of header; index as i">
                                         <b *ngIf="col.download==true && fil[col.name]">                                                                                                            
                                             <i class="fa fa-download" style="text-align: center;cursor: pointer;" title="download archivo" alt="download archivo" aria-hidden="true" (click) = "downloadFile(col, fil)"></i>
                                                         </b>
                                             <b *ngIf="col.download == false && !col.fontAwesoneIcono && !col.linkOtherTab">{{fil[col.name]}}</b>
                                             <b *ngIf="col.download==false && col.fontAwesoneIcono && col.link==true ">
-                                                                <i class="tm-f-150 {{col.fontAwesoneIcono}}"></i>
+                                                                <i class="fa fa-plus"></i>
                                         </b>
 
                                         <b *ngIf="col.linkOtherTab==true">
                                               <div *ngIf='fil[col.name]'>
                                                                     
                                                 <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl" (click)="abreelModal(fil[col.name])">
-                                                      <i class="tm-f-150 {{col.fontAwesoneIcono}}" aria-hidden="true"></i>
+                                                      <i class="{{col.fontAwesoneIcono}}" aria-hidden="true"></i>
                                                 </button>
                                                                  
                                                 </div>

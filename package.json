@@ -6,7 +6,7 @@
     "start": "ng serve --aot --proxy-config proxy.conf.json --host 0.0.0.0",
     "startDev": "ng serve --aot --proxy-config proxy.conf.json --host 0.0.0.0 -c development",
     "startProd": "ng serve --aot --proxy-config proxy.conf.json --host 0.0.0.0 -c production",
-    "build2": "ng build --base-href=/SFSFrameworkRest/ --prod --build-optimizer --aot",
+    "build2": "ng build --base-href=/SFSFrameworkRest/fw8/ --prod --build-optimizer --aot",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

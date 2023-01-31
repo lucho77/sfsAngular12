@@ -9,6 +9,7 @@ import { NotfoundComponent } from './pages/errors/not-found/not-found.component'
 import { AuthGuard } from './_guards';
 import { RegisterComponent } from './register/register.component';
 import { CodeRegisterComponent } from './register/codeRegister';
+import { LoginExternalComponent } from './login/loginExternal.component';
 
 export const Approutes: Routes = [
   {
@@ -24,11 +25,10 @@ export const Approutes: Routes = [
 
     ]
   },
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  {
-    path: 'login',
-    component: LoginComponent,
-  },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'loginExternal', component: LoginExternalComponent },
+  { path: '', redirectTo: 'loginExternal', pathMatch: 'full' },
   {
     path: 'register',
     component: RegisterComponent,

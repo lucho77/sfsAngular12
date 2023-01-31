@@ -1,16 +1,22 @@
 import { Component, AfterViewInit, EventEmitter, Output, OnInit } from '@angular/core';
-import {  NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {  ModalDismissReasons, NgbActiveModal, NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from 'src/app/_services';
 import { ExitService } from 'src/app/_services/exitService';
 import { Router } from '@angular/router';
+import { User } from 'src/app/_models';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { passValidator } from './validator';
+import { HttpErrorResponse } from '@angular/common/http';
 
 declare var $: any;
 
 @Component({
   selector: 'app-vertical-navigation',
-  templateUrl: './vertical-navigation.component.html'
+  templateUrl: './vertical-navigation.component.html',
+  providers: [NgbModalConfig, NgbModal, NgbActiveModal]
+
 })
 export class VerticalNavigationComponent implements AfterViewInit,OnInit {
   @Output() toggleSidebar = new EventEmitter<void>();
@@ -18,8 +24,16 @@ export class VerticalNavigationComponent implements AfterViewInit,OnInit {
   public config: PerfectScrollbarConfigInterface = {};
 
   public showSearch = false;
+  public  user: User;
+  public display = false;
+  mensaje_error  = 'Esto es un mensaje de error';
+  registerForm: FormGroup;
+  closeResult: string;
+  errorCambioContra = false;
+  submitted = false;
+  esVisibleMensaje  = false;
 
-  public dataUser={name:'',mail:''};
+  public dataUser:any={};
     // This is for Notifications
     notifications: Object[] = [
    /*
@@ -117,11 +131,23 @@ export class VerticalNavigationComponent implements AfterViewInit,OnInit {
     icon: 'de'
   }]
 
-  constructor(private modalService: NgbModal,private translate: TranslateService,private authenticationService: AuthenticationService,
-      private exitService: ExitService,private router: Router) {
+  constructor(private translate: TranslateService,private authenticationService: AuthenticationService,
+      private exitService: ExitService,private router: Router, config: NgbModalConfig, private modalService: NgbModal, private formBuilder: FormBuilder,
+             public activeModal: NgbActiveModal) {
     translate.setDefaultLang('en');
   }
   ngOnInit(): void {
+    this.registerForm = this.formBuilder.group({
+      contrasenaActual: ['', [Validators.required, Validators.minLength(5)]],
+      nuevaContrasena: ['', [Validators.required, Validators.minLength(5)]],
+      reNuevaContrasena: ['', [Validators.required, Validators.minLength(5), passValidator]],
+      email: ['', [Validators.required, Validators.email]],
+    });
+
+    this.registerForm.controls.nuevaContrasena.valueChanges
+    .subscribe(
+      x => this.registerForm.controls.reNuevaContrasena.updateValueAndValidity()
+    );
 
     //throw new Error('Method not implemented.');
   }
@@ -139,4 +165,112 @@ export class VerticalNavigationComponent implements AfterViewInit,OnInit {
     this.authenticationService.logout();
     this.router.navigate(['/']);
    }
+   open(content) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      console.log('CLOSE WITH');
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      console.log(reason);
+      console.log('DISMIISSED');
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      console.log('SE HA PRESIOANDO EL ESC');
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      console.log('SE HA CLICKQUEADO BACKDROP');
+      return 'by clicking on a backdrop';
+    } else {
+      console.log('WITH REASON');
+      return  `with: ${reason}`;
+    }
+  }
+  refresh(): void {
+    window.location.reload();
+  }
+  cerrar() {
+    this.activeModal.close();
+  }
+  get f() { return this.registerForm.controls; }
+
+  onSubmit() {
+
+    this.submitted = true;
+    console.log('Se ha enviado el Submit');
+    console.log(this.registerForm);
+
+    const lstUsername = JSON.parse(localStorage.getItem('currentUser'));
+    const userNameAdentro = lstUsername.username;
+    const iduser = lstUsername.idUsuarioUra;
+    const dataSource = lstUsername.datasource;
+    const token = lstUsername.token;
+
+
+    // stop here if form is invalid
+    if (this.registerForm.invalid) {
+        return;
+    }
+
+    this.dataUser = {
+      username: userNameAdentro ,
+      contrasenaActual : this.f.contrasenaActual.value,
+      nuevaContrasena : this.f.reNuevaContrasena.value,
+      idUsuarioUra : iduser,
+      email: this.f.email.value,
+      dataSource : dataSource,
+      token : token
+    };
+    console.log('EL VALOR DE THIS.DATAUSER ES : ');
+    console.log(this.dataUser);
+
+    this.authenticationService.cambiarContrasena(this.dataUser).subscribe(
+      data => {
+                console.log(data);
+                console.log('Datos que se devuelven por llamada');
+                this.esVisibleMensaje = true;
+                console.log(this.mensaje_error);
+                if (data['mensaje'] === '-1') {
+                  this.errorCambioContra = true;
+                  this.mensaje_error = 'Existen datos incorrectos.';
+                } else {
+                this.errorCambioContra = false;
+                this.mensaje_error = data['mensaje'];
+
+
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('paramGlobal');
+                localStorage.removeItem('userMenu');
+
+                setTimeout(() => { this.router.navigate(['/']); }, 2000);
+                setTimeout(() => { this.refresh(); }, 2000);
+
+              }
+              },
+              (err: HttpErrorResponse) => {
+                   this.esVisibleMensaje = true;
+                    console.log(err);
+                    this.errorCambioContra = true;
+                    this.mensaje_error = err['mensaje'];
+                    if (err['errorBusiness']) {
+                        console.log('Entro aca al error A');
+                        return;
+                    } else {
+                        console.log('Entro aca al error B');
+                        return;
+                    }
+              },
+              ( ) => {
+
+                  console.log('Se ha completado la llamada.'); // 'Se ha Cambiado Satisfactoriamente su Contraseña';
+                  // setTimeout(() => { this.refresh() }, 3000);
+                  // setTimeout this.refresh();
+
+              }
+
+           );
+
+      }
+
 }

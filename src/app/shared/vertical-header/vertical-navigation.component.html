@@ -139,15 +139,78 @@
                 </div>
                 <div class="m-l-10">
                     <h4 class="m-b-0">{{dataUser.name}}</h4>
-                    <p class=" m-b-0">{{dataUser.mail}}</p>
+                    <p class=" m-b-0">{{dataUser.email}}</p>
                 </div>
             </div>
+            <ng-template #content let-c="close" let-d="dismiss">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modal-basic-title">Cambiar Configuración</h4>
+                    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                        <div class="form-group">
+                            <label>Ingrese Contraseña Actual</label>
+                            <input type="password" formControlName="contrasenaActual" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.contrasenaActual.errors }" />
+                            <div *ngIf="submitted && f.contrasenaActual.errors" class="invalid-feedback">
+                                <div *ngIf="f.contrasenaActual.errors.required">Contraseña actual requerida</div>
+                                <div *ngIf="f.contrasenaActual.errors.minlength">La contraseña actual debe tener al menos 5 caracteres</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Ingrese Nueva Contraseña</label>
+                            <input type="password" formControlName="nuevaContrasena" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.nuevaContrasena.errors }" />
+                            <div *ngIf="submitted && f.nuevaContrasena.errors" class="invalid-feedback">
+                                <div *ngIf="f.nuevaContrasena.errors.required">Nueva Contraseña requerida</div>
+                                <div *ngIf="f.nuevaContrasena.errors.minlength">La nueva contraseña debe tener al menos 5 caracteres</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Reingrese Nueva Contraseña</label>
+                            <input type="password" formControlName="reNuevaContrasena" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.reNuevaContrasena.errors }" />
+
+                            <div *ngIf="submitted && f.reNuevaContrasena.errors && f.touched" class="invalid-feedback">
+                                <div *ngIf="f.reNuevaContrasena.errors.required">Contraseña actual requerida</div>
+                                <div *ngIf="f.reNuevaContrasena.errors.minlength">La contraseña debe tener al menos 5 caracteres</div>
+                                <p class="help-block" *ngIf="f.validatos.errors.pwdMatchValidator">Las contraseñas no coinciden</p>
+
+                            </div>
+                            <div *ngIf="submitted && f.reNuevaContrasena.invalid" class="invalid-feedback">Las Contraseñas no Coinciden</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                <div *ngIf="f.email.errors.required">Email es requerido</div>
+                                <div *ngIf="f.email.errors.email">El correo electrónico debe ser una dirección de correo electrónico válida</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary my-1">Cambiar Contraseña</button>
+                        </div>
+                        <div *ngIf="errorCambioContra && esVisibleMensaje" class="alert alert-danger" role="alert">
+                            {{mensaje_error}}
+                        </div>
+                        <div *ngIf="!errorCambioContra && esVisibleMensaje" class="alert alert-success" role="alert">
+                            {{mensaje_error}}
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </form>
+                </div>
+            </ng-template>
             <a class="dropdown-item">
                 <i class="ti-user m-r-5 m-l-5"></i> Mi Perfil</a>
-            <a class="dropdown-item">
-                <i class="ti-email m-r-5 m-l-5"></i> Bandeja de Mensajes</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" (click)="salir()">
+                <a class="dropdown-item">
+                    <i class="ti-email m-r-5 m-l-5"></i> Bandeja de Mensajes</a>
+                <div class="dropdown-divider"></div>
+                <div class="dropdown-divider"></div>
+                    <a class="dropdown-item"(click)="open(content)">
+                <i class="fa fa-power-off m-r-5 m-l-5"></i> cambiar password</a>
+                <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" (click)="salir()">
                 <i class="fa fa-power-off m-r-5 m-l-5"></i> Salir</a>
             <div class="dropdown-divider"></div>
         </div>
