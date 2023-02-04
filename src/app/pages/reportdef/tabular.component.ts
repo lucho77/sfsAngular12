@@ -315,7 +315,14 @@ onSort( column) {
     const param = method.substring(pos + 1, (method.length - 1 ));
     if (param.toUpperCase() === 'THIS') {
       console.log();
-      let posTbular = this.tabular.pkColIndex;
+      let posTbular=0;
+      if(!this.mobile){
+        posTbular = this.tabular.pkColIndex;
+
+      }else{
+        posTbular = this.tabular.pkColIndex - this.tabular.accionesColumna.length;
+ 
+      }
       console.log('posTbular');
       console.log(posTbular);
       console.log('fila');
@@ -328,7 +335,7 @@ onSort( column) {
       // tslint:disable-next-line:forin
       for (const prop in fila) {
         if ( i === posTbular) {
-          id = fila[prop];
+          id = fila[prop].value;
           break;
         }
         i++;
@@ -339,8 +346,13 @@ onSort( column) {
       listParametros.push(param);
       ejecutarMetodo(m, false, listParametros, this.reportdefService).then(
         (resp) => {
-        this.dataContainer.nativeElement.innerHTML = resp.valor;
-        //this.mensaje = resp.valor;
+          if(!this.mobile){
+            this.dataContainer.nativeElement.innerHTML = resp.valor;
+
+          }else{
+            this.mensaje = resp.valor;
+ 
+          }
       }
      ).catch( error =>
        this.checkError(error)
@@ -396,12 +408,11 @@ onSort( column) {
           this.obtenerDescripcionTabular(this.tabular.campoDescriptivo, fila);
           if(!this.mobile){
             this.dataContainer.nativeElement.innerHTML = this.mensaje;
-
-          }
+         }
         } else {
           const des = fila[this.tabular.campoDescriptivo];
           this.dataContainer.nativeElement.innerHTML = des;
-          this.mensaje = des;
+          //this.mensaje = des;
         }
       }
     }
