@@ -120,9 +120,9 @@ export class TabularComponent  implements OnInit, OnChanges {
     private deviceService: DeviceDetectorService) {
       // this.safeSrc =  this.sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/c9F5kMUfFKk");
       // this.safeSrc =  this.sanitizer.bypassSecurityTrustResourceUrl(this.laurl);
-        //this.mobile = true;
-      this.mobile = this.deviceService.isMobile();
-      console.log('el dispositivo detectado es ' + this.mobile?'MOBILE':'DSKTOP');
+        this.mobile = true;
+      //this.mobile = this.deviceService.isMobile();
+      alert('el dispositivo detectado es ' + this.mobile?'MOBILE':'DSKTOP');
    
     }
 
@@ -335,7 +335,7 @@ onSort( column) {
       // tslint:disable-next-line:forin
       for (const prop in fila) {
         if ( i === posTbular) {
-          id = fila[prop].value;
+          id = fila[prop].value || fila[prop];
           break;
         }
         i++;
@@ -512,7 +512,7 @@ onSort( column) {
               // tslint:disable-next-line:forin
               for (const prop in fila) {
                 if ( i === pos) {
-                  id = fila[prop];
+                  id = fila[prop].value || fila[prop];
                   break;
                 }
                 i++;
