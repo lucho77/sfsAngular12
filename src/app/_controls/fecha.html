@@ -6,7 +6,7 @@
     </label>
 <div class="input-group col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
         <input class="form-control" placeholder="DD-MM-AAAA"
-        name="dp"  [formControlName]="field.name" [minDate]="{year: 1920, month: 1, day: 1}" ngbDatepicker #d="ngbDatepicker">
+        name="dp"  [formControlName]="field.name" [minDate]="{year: 1920, month: 1, day: 1}" ngbDatepicker #d="ngbDatepicker" style="margin: 0;">
       <div class="input-group-append">
         <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
       </div>

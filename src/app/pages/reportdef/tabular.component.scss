@@ -6,6 +6,11 @@ table {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
+.table th, .table td {
+  padding: 0.1rem; 
+  vertical-align: top;
+  border-top: 1px solid #e9ecef;
+}
 th[sortable] {
     cursor: pointer;
     user-select: none;
@@ -35,3 +40,9 @@ th[sortable] {
     overflow-y: auto;
     max-height: 300px;
   }
+  .p-toolbar {
+    background: #f8f9fa;
+     border: 1px solid #dee2e6; 
+     padding: 0.15rem; 
+     border-radius: 0.1px;
+}

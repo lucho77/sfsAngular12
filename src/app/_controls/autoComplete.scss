@@ -33,3 +33,16 @@
         stroke-dashoffset: -124px;
     }
 }
+.ui-autocomplete {
+    height: 30px;
+  }
+  .ui-autocomplete-panel {
+    max-height: 150px; /* Ajusta la altura a la que desees */
+    overflow-y: auto;
+  }
+  input.ui-inputfield
+{
+    width : 50px !important;
+    height: 30px !important;
+
+}

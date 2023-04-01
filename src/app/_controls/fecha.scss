@@ -6,3 +6,11 @@ button.calendar, button.calendar:active {
     background-size: 23px;
     background-position: center;
   }
+  .ngb-dp .form-control {
+    border-radius: 0;
+    border-right: none;
+}
+
+.ngb-dp .input-group-append {
+    border-left: none;
+}

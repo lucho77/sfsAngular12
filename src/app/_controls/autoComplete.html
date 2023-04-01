@@ -2,6 +2,6 @@
 <div [formGroup]="form" >
 
 <span class="p-fluid">
-    <p-autoComplete  minLength="3" [formControlName]="field.name"  (onSelect)='onSelect($event)' forceSelection="true" [suggestions]="results" (completeMethod)="buscar($event)"></p-autoComplete>
+    <p-autoComplete  [style]="{'height':'40px'}" [inputStyle]="{'height':'40px'}"  minLength="3" [formControlName]="field.name"  (onSelect)='onSelect($event)' forceSelection="true" [suggestions]="results" (completeMethod)="buscar($event)"></p-autoComplete>
 </span>
 </div>

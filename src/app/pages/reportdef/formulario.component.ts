@@ -98,8 +98,8 @@ export class FormularioComponent  implements OnInit {
     private nameService: NameGlobalService, private nameAvisoSeteo: AvisaSeteoService, private paramService: ParamDataHijoService,
     private router: Router ,	private notifier: NotifierService,private deviceService: DeviceDetectorService) {
 
-      //this.mobile = true;
-      this.mobile = this.deviceService.isMobile();
+      this.mobile = true;
+      //this.mobile = this.deviceService.isMobile();
 
     }
     // tslint:disable-next-line:use-life-cycle-interface
