@@ -548,9 +548,10 @@ private async generarTabularAbm(menu: boolean, metadata: MetodoDTO, finder: Find
     const data = {} as TabularRequestDTO;
     // tslint:disable-next-line:prefer-const
     this.generateTabularRequestDTO(data, metadata.methodName, 0, 200, null, listRequest);
-    //data.mobile =  true;  //this.deviceService.isMobile();
+    data.mobile =  true;  
+    //this.deviceService.isMobile();
 
-     data.mobile = this.deviceService.isMobile();
+    // data.mobile = this.deviceService.isMobile();
     this.listRequest = listRequest;
     // console.log('this.listRequest');
     // console.log(this.listRequest);
