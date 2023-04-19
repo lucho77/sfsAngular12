@@ -47,7 +47,6 @@ import { saveAs } from 'file-saver';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
-declare function applicacionContext(): any;
 declare function downloadFile(mime: string, url: string): any;
 
 @Component({
@@ -112,7 +111,6 @@ export class ReportdefComponent  implements OnInit {
       campo: null
   };
   showABMFilter: boolean;
-   url = 'ws://123.207.167.163:9010/ajaxchattest';
   firstHeartbeat = true;
 
   constructor(
@@ -545,7 +543,7 @@ private async generarTabularAbm(menu: boolean, metadata: MetodoDTO, finder: Find
 
   private generarTabular(menu: boolean, metadata: MetodoDTO, listRequest: FormdataReportdef[], backHistory: boolean ) {
     this.spinnerSfs.show('reportdef')
-    
+   
     const user = JSON.parse(localStorage.getItem('currentUser'));
     const data = {} as TabularRequestDTO;
     // tslint:disable-next-line:prefer-const
@@ -560,15 +558,17 @@ private async generarTabularAbm(menu: boolean, metadata: MetodoDTO, finder: Find
 
     if (data.mobile) {
       console.log('*************************es android******************************************');
-      const context = JSON.parse(applicacionContext());
+      //const context = JSON.parse(applicacionContext());
       console.log('********************************context****************************************');
       // console.log(context);
+      /*
       for ( const p of listRequest) {
         if ( p.metodo !== null && p.propiedad !== null) {
             const value = context.location[p.propiedad];
             p.valueNew = value;
         }
       }
+      */
     }
     if (metadata.tipoMetodo.toUpperCase() === FrontEndConstants.TABULAR_METHOD.toUpperCase()) {
       this.generarTabularMetodo(menu, metadata, listRequest, backHistory, data);
@@ -1163,6 +1163,7 @@ callForm(user: any, menu: boolean, m: FormReportdef, metadata: MetodoDTO, listRe
     });
   }
     private continuarProcesandoForm(eventAction: MetodoDTO, listParam: FormdataReportdef[], historico: Historico) {
+
       if ( eventAction.tipoReportdefParent === FrontEndConstants.FORM_ABM) {
         listParam.push(historico.formdataClasePadre);
       }
@@ -1372,9 +1373,10 @@ callForm(user: any, menu: boolean, m: FormReportdef, metadata: MetodoDTO, listRe
           console.log(m);
           if (this.deviceService.isMobile) {
             console.log('*************************es android******************************************');
-            const context = JSON.parse(applicacionContext());
+            //const context = JSON.parse(applicacionContext());
             console.log('********************************context****************************************');
-            console.log(context);
+            //console.log(context);
+            /*
             for ( const p of m.list) {
               console.log('***************p.name*********************');
               console.log(p.name);
@@ -1388,7 +1390,9 @@ callForm(user: any, menu: boolean, m: FormReportdef, metadata: MetodoDTO, listRe
                   p.valueNew = value;
               }
             }
+            */
           }
+          
           if (m.metodoDTOs !== null && m.metodoDTOs.length > 0 && m.parametro !== null && !m.dinamycForm ) {
             // se va a otro lado
             const list = [] as FormdataReportdef[];

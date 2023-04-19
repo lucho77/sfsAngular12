@@ -152,18 +152,22 @@
                             </p-panel>
 
                             <br>
-                            <div  *ngFor="let fil of tabular.dataMobile; index as i">
+                            <div  *ngFor="let fil of pagination.listaPaginacion; index as i">
                                 
                                 <div class="card" style="margin-bottom: 2px;">
                                         <div class="card-body" style="border-style:groove">
-                                            <p  *ngFor="let d of fil" style="margin-top: -20px;"><b> {{d.header}}:</b>{{d.value}}</p>
+                                            
+                                            <div  *ngFor="let col of header; index as i">
+                                                <p  *ngIf="col.visibleMovil" style="margin-top: -20px;"><b> {{col.name}}:</b>{{fil[col.name]}}</p>
                                                 <!--<button  *ngIf="this.tabularABM && this.tabular.permisoDTO.edit" (click)="onEdit(fil)" class="btn btn-primary btn-block">Editar <i class="fas fa-edit"></i></button> -->
                                                 <!--<button  *ngIf="this.tabularABM && this.tabular.permisoDTO.delete" (click)="onDelete(fil)" class="btn btn-danger btn-block">Eliminar <i class="fas fa-eraser"></i></button>-->
-                                                <button  *ngIf="tabular.tabularDescriptivo" (click)="obtenerCampoDescriptivo(fil,content2)" class="btn btn-outline-info btn-block">Ver detalle <i class="fas fa-eye"></i></button>
-                                                <button   *ngFor="let col of tabular.accionesColumna;" (click)="executeColumnAction(col,fil)" class="btn btn-outline-info btn-block">{{col.labelButton}}</button>                                                    
-
-
                                             </div>
+                                            <button  *ngIf="tabular.tabularDescriptivo" (click)="obtenerCampoDescriptivo(fil,content2)" class="btn btn-outline-info btn-block">Ver detalle <i class="fas fa-eye"></i></button>
+                                            <button   *ngFor="let col of tabular.accionesColumna;" (click)="executeColumnAction(col,fil)" class="btn btn-outline-info btn-block">{{col.labelButton}}</button>                                                    
+                                        
+                                            </div>   
+
+                                            
                                 </div>
                             </div>
                 </div>

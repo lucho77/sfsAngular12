@@ -122,7 +122,11 @@ export class TabularComponent  implements OnInit, OnChanges {
       // this.safeSrc =  this.sanitizer.bypassSecurityTrustResourceUrl(this.laurl);
         this.mobile = true;
       //this.mobile = this.deviceService.isMobile();
+<<<<<<< HEAD
+      alert('el dispositivo detectado es ' + this.mobile?'MOBILE':'DSKTOP');
+=======
       console.log('el dispositivo detectado es ' + this.mobile?'MOBILE':'DSKTOP');
+>>>>>>> 6d21ee31f3eac2e1409303066c9bffcca9185250
    
     }
 
@@ -335,7 +339,7 @@ onSort( column) {
       // tslint:disable-next-line:forin
       for (const prop in fila) {
         if ( i === posTbular) {
-          id = fila[prop].value;
+          id = fila[prop].value || fila[prop];
           break;
         }
         i++;
@@ -512,7 +516,7 @@ onSort( column) {
               // tslint:disable-next-line:forin
               for (const prop in fila) {
                 if ( i === pos) {
-                  id = fila[prop];
+                  id = fila[prop].value || fila[prop];
                   break;
                 }
                 i++;
