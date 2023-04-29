@@ -22,7 +22,33 @@ import { SocketClientState } from './SocketClientState';
     }
 
     public inicializar(){
+      
+      const socket = new WebSocket("ws://localhost:9335/ms_notification/sfs-websocket");
+
+socket.addEventListener("open", () => {
+  console.log("Conexión establecida con el servidor WebSocket.");
+  const user = localStorage.getItem('currentUser');
+  const u = JSON.stringify(user);
+
+  socket.send('prueba');
+});
+
+socket.addEventListener("message", (event) => {
+  console.log(`Mensaje recibido: ${event.data}`);
+});
+
+socket.addEventListener("close", () => {
+  console.log("Conexión con el servidor WebSocket cerrada.");
+});
+
+socket.addEventListener("error", (error) => {
+  console.error(`Error en la conexión con el servidor WebSocket: `);
+});
+      
+   /*   
       const socket = new SockJS('http://localhost:9335/ms_notification/sfs-websocket');
+
+    
 
       this.state = new BehaviorSubject<SocketClientState>(SocketClientState.ATTEMPTING);
       const user = localStorage.getItem('currentUser');
@@ -34,6 +60,7 @@ import { SocketClientState } from './SocketClientState';
         const headers: StompHeaders = new StompHeaders();
 
       this.stompClient = new Client(stompConfig);
+
       this.stompClient.webSocketFactory = () => socket;
       this.stompClient.onConnect = (frame: any) => {
         console.log('Connected: ' + frame);
@@ -41,7 +68,7 @@ import { SocketClientState } from './SocketClientState';
 
       };
       this.stompClient.activate();
-
+      */
 
     }
     public connect(): Observable<Client> {

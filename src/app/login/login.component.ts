@@ -9,6 +9,7 @@ import { RegistroDTO } from '../_models/registroDTO';
 import { AuthenticationService } from '../_services';
 import { AppConfigService } from '../_services/AppConfigService';
 import { ReportdefService } from '../_services/reportdef.service';
+import { SocketClientService } from '../_services/SocketClientService';
 import { configurarMenu, configurarParamnetrosGlobales, ejecutarMetodoArea, obtenerReporteInicio } from './loginUtils';
 
 @Component({
@@ -22,7 +23,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   versionFront:string;
   constructor(private authenticationService: AuthenticationService,private routes: Router, 
     private formBuilder: FormBuilder, private reportdefService: ReportdefService, 
-    private appConfig:AppConfigService, private swUpdate: SwUpdate,private spinner: NgxSpinnerService) {
+    private appConfig:AppConfigService, private swUpdate: SwUpdate,private spinner: NgxSpinnerService,private socketClientService:SocketClientService) {
       this.updateClient();
      }
   ngAfterViewInit(): void {
@@ -120,6 +121,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
                  localStorage.setItem('paramGlobal', JSON.stringify(user.listGlobales));
                  localStorage.setItem('userMenu', JSON.stringify(user.menues));
                  localStorage.setItem('reporte', user.reporteInicio);
+                 this.socketClientService.inicializar();
+
+
 
                  if (user['metodo'] !== null && user['metodo'] !== undefined) {
                    ejecutarMetodoArea(user, user.listGlobales, this.reportdefService);

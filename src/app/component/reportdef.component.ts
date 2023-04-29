@@ -211,7 +211,6 @@ this.android = false;
       // this.loadSpinner.hide();
        this.descriptionService.setDescription('');
 
-       this.socketClientService.inicializar();
        // ********** socket and Idle service */
 
      /*
