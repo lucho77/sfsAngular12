@@ -26,7 +26,6 @@ import { ObtenerToStringRequestDTO } from 'src/app/_models/obtenerToStringEntida
 import { DescripcionEntidadDTO } from 'src/app/_models/nameParamRequestDTO';
 import { DownloadFileRequestDTO } from 'src/app/_models/downloadFileRequestdto';
 import { TabularAbmRequestDTO } from 'src/app/_models/TabularAbmRequestDTO';
-import { ToastService } from 'src/app/component/toast/toast.service';
 import { GenericFinderService } from '../genericFinder/genericFinder.service';
 import { saveAs } from 'file-saver';
 import { FinderParamsDTO } from 'src/app/_models/finderParamsDTO';
@@ -120,14 +119,8 @@ export class TabularComponent  implements OnInit, OnChanges {
     private deviceService: DeviceDetectorService) {
       // this.safeSrc =  this.sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/c9F5kMUfFKk");
       // this.safeSrc =  this.sanitizer.bypassSecurityTrustResourceUrl(this.laurl);
-        this.mobile = true;
-      //this.mobile = this.deviceService.isMobile();
-<<<<<<< HEAD
-      alert('el dispositivo detectado es ' + this.mobile?'MOBILE':'DSKTOP');
-=======
-      console.log('el dispositivo detectado es ' + this.mobile?'MOBILE':'DSKTOP');
->>>>>>> 6d21ee31f3eac2e1409303066c9bffcca9185250
-   
+      //  this.mobile = true;
+      this.mobile = this.deviceService.isMobile();   
     }
 
    limpiaUrl(laurles) {

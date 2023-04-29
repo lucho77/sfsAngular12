@@ -46,6 +46,7 @@ import { MessageService } from 'primeng/api';
 import { saveAs } from 'file-saver';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { SocketClientService } from '../_services/SocketClientService';
 
 declare function downloadFile(mime: string, url: string): any;
 
@@ -118,7 +119,8 @@ export class ReportdefComponent  implements OnInit {
     private rutaActiva: ActivatedRoute, private reportdefService: ReportdefService,
     private paramService: ParamDataHijoService, private descriptionService: DescriptionService, private nameService: NameGlobalService,
     private confirmationDialogService: ConfirmationDialogService, private changeDetector: ChangeDetectorRef,
-    private exitService: ExitService,private spinnerSfs: NgxSpinnerService,private deviceService: DeviceDetectorService
+    private exitService: ExitService,private spinnerSfs: NgxSpinnerService,private deviceService: DeviceDetectorService,
+    private socketClientService:SocketClientService 
   ) {
 
    }
@@ -209,7 +211,7 @@ this.android = false;
       // this.loadSpinner.hide();
        this.descriptionService.setDescription('');
 
-       // this.connect();
+       this.socketClientService.inicializar();
        // ********** socket and Idle service */
 
      /*

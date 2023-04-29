@@ -8,12 +8,18 @@ import { ChatDTO } from 'src/app/_models/chatDTO';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { registerLocaleData } from '@angular/common';
 import es from '@angular/common/locales/es';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MessageService } from 'primeng/api';
+
+
 registerLocaleData(es);
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  providers: [  BrowserAnimationsModule,MessageService ],
 
 })
 export class FooterComponent implements OnInit {
@@ -27,8 +33,9 @@ export class FooterComponent implements OnInit {
   
 
   constructor( private formBuilder: FormBuilder, private renderer: Renderer2,
-    private metodoService: MetodoService, private toastService: ToastService, 
-    private authenticationService: AuthenticationService,	private modalService: NgbModal) 
+    private metodoService: MetodoService,  
+    private authenticationService: AuthenticationService,	
+    private modalService: NgbModal,private messageService: MessageService) 
      {
   }
 
@@ -43,7 +50,8 @@ export class FooterComponent implements OnInit {
       this.version = result.respuestagenerica;
     },
     (err: HttpErrorResponse) => {
-      this.toastService. show('no se ha podido obtener la version', { classname: 'bg-danger text-light', delay: 15000 });
+      this.messageService.add({severity:'error', summary: 'Error', detail: "no se ha podido obtener la version"});
+
     });
 }
 
@@ -71,11 +79,12 @@ export class FooterComponent implements OnInit {
           // console.log(data.camposPersistirDTO);
           this.metodoService.nuevoChat(user, chatDTO).subscribe
           (result => {
-            this.toastService. show('mensaje enviado con exito', { classname: 'bg-success text-light', delay: 15000 });
-
+            this.messageService.add({severity:'success', summary: 'Exito', detail: "mensaje enviado con exito"});
+            this.modalService.dismissAll();
           },
           (err: HttpErrorResponse) => {
-            this.toastService. show('no se ha podido enviar la consulta, intente más tarde', { classname: 'bg-danger text-light', delay: 15000 });
+            this.messageService.add({severity:'error', summary: 'Error', detail: "no se ha podido enviar la consulta, intente más tarde"});
+
           });
 
   }

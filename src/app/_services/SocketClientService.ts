@@ -1,43 +1,59 @@
-/*
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, first, switchMap, map } from 'rxjs/operators';
-import { Client, over } from 'stompjs';
-import { User } from '../_models';
-import { SocketClientState } from './SocketClientState';
-import * as SockJS from 'sockjs-client';
-import { devolverProyecto } from '../pages/home/reportdef/reportdefUtil';
-import { ChatUtilDTO } from '../_models/chatUtilDTO';
+
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Client, Message, StompConfig, StompHeaders } from '@stomp/stompjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { filter, first, map, switchMap } from 'rxjs/operators';
+import * as SockJS from 'sockjs-client';
+import { devolverProyecto } from '../util/proyectoUtil';
+import { User } from '../_models';
+import { ChatUtilDTO } from '../_models/chatUtilDTO';
+import { SocketClientState } from './SocketClientState';
 
 
 @Injectable({
     providedIn: 'root'
   })
   export class SocketClientService {
-    private client: Client;
+    private stompClient: Client;
+
     private state: BehaviorSubject<SocketClientState>;
     constructor(public http: HttpClient) {
-      this.client = over(new SockJS('http://localhost:8081/sfsSockets'));
-      this.state = new BehaviorSubject<SocketClientState>(SocketClientState.ATTEMPTING);
-      const user = <User>JSON.parse(localStorage.getItem('currentUser'));
-      const u = JSON.stringify(user);
-
-      this.client.connect({'login': u}, () => {
-        this.state.next(SocketClientState.CONNECTED);
-      });
     }
 
-    private connect(): Observable<Client> {
+    public inicializar(){
+      const socket = new SockJS('http://localhost:9335/ms_notification/sfs-websocket');
+
+      this.state = new BehaviorSubject<SocketClientState>(SocketClientState.ATTEMPTING);
+      const user = localStorage.getItem('currentUser');
+      const u = JSON.stringify(user);
+      const stompConfig: StompConfig = {
+        connectHeaders: {
+          login: u
+        }};
+        const headers: StompHeaders = new StompHeaders();
+
+      this.stompClient = new Client(stompConfig);
+      this.stompClient.webSocketFactory = () => socket;
+      this.stompClient.onConnect = (frame: any) => {
+        console.log('Connected: ' + frame);
+        this.state.next(SocketClientState.CONNECTED);
+
+      };
+      this.stompClient.activate();
+
+
+    }
+    public connect(): Observable<Client> {
       return new Observable<Client>(observer => {
         this.state.pipe(filter(state => state === SocketClientState.CONNECTED)).subscribe(() => {
-          observer.next(this.client);
+          observer.next(this.stompClient);
         });
       });
     }
     // tslint:disable-next-line:use-life-cycle-interface
     ngOnDestroy() {
-        this.connect().pipe(first()).subscribe(client => client.disconnect(null));
+        this.connect().pipe(first()).subscribe(client => client.deactivate());
       }
       onMessage(topic: string, handler = SocketClientService.jsonHandler): Observable<any> {
         return this.connect().pipe(first(), switchMap(inst => {
@@ -57,7 +73,16 @@ import { HttpClient } from '@angular/common/http';
       send(topic: string, payload: any): void {
         this.connect()
           .pipe(first())
-          .subscribe(inst => inst.send(topic, {}, JSON.stringify(payload)));
+          .subscribe(
+            inst => inst.publish({
+              destination: topic,
+              headers:{},
+              body: JSON.stringify(payload)
+            }
+
+            )                                               
+
+          );
       }
       chatGeneric(user: User, datos: ChatUtilDTO) {
         datos.username = user.username;
@@ -78,7 +103,7 @@ import { HttpClient } from '@angular/common/http';
         return message.body;
       }
        disconnect()  {
-        this.connect().pipe(first()).subscribe(client => client.disconnect(null));
+        this.connect().pipe(first()).subscribe(client => client.deactivate());
     }
   }
-  */
+
