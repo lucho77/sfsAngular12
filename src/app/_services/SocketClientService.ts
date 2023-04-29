@@ -8,6 +8,7 @@ import * as SockJS from 'sockjs-client';
 import { devolverProyecto } from '../util/proyectoUtil';
 import { User } from '../_models';
 import { ChatUtilDTO } from '../_models/chatUtilDTO';
+import { LoginDto } from '../_models/loginDto';
 import { SocketClientState } from './SocketClientState';
 
 
@@ -27,10 +28,18 @@ import { SocketClientState } from './SocketClientState';
 
 socket.addEventListener("open", () => {
   console.log("Conexión establecida con el servidor WebSocket.");
-  const user = localStorage.getItem('currentUser');
-  const u = JSON.stringify(user);
-
-  socket.send('prueba');
+  const user = JSON.parse (localStorage.getItem('currentUser'));
+  const  loginDto = {} as LoginDto;
+  loginDto.datasource = user.datasource;
+  loginDto.idUsuarioUra=user.idUsuarioUra;
+  loginDto.username=user.username;
+  loginDto.mail=user.mail;
+  loginDto.packageModel=user.packageModel;
+  loginDto.token=user.token;
+  loginDto.usuarioMesa=user.usuarioMesa;
+  loginDto.webservice=user.webservice;
+  const u = JSON.stringify(loginDto);
+  socket.send(u);
 });
 
 socket.addEventListener("message", (event) => {
