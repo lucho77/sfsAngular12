@@ -17,6 +17,7 @@ import { SocketClientState } from './SocketClientState';
   })
   export class SocketClientService {
     private stompClient: Client;
+    private socket:WebSocket;
 
     private state: BehaviorSubject<SocketClientState>;
     constructor(public http: HttpClient) {
@@ -24,22 +25,24 @@ import { SocketClientState } from './SocketClientState';
 
     public inicializar(){
       
-      const socket = new WebSocket("ws://localhost:9335/ms_notification/sfs-websocket");
+      this.socket = new WebSocket("ws://localhost:9335/ms_notification/sfs-websocket");
+      this.state = new BehaviorSubject<SocketClientState>(SocketClientState.ATTEMPTING);
 
-socket.addEventListener("open", () => {
-  console.log("Conexión establecida con el servidor WebSocket.");
-  const user = JSON.parse (localStorage.getItem('currentUser'));
-  const  loginDto = {} as LoginDto;
-  loginDto.datasource = user.datasource;
-  loginDto.idUsuarioUra=user.idUsuarioUra;
-  loginDto.username=user.username;
-  loginDto.mail=user.mail;
-  loginDto.packageModel=user.packageModel;
-  loginDto.token=user.token;
-  loginDto.usuarioMesa=user.usuarioMesa;
-  loginDto.webservice=user.webservice;
-  const u = JSON.stringify(loginDto);
-  socket.send(u);
+      this.socket.addEventListener("open", () => {
+        this.state.next(SocketClientState.CONNECTED);
+        console.log("Conexión establecida con el servidor WebSocket.");
+        const user = JSON.parse (localStorage.getItem('currentUser'));
+        const  loginDto = {} as LoginDto;
+        loginDto.datasource = user.datasource;
+        loginDto.idUsuarioUra=user.idUsuarioUra;
+        loginDto.username=user.username;
+        loginDto.mail=user.mail;
+        loginDto.packageModel=user.packageModel;
+        loginDto.token=user.token;
+        loginDto.usuarioMesa=user.usuarioMesa;
+        loginDto.webservice=user.webservice;
+        const u = JSON.stringify(loginDto);
+        this.socket.send(u);
 });
 
 socket.addEventListener("message", (event) => {
@@ -80,16 +83,16 @@ socket.addEventListener("error", (error) => {
       */
 
     }
-    public connect(): Observable<Client> {
-      return new Observable<Client>(observer => {
+    public connect(): Observable<WebSocket> {
+      return new Observable<WebSocket>(observer => {
         this.state.pipe(filter(state => state === SocketClientState.CONNECTED)).subscribe(() => {
-          observer.next(this.stompClient);
+          observer.next(this.socket);
         });
       });
     }
     // tslint:disable-next-line:use-life-cycle-interface
     ngOnDestroy() {
-        this.connect().pipe(first()).subscribe(client => client.deactivate());
+        this.connect().pipe(first()).subscribe(client => client.close());
       }
       onMessage(topic: string, handler = SocketClientService.jsonHandler): Observable<any> {
         return this.connect().pipe(first(), switchMap(inst => {
@@ -110,10 +113,8 @@ socket.addEventListener("error", (error) => {
         this.connect()
           .pipe(first())
           .subscribe(
-            inst => inst.publish({
-              destination: topic,
-              headers:{},
-              body: JSON.stringify(payload)
+            inst => inst.send({
+              JSON.stringify(payload)
             }
 
             )                                               
@@ -139,7 +140,7 @@ socket.addEventListener("error", (error) => {
         return message.body;
       }
        disconnect()  {
-        this.connect().pipe(first()).subscribe(client => client.deactivate());
+        this.connect().pipe(first()).subscribe(client => client.close());
     }
   }
 
