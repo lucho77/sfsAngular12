@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  api:'api/framework/dina'
+  api:'api/framework/dina',
+  chat:false
 
 };
 
